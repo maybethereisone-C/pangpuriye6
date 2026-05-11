@@ -15,7 +15,7 @@ export function Recognition({ data }: { data: SiteData["recognition"] }) {
       <div className="mx-auto w-full max-w-[var(--grid-max-width)] px-[var(--grid-margin-mobile)] pt-24 pb-24 md:px-[var(--grid-margin-desktop)] md:pt-32">
         <header>
           <p data-anim="reveal-eyebrow" className="font-[family-name:var(--font-mono-loaded)] text-xs uppercase tracking-[0.2em] text-[var(--color-accent-red)]">
-            SEC.05 · RECOGNITION // HALL_OF_FAME
+            RECOGNITION
           </p>
           <h2 data-anim="reveal-title" className="mt-2 font-[family-name:var(--font-display-loaded)]">Recognition Archive</h2>
           <p data-anim="reveal-body" className="mt-6 max-w-3xl text-[var(--text-body)] leading-relaxed text-[var(--color-fg-soft)]">
@@ -23,11 +23,7 @@ export function Recognition({ data }: { data: SiteData["recognition"] }) {
           </p>
         </header>
 
-        {data.awards.length === 0 && data.milestones.length === 0 ? (
-          <p className="mt-12 font-[family-name:var(--font-mono-loaded)] text-sm text-[var(--color-ink-gray-700)]">
-            // STATUS: awards + milestones hydrate during Phase 05.
-          </p>
-        ) : (
+        {(data.awards.length > 0 || data.milestones.length > 0) && (
           <div className="mt-12 grid grid-cols-1 gap-12 md:grid-cols-12">
             <ul className="space-y-6 md:col-span-7">
               {data.awards.map((a) => (
@@ -58,6 +54,7 @@ export function Recognition({ data }: { data: SiteData["recognition"] }) {
           </div>
         )}
       </div>
+
      </RevealOnView>
     </section>
   );

@@ -65,14 +65,11 @@ export function MemberDialog({
                       <span className="absolute -bottom-1 -left-1 h-3 w-3 border-b border-l border-[var(--color-accent-gold)]" />
                       <span className="absolute -bottom-1 -right-1 h-3 w-3 border-b border-r border-[var(--color-accent-gold)]" />
                     </div>
-                    <p className="mt-3 font-[family-name:var(--font-mono-loaded)] text-[11px] uppercase tracking-[0.2em] text-[var(--color-fg-soft)]">
-                      ID: {member.aiat_id}
-                    </p>
                   </div>
 
                   <div className="flex flex-col gap-4 md:col-span-7">
                     <p className="font-[family-name:var(--font-mono-loaded)] text-xs uppercase tracking-[0.2em] text-[var(--color-accent-red)]">
-                      MEM.{member.aiat_id}
+                      SPAI.{member.aiat_id}
                     </p>
                     <DialogTitle
                       as="h2"

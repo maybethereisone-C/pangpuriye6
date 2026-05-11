@@ -20,7 +20,7 @@ export default async function Page() {
     <>
       <Cursor />
       <ProgressBar />
-      <TopBar total={data.others.enabled ? 7 : 6} />
+      <TopBar />
       <MenuOverlay footer={data.footer} />
 
       <Hero data={data.hero} />

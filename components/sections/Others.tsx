@@ -15,16 +15,12 @@ export function Others({ items }: { items: SiteData["others"]["items"] }) {
         <div className="mx-auto w-full max-w-[var(--grid-max-width)] px-[var(--grid-margin-mobile)] pt-24 pb-24 md:px-[var(--grid-margin-desktop)] md:pt-32">
           <header>
             <p data-anim="reveal-eyebrow" className="font-[family-name:var(--font-mono-loaded)] text-xs uppercase tracking-[0.2em] text-[var(--color-accent-red)]">
-              SEC.07 · OTHERS // CREATIVE_WALL
+              OTHERS
             </p>
             <h2 data-anim="reveal-title" className="mt-2 font-[family-name:var(--font-display-loaded)]">Memes &amp; Brainstorms</h2>
           </header>
 
-          {items.length === 0 ? (
-            <p className="mt-12 font-[family-name:var(--font-mono-loaded)] text-sm text-[var(--color-fg-soft)]">
-              // STATUS: optional section, populated last.
-            </p>
-          ) : (
+          {items.length > 0 && (
             <ul className="mt-12 grid grid-cols-2 gap-4 md:grid-cols-4">
               {items.map((item, idx) => (
                 <li key={idx} data-anim="reveal-item" className="aspect-square border border-[var(--color-hairline)] bg-[var(--color-hairline)]/30 p-4 transition-colors hover:border-[var(--color-accent-red)]">

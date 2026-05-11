@@ -122,7 +122,7 @@ export interface SiteData {
 }
 
 /** Sentinel ID used by the placeholder member. Never assigned by AIAT. */
-export const PLACEHOLDER_MEMBER_ID = "000000" as const;
+export const PLACEHOLDER_MEMBER_ID = "600000" as const;
 
 /**
  * Default-shown ONE mock member when no API data + no JSON template.
@@ -155,7 +155,7 @@ export const placeholderSiteData: SiteData = {
   },
   members: [
     {
-      aiat_id: "000000",
+      aiat_id: "600000",
       fullname: "First Last",
       fullname_en: undefined,
       nickname: "Nick",
@@ -176,7 +176,40 @@ export const placeholderSiteData: SiteData = {
     quote: "We forged this house in code.",
     attribution: "Pangpuriye, 2026",
   },
-  gallery: [],
+  gallery: [
+    {
+      id: "gal-01",
+      title: "Kickoff Hackathon",
+      description: "Our first 48-hour hackathon as a house — prototypes, caffeine, and the first things we built together.",
+      images: [
+        "/images/placeholders/01-red.svg",
+        "/images/placeholders/02-red-deep.svg",
+        "/images/placeholders/03-red-orange.svg",
+      ],
+      date: "March 2026",
+    },
+    {
+      id: "gal-02",
+      title: "Level 2 Showcase",
+      description: "Advanced model presentations. Each member shipped something real to a live audience.",
+      images: [
+        "/images/placeholders/14-navy.svg",
+        "/images/placeholders/15-ocean.svg",
+      ],
+      date: "May 2026",
+    },
+    {
+      id: "gal-03",
+      title: "Industry Challenge",
+      description: "Partner organisation challenge — real brief, real data, real deadline.",
+      images: [
+        "/images/placeholders/09-forest.svg",
+        "/images/placeholders/10-mint.svg",
+        "/images/placeholders/11-sage.svg",
+      ],
+      date: "May 2026",
+    },
+  ],
   recognition: {
     lead: "What Pangpuriye won, where the cohort's work was recognised, and the milestones we shipped during Super AI Engineer Season 6.",
     awards: [],

@@ -80,9 +80,10 @@ export function MenuOverlay({ footer }: { footer: SiteData["footer"] }) {
                   type="button"
                   onClick={() => setOpen(false)}
                   aria-label="Close menu"
-                  className="font-[family-name:var(--font-mono-loaded)] text-xs uppercase tracking-[0.2em] text-[var(--color-fg)] hover:text-[var(--color-accent-red)]"
+                  className="group flex items-center gap-1.5 font-[family-name:var(--font-mono-loaded)] text-xs uppercase tracking-[0.2em] text-[var(--color-fg)] hover:text-[var(--color-accent-red)]"
                 >
-                  × Close
+                  <span className="inline-block transition-transform duration-500 group-hover:rotate-[360deg]">×</span>
+                  <span>Close</span>
                 </button>
                 <ThemeToggle />
               </header>
