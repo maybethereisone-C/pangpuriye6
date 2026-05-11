@@ -55,7 +55,7 @@ export function TopBar({ total }: { total: number }) {
           height={96}
           unoptimized
           priority
-          className="block h-10 w-10 md:h-14 md:w-14"
+          className="block h-10 w-10 md:h-20 md:w-20"
         />
       </a>
 
