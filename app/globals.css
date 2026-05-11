@@ -136,6 +136,47 @@ button {
 }
 
 /* =============================================================
+   CTA blocks — theme-token-aware buttons. Inline style{} was blocking
+   :hover in components; lifting to CSS classes so hover actually fires.
+   ============================================================= */
+
+.btn-primary {
+  background-color: var(--color-fg);
+  color: var(--color-bg);
+  border: 1px solid var(--color-fg);
+}
+.btn-primary:hover {
+  background-color: var(--color-accent-red);
+  color: #ffffff;
+  border-color: var(--color-accent-red);
+}
+
+.btn-ghost {
+  background-color: transparent;
+  color: var(--color-fg);
+  border: 1px solid var(--color-fg);
+}
+.btn-ghost:hover {
+  color: var(--color-accent-red);
+  border-color: var(--color-accent-red);
+}
+
+.theme-pill {
+  background-color: transparent;
+  color: var(--color-fg-soft);
+}
+.theme-pill:hover {
+  color: var(--color-accent-red);
+}
+.theme-pill[aria-checked="true"] {
+  background-color: var(--color-accent-red);
+  color: #ffffff;
+}
+.theme-pill[aria-checked="true"]:hover {
+  color: #ffffff;
+}
+
+/* =============================================================
    Button motion — universal micro-feedback on every <button> and
    anchor[role=button]. CUBE Composition layer.
    ============================================================= */

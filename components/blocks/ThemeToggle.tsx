@@ -55,16 +55,7 @@ export function ThemeToggle() {
             aria-checked={active}
             aria-label={`${LABEL[t]} theme`}
             onClick={() => setTheme(t)}
-            className={
-              "relative flex h-7 items-center gap-1.5 rounded-full px-3 transition-colors duration-200 " +
-              (active
-                ? "shadow-sm"
-                : "hover:!text-[var(--color-accent-red)]")
-            }
-            style={{
-              backgroundColor: active ? "var(--color-accent-red)" : "transparent",
-              color: active ? "#ffffff" : "var(--color-fg-soft)",
-            }}
+            className="theme-pill relative flex h-7 items-center gap-1.5 rounded-full px-3 transition-colors duration-200"
           >
             <Icon name={t} />
             <span>{LABEL[t]}</span>
