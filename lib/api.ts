@@ -41,6 +41,56 @@ interface RespWrapper<T> {
   data: T;
 }
 
+/** Raw shape returned by /member endpoint before normalization. */
+interface RawApiMember {
+  id: string;
+  aiat_id: string;
+  fullname: string;
+  nickname: string;
+  slogan: string;
+  interesting: string[];
+  video_links: string[];
+  gmail: string[] | null;
+  call: string;
+  image: string;
+}
+
+const URL_RE = /^https?:\/\//;
+
+function normalizeVideoLink(raw: string): string | null {
+  const s = raw.trim();
+  if (!s) return null;
+  if (URL_RE.test(s)) return s;
+  if (s.startsWith("www.")) return `https://${s}`;
+  return null;
+}
+
+function normalizeApiMember(raw: RawApiMember): Member | null {
+  // Filter test/placeholder rows the API still returns
+  if (raw.aiat_id === "aiat_id" || raw.fullname === "fullname") return null;
+
+  const interesting = raw.interesting
+    .flatMap((item) => item.split("-n"))
+    .map((s) => s.trim())
+    .filter(Boolean);
+
+  const video_links = raw.video_links
+    .map(normalizeVideoLink)
+    .filter((v): v is string => v !== null);
+
+  return {
+    aiat_id: raw.aiat_id,
+    fullname: raw.fullname,
+    nickname: raw.nickname,
+    slogan: raw.slogan,
+    interesting,
+    video_links,
+    gmail: raw.gmail ?? [],
+    call: raw.call || null,
+    image: raw.image || null,
+  };
+}
+
 async function readPublicJson<T>(filename: string): Promise<T | null> {
   try {
     const filePath = path.join(process.cwd(), "public", filename);
@@ -102,8 +152,11 @@ export async function getMembers(): Promise<Member[]> {
   const baseUrl = getBaseUrl();
 
   if (cfg.mode === "live" && baseUrl) {
-    const live = await liveFetch<Member[]>(`${baseUrl}${cfg.endpoints.members}`, getAuthHeaders());
-    if (live && live.length > 0) return live;
+    const raw = await liveFetch<RawApiMember[]>(`${baseUrl}${cfg.endpoints.members}?limit=999`, getAuthHeaders());
+    if (raw && raw.length > 0) {
+      const normalized = raw.map(normalizeApiMember).filter((m): m is Member => m !== null);
+      if (normalized.length > 0) return normalized;
+    }
     console.warn("[api] members live fetch empty/failed — falling back to placeholder");
   }
 

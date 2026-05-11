@@ -1,16 +1,11 @@
 "use client";
 
 import { Dialog, DialogPanel, DialogTitle, Transition, TransitionChild } from "@headlessui/react";
-import { Fragment } from "react";
+import { Fragment, useRef, useEffect } from "react";
 import type { Member } from "@/lib/site-data";
 
-const INTEREST_LABEL: Record<Member["interesting"][number], string> = {
-  ml: "Machine Learning",
-  nlp: "NLP",
-  cv: "Computer Vision",
-  ethics: "AI Ethics",
-  genai: "Generative AI",
-};
+const NAME_MAX_PX = 48;
+const NAME_MIN_PX = 16;
 
 export function MemberDialog({
   member,
@@ -21,6 +16,21 @@ export function MemberDialog({
   open: boolean;
   onClose: () => void;
 }) {
+  const nameRef = useRef<HTMLHeadingElement>(null);
+
+  useEffect(() => {
+    const el = nameRef.current;
+    if (!el) return;
+    el.style.fontSize = `${NAME_MAX_PX}px`;
+    requestAnimationFrame(() => {
+      let size = NAME_MAX_PX;
+      while (el.scrollWidth > el.offsetWidth && size > NAME_MIN_PX) {
+        size -= 1;
+        el.style.fontSize = `${size}px`;
+      }
+    });
+  }, [member?.fullname, open]);
+
   return (
     <Transition show={open} as={Fragment}>
       <Dialog onClose={onClose} className="relative z-[210]">
@@ -46,7 +56,7 @@ export function MemberDialog({
             leaveFrom="opacity-100 translate-y-0"
             leaveTo="opacity-0 translate-y-2"
           >
-            <DialogPanel className="relative grid w-full max-w-4xl grid-cols-1 gap-6 overflow-y-auto border border-[var(--color-hairline)] bg-[var(--color-bg)] p-6 md:grid-cols-12 md:p-10" style={{ maxHeight: "90svh" }}>
+            <DialogPanel className="relative grid w-full max-w-4xl grid-cols-1 gap-6 overflow-y-auto overflow-x-hidden border border-[var(--color-hairline)] bg-[var(--color-bg)] p-6 md:grid-cols-12 md:p-10" style={{ maxHeight: "90svh" }}>
               <button
                 type="button"
                 onClick={onClose}
@@ -67,13 +77,15 @@ export function MemberDialog({
                     </div>
                   </div>
 
-                  <div className="flex flex-col gap-4 md:col-span-7">
+                  <div className="min-w-0 flex flex-col gap-4 md:col-span-7">
                     <p className="font-[family-name:var(--font-mono-loaded)] text-xs uppercase tracking-[0.2em] text-[var(--color-accent-red)]">
                       SPAI.{member.aiat_id}
                     </p>
                     <DialogTitle
+                      ref={nameRef}
                       as="h2"
-                      className="font-[family-name:var(--font-display-loaded)] text-3xl font-bold leading-tight text-[var(--color-fg)] md:text-5xl"
+                      className="font-[family-name:var(--font-display-loaded)] font-bold leading-none text-[var(--color-fg)] whitespace-nowrap overflow-hidden"
+                      style={{ fontSize: `${NAME_MAX_PX}px` }}
                     >
                       {member.fullname}
                     </DialogTitle>
@@ -105,7 +117,7 @@ export function MemberDialog({
                             key={tag}
                             className="border border-[var(--color-hairline)] px-2 py-0.5 font-[family-name:var(--font-mono-loaded)] text-xs uppercase tracking-[0.1em] text-[var(--color-fg)]"
                           >
-                            {INTEREST_LABEL[tag]}
+                            {tag}
                           </li>
                         ))}
                       </ul>

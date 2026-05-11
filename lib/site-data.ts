@@ -12,8 +12,6 @@
  *     so the UI can render them when present, hidden when missing.
  */
 
-export type AIInterest = "ml" | "nlp" | "cv" | "ethics" | "genai";
-
 export interface Member {
   /** รหัสโครงการ — AIAT project ID, e.g. "600965" */
   aiat_id: string;
@@ -29,8 +27,8 @@ export interface Member {
   slogan: string;
   /** ความถนัดด้าน AI — single primary AI strength (form-only, e.g. "Agentic AI") */
   ai_skill?: string;
-  /** ความสนใจด้าน AI — up to 5 broad interest tags */
-  interesting: AIInterest[];
+  /** ความสนใจด้าน AI — freeform tags split from API's "-n" separator */
+  interesting: string[];
   /** สกิลด้านอื่น — non-AI skills, free text (form-only) */
   other_skills?: string;
   /** Profile photo URL — null when unset */
@@ -162,7 +160,7 @@ export const placeholderSiteData: SiteData = {
       nickname_en: undefined,
       slogan: "Member motto goes here — replace with the real line.",
       ai_skill: "Agentic AI",
-      interesting: ["ml", "genai"],
+      interesting: ["Machine Learning", "Generative AI"],
       other_skills: "Video editing, running",
       image: null,
       gmail: ["placeholder@example.com"],

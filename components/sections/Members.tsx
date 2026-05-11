@@ -6,13 +6,6 @@ import { PLACEHOLDER_MEMBER_ID } from "@/lib/site-data";
 import { MemberDialog } from "@/components/blocks/MemberDialog";
 import { RevealOnView } from "@/components/motion/RevealOnView";
 
-const INTEREST_LABEL: Record<Member["interesting"][number], string> = {
-  ml: "Machine Learning",
-  nlp: "NLP",
-  cv: "Computer Vision",
-  ethics: "AI Ethics",
-  genai: "Generative AI",
-};
 
 /** Members — Section 03. */
 export function Members({ members }: { members: Member[] }) {
@@ -129,7 +122,7 @@ function MemberCard({
                 key={tag}
                 className="border border-[var(--color-hairline)] px-2 py-0.5 font-[family-name:var(--font-mono-loaded)] text-xs uppercase tracking-[0.1em]"
               >
-                {INTEREST_LABEL[tag]}
+                {tag}
               </li>
             ))}
           </ul>
