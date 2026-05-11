@@ -4,6 +4,10 @@ out/
 .swc/
 next-env.d.ts.bak
 
+# TypeScript incremental build cache
+tsconfig.tsbuildinfo
+*.tsbuildinfo
+
 # Dependencies
 node_modules/
 .pnp/
