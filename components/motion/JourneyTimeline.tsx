@@ -65,7 +65,7 @@ export function JourneyTimeline() {
   return (
     <div ref={root} className="mt-24">
       <div className="mb-16 border-b border-[var(--color-hairline)] pb-12 text-center">
-        <p className="font-[family-name:var(--font-mono-loaded)] text-[10px] uppercase tracking-[0.25em] text-[var(--color-accent-red)]">
+        <p className="font-[family-name:var(--font-mono-loaded)] text-xs uppercase tracking-[0.25em] text-[var(--color-accent-red)]">
           Timeline
         </p>
         <h3 className="mt-3 font-[family-name:var(--font-display-loaded)] text-4xl font-bold md:text-5xl">
@@ -105,7 +105,7 @@ export function JourneyTimeline() {
                 style={{ border: cardBorder }}
               >
                 <p
-                  className="font-[family-name:var(--font-mono-loaded)] text-[10px] uppercase tracking-[0.2em]"
+                  className="font-[family-name:var(--font-mono-loaded)] text-xs uppercase tracking-[0.2em]"
                   style={{ color: accentColor }}
                 >
                   {step.date}

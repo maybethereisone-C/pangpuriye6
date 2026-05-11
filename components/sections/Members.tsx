@@ -85,7 +85,7 @@ function MemberCard({
         <span className="sr-only">Open member detail</span>
       </button>
 
-      <div className="flex items-center justify-end border-b border-[var(--color-hairline)] px-3 py-2 font-[family-name:var(--font-mono-loaded)] text-[10px] uppercase tracking-[0.2em]">
+      <div className="flex items-center justify-end border-b border-[var(--color-hairline)] px-3 py-2 font-[family-name:var(--font-mono-loaded)] text-xs uppercase tracking-[0.2em]">
         <span
           className={
             isMock ? "text-[var(--color-fg-soft)]" : "text-[var(--color-accent-red)]"
@@ -110,7 +110,7 @@ function MemberCard({
 
         {m.ai_skill && (
           <div>
-            <p className="font-[family-name:var(--font-mono-loaded)] text-[9px] uppercase tracking-[0.18em] text-[var(--color-fg-soft)]">
+            <p className="font-[family-name:var(--font-mono-loaded)] text-xs uppercase tracking-[0.18em] text-[var(--color-fg-soft)]">
               AI Skill
             </p>
             <p className="mt-0.5 font-[family-name:var(--font-mono-loaded)] text-xs font-bold text-[var(--color-accent-red)]">
@@ -120,14 +120,14 @@ function MemberCard({
         )}
 
         <div>
-          <p className="font-[family-name:var(--font-mono-loaded)] text-[9px] uppercase tracking-[0.18em] text-[var(--color-fg-soft)]">
+          <p className="font-[family-name:var(--font-mono-loaded)] text-xs uppercase tracking-[0.18em] text-[var(--color-fg-soft)]">
             AI Interests
           </p>
           <ul className="mt-1 flex flex-wrap gap-1.5">
             {m.interesting.map((tag) => (
               <li
                 key={tag}
-                className="border border-[var(--color-hairline)] px-2 py-0.5 font-[family-name:var(--font-mono-loaded)] text-[10px] uppercase tracking-[0.1em]"
+                className="border border-[var(--color-hairline)] px-2 py-0.5 font-[family-name:var(--font-mono-loaded)] text-xs uppercase tracking-[0.1em]"
               >
                 {INTEREST_LABEL[tag]}
               </li>
@@ -136,8 +136,8 @@ function MemberCard({
         </div>
 
         {m.other_skills && (
-          <p className="font-[family-name:var(--font-mono-loaded)] text-[11px] leading-snug text-[var(--color-fg-soft)]">
-            <span className="text-[9px] uppercase tracking-[0.18em]">Other </span>
+          <p className="font-[family-name:var(--font-mono-loaded)] text-xs leading-snug text-[var(--color-fg-soft)]">
+            <span className="text-xs uppercase tracking-[0.18em]">Other </span>
             {m.other_skills}
           </p>
         )}

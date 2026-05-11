@@ -129,7 +129,7 @@ export function GalleryDialog({
                         >
                           →
                         </button>
-                        <span className="absolute bottom-4 right-4 font-[family-name:var(--font-mono-loaded)] text-[10px] uppercase tracking-[0.2em] text-[var(--color-ink-cream)] mix-blend-difference">
+                        <span className="absolute bottom-4 right-4 font-[family-name:var(--font-mono-loaded)] text-xs uppercase tracking-[0.2em] text-[var(--color-ink-cream)] mix-blend-difference">
                           {String(imgIdx + 1).padStart(2, "0")} / {String(images.length).padStart(2, "0")}
                         </span>
                       </>
@@ -165,7 +165,7 @@ export function GalleryDialog({
 
                   {/* Info */}
                   <div className="p-6 md:p-8">
-                    <p className="font-[family-name:var(--font-mono-loaded)] text-[10px] uppercase tracking-[0.2em] text-[var(--color-accent-red)]">
+                    <p className="font-[family-name:var(--font-mono-loaded)] text-xs uppercase tracking-[0.2em] text-[var(--color-accent-red)]">
                       {item.date}
                     </p>
                     <DialogTitle
@@ -179,7 +179,7 @@ export function GalleryDialog({
 
                   {/* ID footer */}
                   <div className="border-t border-[var(--color-hairline)] px-6 py-3 md:px-8">
-                    <p className="font-[family-name:var(--font-mono-loaded)] text-[11px] uppercase tracking-[0.2em] text-[var(--color-fg-soft)]">
+                    <p className="font-[family-name:var(--font-mono-loaded)] text-xs uppercase tracking-[0.2em] text-[var(--color-fg-soft)]">
                       GAL.{item.id}
                     </p>
                   </div>

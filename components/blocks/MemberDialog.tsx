@@ -86,7 +86,7 @@ export function MemberDialog({
 
                     {member.ai_skill && (
                       <div>
-                        <p className="font-[family-name:var(--font-mono-loaded)] text-[10px] uppercase tracking-[0.18em] text-[var(--color-fg-soft)]">
+                        <p className="font-[family-name:var(--font-mono-loaded)] text-xs uppercase tracking-[0.18em] text-[var(--color-fg-soft)]">
                           AI Skill
                         </p>
                         <p className="mt-1 font-[family-name:var(--font-mono-loaded)] text-sm font-bold text-[var(--color-accent-red)]">
@@ -96,14 +96,14 @@ export function MemberDialog({
                     )}
 
                     <div>
-                      <p className="font-[family-name:var(--font-mono-loaded)] text-[10px] uppercase tracking-[0.18em] text-[var(--color-fg-soft)]">
+                      <p className="font-[family-name:var(--font-mono-loaded)] text-xs uppercase tracking-[0.18em] text-[var(--color-fg-soft)]">
                         AI Interests
                       </p>
                       <ul className="mt-1 flex flex-wrap gap-1.5">
                         {member.interesting.map((tag) => (
                           <li
                             key={tag}
-                            className="border border-[var(--color-hairline)] px-2 py-0.5 font-[family-name:var(--font-mono-loaded)] text-[10px] uppercase tracking-[0.1em] text-[var(--color-fg)]"
+                            className="border border-[var(--color-hairline)] px-2 py-0.5 font-[family-name:var(--font-mono-loaded)] text-xs uppercase tracking-[0.1em] text-[var(--color-fg)]"
                           >
                             {INTEREST_LABEL[tag]}
                           </li>
@@ -113,7 +113,7 @@ export function MemberDialog({
 
                     {member.other_skills && (
                       <div>
-                        <p className="font-[family-name:var(--font-mono-loaded)] text-[10px] uppercase tracking-[0.18em] text-[var(--color-fg-soft)]">
+                        <p className="font-[family-name:var(--font-mono-loaded)] text-xs uppercase tracking-[0.18em] text-[var(--color-fg-soft)]">
                           Other
                         </p>
                         <p className="mt-1 text-sm text-[var(--color-fg-soft)]">{member.other_skills}</p>

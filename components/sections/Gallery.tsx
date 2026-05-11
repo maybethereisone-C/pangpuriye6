@@ -71,12 +71,12 @@ export function Gallery({ items }: { items: GalleryItem[] }) {
                     <div data-anim="reveal-photo" className="relative aspect-[4/3] overflow-hidden bg-[var(--color-hairline)]/30">
                       <GalleryThumb item={item} idx={idx} />
                       <div className="absolute inset-0 flex items-center justify-center bg-[var(--color-ink-charcoal)]/0 transition-colors duration-300 group-hover:bg-[var(--color-ink-charcoal)]/20">
-                        <span className="font-[family-name:var(--font-mono-loaded)] text-[10px] uppercase tracking-[0.2em] text-[var(--color-ink-cream)] opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                        <span className="font-[family-name:var(--font-mono-loaded)] text-xs uppercase tracking-[0.2em] text-[var(--color-ink-cream)] opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                           View
                         </span>
                       </div>
                     </div>
-                    <figcaption className="mt-3 font-[family-name:var(--font-mono-loaded)] text-[11px] uppercase tracking-[0.2em] text-[var(--color-fg-soft)] transition-colors group-hover:text-[var(--color-fg)]">
+                    <figcaption className="mt-3 font-[family-name:var(--font-mono-loaded)] text-xs uppercase tracking-[0.2em] text-[var(--color-fg-soft)] transition-colors group-hover:text-[var(--color-fg)]">
                       {item.title} · {item.date}
                     </figcaption>
                   </figure>
