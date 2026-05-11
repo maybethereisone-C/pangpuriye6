@@ -4,6 +4,7 @@ import localFont from "next/font/local";
 import { MotionProvider } from "@/components/motion/MotionProvider";
 import { SnapPaginator } from "@/components/motion/SnapPaginator";
 import { ThemeProvider, themeBootstrapScript } from "@/components/motion/ThemeProvider";
+import { ParticleBackground } from "@/components/motion/ParticleBackground";
 import { MenuProvider } from "@/components/blocks/MenuProvider";
 import "./globals.css";
 
@@ -81,6 +82,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body>
         <ThemeProvider>
+          <ParticleBackground />
           <MotionProvider>
             <MenuProvider>
               <SnapPaginator />
