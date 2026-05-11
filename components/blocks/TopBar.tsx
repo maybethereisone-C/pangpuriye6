@@ -38,8 +38,8 @@ export function TopBar({ total }: { total: number }) {
           src="/images/logo.svg"
           alt=""
           aria-hidden
-          width={28}
-          height={28}
+          width={64}
+          height={64}
           unoptimized
           className="block h-7 w-7"
         />

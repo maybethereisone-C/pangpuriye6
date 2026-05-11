@@ -34,8 +34,7 @@ export function Hero({ data }: { data: SiteData["hero"] }) {
               href={data.cta_primary.href}
               role="button"
               data-magnetic
-              style={{ backgroundColor: "var(--color-fg)", color: "var(--color-bg)" }}
-              className="px-8 py-4 font-[family-name:var(--font-mono-loaded)] text-xs uppercase tracking-[0.2em] hover:!bg-[var(--color-accent-red)] hover:!text-white"
+              className="btn-primary px-8 py-4 font-[family-name:var(--font-mono-loaded)] text-xs uppercase tracking-[0.2em]"
             >
               {data.cta_primary.label}
             </a>
@@ -43,8 +42,7 @@ export function Hero({ data }: { data: SiteData["hero"] }) {
               href={data.cta_secondary.href}
               role="button"
               data-magnetic
-              style={{ color: "var(--color-fg)", borderColor: "var(--color-fg)" }}
-              className="border px-8 py-4 font-[family-name:var(--font-mono-loaded)] text-xs uppercase tracking-[0.2em] hover:!border-[var(--color-accent-red)] hover:!text-[var(--color-accent-red)]"
+              className="btn-ghost px-8 py-4 font-[family-name:var(--font-mono-loaded)] text-xs uppercase tracking-[0.2em]"
             >
               {data.cta_secondary.label}
             </a>
