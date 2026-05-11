@@ -54,7 +54,7 @@ export function TopBar() {
 
   return (
     <header
-      className="fixed top-0 left-0 z-50 flex w-full flex-row items-center justify-between px-[var(--grid-margin-mobile)] py-3 md:py-4 md:px-[var(--grid-margin-desktop)]"
+      className="fixed top-0 left-0 z-50 flex w-full flex-row items-center justify-between px-[var(--grid-margin-mobile)] py-3 md:py-4 md:px-[var(--grid-margin-tablet)] lg:px-[var(--grid-margin-desktop)]"
       style={{
         opacity: mounted ? 1 : 0,
         transform: `translateX(${!mounted ? "-24px" : "0"}) translateY(${hidden ? "-100%" : "0"})`,

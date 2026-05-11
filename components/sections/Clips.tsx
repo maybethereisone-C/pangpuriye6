@@ -12,7 +12,7 @@ export function Clips({ data }: { data: SiteData["clips"] }) {
       style={{ height: "auto", minHeight: "100svh" }}
     >
      <RevealOnView>
-      <div className="mx-auto w-full max-w-[var(--grid-max-width)] px-[var(--grid-margin-mobile)] pt-24 pb-24 md:px-[var(--grid-margin-desktop)] md:pt-32">
+      <div className="mx-auto w-full max-w-[var(--grid-max-width)] px-[var(--grid-margin-mobile)] pt-24 pb-24 md:px-[var(--grid-margin-tablet)] md:pt-32 lg:px-[var(--grid-margin-desktop)]">
         <header>
           <p data-anim="reveal-eyebrow" className="font-[family-name:var(--font-mono-loaded)] text-xs uppercase tracking-[0.2em] text-[var(--color-accent-red)]">
             CLIPS

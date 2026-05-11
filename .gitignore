@@ -3,6 +3,7 @@
 out/
 .swc/
 next-env.d.ts.bak
+next-env.d.ts
 
 # TypeScript incremental build cache
 tsconfig.tsbuildinfo
@@ -33,6 +34,19 @@ LICENSE.fonts.md
 public/blendr.mp4
 public/blendr-t*.jpeg
 .playwright-mcp/
+
+# Root-level dev screenshots
+*.png
+*.jpg
+*.jpeg
+!public/**/*.png
+!public/**/*.jpg
+!public/**/*.jpeg
+
+# PP Supply / trial font files — cut 2026-05-11
+public/fonts/PPSupply*.otf
+public/fonts/PPSupply*.woff2
+public/fonts/EULA-PangramPangram*.pdf
 
 # Private — internal API contracts, never commit to public repos
 api/
