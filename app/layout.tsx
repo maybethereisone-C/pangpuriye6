@@ -3,6 +3,8 @@ import { Space_Grotesk, IBM_Plex_Mono } from "next/font/google";
 import localFont from "next/font/local";
 import { MotionProvider } from "@/components/motion/MotionProvider";
 import { SnapPaginator } from "@/components/motion/SnapPaginator";
+import { ThemeProvider, themeBootstrapScript } from "@/components/motion/ThemeProvider";
+import { MenuProvider } from "@/components/blocks/MenuProvider";
 import "./globals.css";
 
 const spaceGrotesk = Space_Grotesk({
@@ -59,7 +61,10 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#c1121f",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#faf7f2" },
+    { media: "(prefers-color-scheme: dark)", color: "#0e0e0e" },
+  ],
   width: "device-width",
   initialScale: 1,
 };
@@ -69,12 +74,20 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html
       lang="en"
       className={`${spaceGrotesk.variable} ${ibmPlexMono.variable} ${ppSupplyMono.variable}`}
+      suppressHydrationWarning
     >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeBootstrapScript }} />
+      </head>
       <body>
-        <MotionProvider>
-          <SnapPaginator />
-          <main>{children}</main>
-        </MotionProvider>
+        <ThemeProvider>
+          <MotionProvider>
+            <MenuProvider>
+              <SnapPaginator />
+              <main>{children}</main>
+            </MenuProvider>
+          </MotionProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

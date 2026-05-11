@@ -1,9 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useMenu } from "./MenuProvider";
 
 export function TopBar({ total }: { total: number }) {
   const [current, setCurrent] = useState(1);
+  const { toggle } = useMenu();
 
   useEffect(() => {
     const sections = document.querySelectorAll<HTMLElement>("section[data-section]");
@@ -29,12 +31,17 @@ export function TopBar({ total }: { total: number }) {
       <span className="font-[family-name:var(--font-display-loaded)] text-2xl font-bold text-[var(--color-accent-red)]">
         P
       </span>
-      <span className="font-[family-name:var(--font-mono-loaded)] text-xs uppercase tracking-[0.2em] text-[var(--color-ink-charcoal)]">
+      <span className="font-[family-name:var(--font-mono-loaded)] text-xs uppercase tracking-[0.2em] text-[var(--color-fg)]">
         {String(current).padStart(2, "0")} / {String(total).padStart(2, "0")}
       </span>
-      <span className="font-[family-name:var(--font-mono-loaded)] text-xs uppercase tracking-[0.2em] text-[var(--color-ink-charcoal)]">
+      <button
+        type="button"
+        onClick={toggle}
+        aria-label="Open menu"
+        className="font-[family-name:var(--font-mono-loaded)] text-xs uppercase tracking-[0.2em] text-[var(--color-fg)] transition-colors hover:text-[var(--color-accent-red)]"
+      >
         Menu
-      </span>
+      </button>
     </header>
   );
 }

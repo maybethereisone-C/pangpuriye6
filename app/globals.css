@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+/* Tailwind v4 dark variant. Targets `.dark` on <html>. */
+@custom-variant dark (&:where(.dark, .dark *));
+
 /* =============================================================
    Design tokens — CUBE: Utility layer
    Per docs/design.md §3.1
@@ -14,6 +17,13 @@
   --color-accent-red: #c1121f;
   --color-accent-red-deep: #780000;
   --color-accent-gold: #d4a373;
+
+  /* Semantic role tokens — these swap in dark mode. Prefer these in components
+     so the theme toggle propagates automatically. */
+  --color-bg: #faf7f2;
+  --color-fg: #1a1a1a;
+  --color-fg-soft: #4a4a4a;
+  --color-hairline: #c9c5be;
 
   /* type — next/font CSS variables wired in app/layout.tsx */
   --font-display: var(--font-display-loaded), "Inter", system-ui, -apple-system, sans-serif;
@@ -52,6 +62,14 @@
    Base — CUBE: Composition + primitives
    ============================================================= */
 
+/* Dark theme — swap semantic role tokens; red + gold unchanged. */
+.dark {
+  --color-bg: #0e0e0e;
+  --color-fg: #f0ece6;
+  --color-fg-soft: #b8b3aa;
+  --color-hairline: #2a2a2a;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -67,8 +85,8 @@ html {
 }
 
 body {
-  background-color: var(--color-ink-cream);
-  color: var(--color-ink-charcoal);
+  background-color: var(--color-bg);
+  color: var(--color-fg);
   font-family: var(--font-body);
   font-size: var(--text-body);
   line-height: 1.6;
@@ -77,6 +95,7 @@ body {
   min-height: 100%;
   position: relative;
   overflow-x: hidden;
+  transition: background-color 200ms ease, color 200ms ease;
 }
 
 /* film-grain — sits above bg, below content */
