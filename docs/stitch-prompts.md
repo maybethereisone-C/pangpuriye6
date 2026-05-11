@@ -9,7 +9,7 @@ Seven Google Stitch prompts (one per section) ready to paste. Each prompt refere
 ## Shared prompt header (paste before each section's brief)
 
 ```text
-Design <SECTION_NAME> for "House Pangpuriye" — a digital yearbook for Super AI
+Design <SECTION_NAME> for "Pangpuriye" — a digital yearbook for Super AI
 Engineer Season 6 cohort. Single-page scroll-snap full-viewport site in the
 Studio Namma / Obys.agency school of editorial web design.
 

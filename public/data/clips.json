@@ -4,7 +4,7 @@
   "_field_docs": {
     "topic": "string — one of: llm | cv | rl | mlops | ethics | data",
     "title": "string — clip title",
-    "speaker": "string — speaker name + role, e.g. 'Tew · House Pangpuriye'",
+    "speaker": "string — speaker name + role, e.g. 'Tew · Pangpuriye'",
     "date": "string — 'YYYY-MM-DD'",
     "duration": "string — 'MM:SS' or 'HH:MM:SS'",
     "url": "string — YouTube or Vimeo embed URL",
@@ -14,7 +14,7 @@
     "featured": {
       "topic": "llm",
       "title": "Lorem Featured Clip Title",
-      "speaker": "Lorem Speaker · House Pangpuriye",
+      "speaker": "Lorem Speaker · Pangpuriye",
       "date": "2026-05-10",
       "duration": "12:34",
       "url": "https://youtu.be/PLACEHOLDER",

@@ -14,7 +14,7 @@ export function About({ data }: { data: SiteData["about"] }) {
           <p className="font-[family-name:var(--font-mono-loaded)] text-xs uppercase tracking-[0.2em] text-[var(--color-accent-red)]">
             SEC.02 · ABOUT // {data.doc_id}
           </p>
-          <h2 className="mt-2 font-[family-name:var(--font-display-loaded)]">About House</h2>
+          <h2 className="mt-2 font-[family-name:var(--font-display-loaded)]">About Pangpuriye</h2>
         </header>
 
         <article className="md:col-span-7">

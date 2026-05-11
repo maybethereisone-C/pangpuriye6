@@ -5,7 +5,7 @@ export function Footer({ data }: { data: SiteData["footer"] }) {
     <footer className="border-t border-[var(--color-ink-gray-300)] px-[var(--grid-margin-mobile)] py-12 md:px-[var(--grid-margin-desktop)]">
       <div className="mx-auto flex max-w-[var(--grid-max-width)] flex-col gap-8 md:flex-row md:items-center md:justify-between">
         <span className="font-[family-name:var(--font-mono-loaded)] text-xs uppercase tracking-[0.2em]">
-          © 2026 House Pangpuriye · Super AI Engineer S6 · AIAT
+          © 2026 Pangpuriye · Super AI Engineer S6 · AIAT
         </span>
         <nav
           aria-label="Contacts"

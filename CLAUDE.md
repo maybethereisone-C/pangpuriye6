@@ -1,6 +1,6 @@
 # pangpuriye6 — Claude Project Instructions
 
-You are working on **pangpuriye6**: an Awwwards-tier scroll-snap digital yearbook for **House Pangpuriye** (Super AI Engineer Season 6, Level 2, AIAT). Bootcamp assignment, 1-month window through ~2026-06-08, deployed to Vercel.
+You are working on **pangpuriye6**: an Awwwards-tier scroll-snap digital yearbook for **Pangpuriye** (Super AI Engineer Season 6, Level 2, AIAT). Bootcamp assignment, 1-month window through ~2026-06-08, deployed to Vercel.
 
 This file is the project-local Claude charter. Read it on every session start. Tew's global rules at `/Users/tew/Desktop/tos/CLAUDE.md` (parent) still apply — this file extends them, doesn't replace them.
 
@@ -8,7 +8,7 @@ This file is the project-local Claude charter. Read it on every session start. T
 
 ## What we're building (one paragraph)
 
-A single-page **scroll-snap full-viewport** yearbook in the **Studio Namma / Obys.agency** school of editorial web design — handcrafted motion, restraint-first red palette ("Red Sniper" — 92% cream/black, red surgical), grotesk + dual-mono typography. Built on **Next.js 16 App Router · React 19 · Tailwind v4 · GSAP · Lenis · OGL**. Tier B ambition: **Awwwards Honorable** (Tier A first by week 2, WebGL effects layered weeks 3–4). Required sections per AIAT brief: **Home · About · Members · Gallery · Recognition · Clips · Others (optional)**. Public GitHub + public Vercel.
+A single-page **JS-paginated full-viewport** yearbook in the **Studio Namma / Obys.agency** school of editorial web design — handcrafted motion, restraint-first red palette ("Red Sniper" — 92% cream/black, red surgical), grotesk + dual-mono typography. **English-only copy** — even though the AIAT cohort form is bilingual, the rendered site stays EN. Built on **Next.js 16 App Router · React 19 · Tailwind v4 · GSAP · Lenis · OGL**. Tier B ambition: **Awwwards Honorable** (Tier A first by week 2, WebGL effects layered weeks 3–4). Required sections per AIAT brief: **Home · About · Members · Gallery · Recognition · Clips · Others (optional)**. Public GitHub + public Vercel.
 
 Reference plan: `/Users/tew/.claude/plans/i-wanted-to-create-snazzy-taco.md`. Plan §5 (vanilla stack) is **superseded** by the Next.js pivot logged in `decisions/log.md` (2026-05-10 entry).
 
@@ -21,7 +21,7 @@ Reference plan: `/Users/tew/.claude/plans/i-wanted-to-create-snazzy-taco.md`. Pl
 | Framework | **Next.js 16** App Router · React 19 · TypeScript strict |
 | Styling | **Tailwind v4** (CSS-first config via `@theme` in `app/globals.css`, no `tailwind.config.ts`) |
 | CSS methodology | CUBE CSS (Composition · Utility · Block · Exception). NOT Atomic Design. See `docs/atomic-design-eval.md`. |
-| Layout | Scroll-snap full-viewport sections (`scroll-snap-type: y mandatory` on `<html>`) + Lenis smooth scroll. |
+| Layout | Full-viewport sections paginated by `components/motion/SnapPaginator.tsx` (JS-driven). CSS scroll-snap is intentionally OFF — JS engine owns scroll. Edge-aware: tall sections (Members / Gallery / Recognition / Others) allow native Lenis scroll inside until top/bottom edge, then snap to next/prev. |
 | Motion | GSAP + ScrollTrigger via `@gsap/react`'s `useGSAP()` hook. Lenis for smooth scroll. Custom magnetic cursor. |
 | WebGL (Phase 07+) | OGL (lighter than three.js) |
 | Reference DNA | studionamma.com + obys.agency |

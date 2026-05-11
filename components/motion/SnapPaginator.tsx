@@ -3,21 +3,32 @@
 import { useEffect, useRef } from "react";
 import { useLenis } from "./MotionProvider";
 
-const SCROLL_DURATION = 1.0;
-const COOLDOWN_MS = 200;
-const WHEEL_THRESHOLD = 5;
-const TOUCH_THRESHOLD_PX = 30;
+// Luxury timing — tuned to feel closer to obys.agency / studionamma.com.
+// Bigger numbers = heavier, more "weighted" feel.
+const SCROLL_DURATION = 1.6;
+const COOLDOWN_MS = 400;
+const WHEEL_THRESHOLD = 30;
+const TOUCH_THRESHOLD_PX = 60;
+const EDGE_TOLERANCE_PX = 4;
 
-const easeOutExpo = (t: number): number =>
-  t === 1 ? 1 : 1 - Math.pow(2, -10 * t);
+// easeInOutQuart — symmetric smooth curve. Eases out of the previous section,
+// glides through the middle, eases into the next. Apple product page feel.
+const easeInOutQuart = (t: number): number =>
+  t < 0.5 ? 8 * t * t * t * t : 1 - Math.pow(-2 * t + 2, 4) / 2;
 
 /**
- * JS-driven section paginator. Replaces CSS scroll-snap with explicit
- * `lenis.scrollTo()` glides + one-gesture-per-section lock.
+ * JS-driven section paginator with edge-aware overflow handling.
  *
- * Hooked into the global Lenis instance via the MotionProvider context.
- * Mounts only when `prefers-reduced-motion: no-preference` — otherwise the
- * page falls back to default browser scroll behavior.
+ * Behavior:
+ *   - At section EDGES (top or bottom of viewport): wheel/touch triggers a
+ *     1.6s eased glide to the prev/next section via Lenis.scrollTo.
+ *   - In the MIDDLE of a tall section (content > 100svh): scroll passes
+ *     through to Lenis natively so user can read every card / member /
+ *     gallery item.
+ *   - One snap per gesture — during the 1.6s animation + 400ms cooldown,
+ *     all wheel events are swallowed.
+ *
+ * Mounts only when prefers-reduced-motion: no-preference.
  */
 export function SnapPaginator() {
   const lenis = useLenis();
@@ -43,12 +54,12 @@ export function SnapPaginator() {
       if (target === indexRef.current) return;
 
       animatingRef.current = true;
-      const targetEl = sections[target];
       indexRef.current = target;
+      const targetEl = sections[target];
 
       lenis.scrollTo(targetEl, {
         duration: SCROLL_DURATION,
-        easing: easeOutExpo,
+        easing: easeInOutQuart,
         lock: true,
         onComplete: () => {
           setTimeout(() => {
@@ -58,11 +69,62 @@ export function SnapPaginator() {
       });
     };
 
+    /**
+     * Returns true if the current wheel/touch gesture should consume the
+     * section snap (i.e. user is at the section's top or bottom edge).
+     * Returns false if the gesture should pass through to native scroll.
+     */
+    const isAtEdge = (goingDown: boolean): boolean => {
+      const current = sections[indexRef.current];
+      if (!current) return true;
+      const rect = current.getBoundingClientRect();
+      const overflows = current.scrollHeight > window.innerHeight + 1;
+      if (!overflows) return true;
+      if (goingDown) {
+        return rect.bottom <= window.innerHeight + EDGE_TOLERANCE_PX;
+      }
+      return rect.top >= -EDGE_TOLERANCE_PX;
+    };
+
+    /**
+     * Find the section that occupies the most of the current viewport, in case
+     * native scroll has changed which section the user is in.
+     */
+    const refreshCurrentIndex = () => {
+      const mid = window.innerHeight / 2;
+      let bestIdx = indexRef.current;
+      let bestDist = Infinity;
+      sections.forEach((s, idx) => {
+        const r = s.getBoundingClientRect();
+        const center = (r.top + r.bottom) / 2;
+        const dist = Math.abs(center - mid);
+        if (dist < bestDist) {
+          bestDist = dist;
+          bestIdx = idx;
+        }
+      });
+      indexRef.current = bestIdx;
+    };
+
     const onWheel = (e: WheelEvent) => {
       if (Math.abs(e.deltaY) < WHEEL_THRESHOLD) return;
+
+      if (animatingRef.current) {
+        e.preventDefault();
+        return;
+      }
+
+      refreshCurrentIndex();
+      const goingDown = e.deltaY > 0;
+
+      if (!isAtEdge(goingDown)) {
+        // Mid-section overflow — let Lenis handle native smooth scroll
+        // through the section's interior. Do NOT preventDefault.
+        return;
+      }
+
       e.preventDefault();
-      if (animatingRef.current) return;
-      goTo(e.deltaY > 0 ? 1 : -1);
+      goTo(goingDown ? 1 : -1);
     };
 
     const onTouchStart = (e: TouchEvent) => {
@@ -79,11 +141,31 @@ export function SnapPaginator() {
       const delta = start - endY;
       if (Math.abs(delta) < TOUCH_THRESHOLD_PX) return;
       if (animatingRef.current) return;
-      goTo(delta > 0 ? 1 : -1);
+
+      refreshCurrentIndex();
+      const goingDown = delta > 0;
+      if (!isAtEdge(goingDown)) return;
+
+      goTo(goingDown ? 1 : -1);
     };
 
     const onTouchMove = (e: TouchEvent) => {
       if (animatingRef.current) e.preventDefault();
+    };
+
+    const jumpTo = (target: number) => {
+      if (animatingRef.current) return;
+      if (target === indexRef.current) return;
+      animatingRef.current = true;
+      indexRef.current = target;
+      lenis.scrollTo(sections[target], {
+        duration: SCROLL_DURATION,
+        easing: easeInOutQuart,
+        lock: true,
+        onComplete: () => {
+          setTimeout(() => (animatingRef.current = false), COOLDOWN_MS);
+        },
+      });
     };
 
     const onKey = (e: KeyboardEvent) => {
@@ -93,42 +175,24 @@ export function SnapPaginator() {
         case "PageDown":
         case " ":
           e.preventDefault();
-          goTo(1);
+          refreshCurrentIndex();
+          if (isAtEdge(true)) goTo(1);
+          else lenis.scrollTo(window.scrollY + window.innerHeight * 0.6, { duration: 0.8 });
           break;
         case "ArrowUp":
         case "PageUp":
           e.preventDefault();
-          goTo(-1);
+          refreshCurrentIndex();
+          if (isAtEdge(false)) goTo(-1);
+          else lenis.scrollTo(window.scrollY - window.innerHeight * 0.6, { duration: 0.8 });
           break;
         case "Home":
           e.preventDefault();
-          if (indexRef.current !== 0) {
-            animatingRef.current = true;
-            indexRef.current = 0;
-            lenis.scrollTo(sections[0], {
-              duration: SCROLL_DURATION,
-              easing: easeOutExpo,
-              lock: true,
-              onComplete: () => {
-                setTimeout(() => (animatingRef.current = false), COOLDOWN_MS);
-              },
-            });
-          }
+          jumpTo(0);
           break;
         case "End":
           e.preventDefault();
-          if (indexRef.current !== sections.length - 1) {
-            animatingRef.current = true;
-            indexRef.current = sections.length - 1;
-            lenis.scrollTo(sections[sections.length - 1], {
-              duration: SCROLL_DURATION,
-              easing: easeOutExpo,
-              lock: true,
-              onComplete: () => {
-                setTimeout(() => (animatingRef.current = false), COOLDOWN_MS);
-              },
-            });
-          }
+          jumpTo(sections.length - 1);
           break;
       }
     };
