@@ -60,7 +60,6 @@ export function SnapPaginator() {
       lenis.scrollTo(targetEl, {
         duration: SCROLL_DURATION,
         easing: easeInOutQuart,
-        lock: true,
         onComplete: () => {
           setTimeout(() => {
             animatingRef.current = false;
@@ -161,7 +160,6 @@ export function SnapPaginator() {
       lenis.scrollTo(sections[target], {
         duration: SCROLL_DURATION,
         easing: easeInOutQuart,
-        lock: true,
         onComplete: () => {
           setTimeout(() => (animatingRef.current = false), COOLDOWN_MS);
         },

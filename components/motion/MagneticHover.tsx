@@ -52,8 +52,15 @@ export function MagneticHover() {
     const onPointerLeave = (e: PointerEvent) => {
       const target = closest(e.target);
       if (!target) return;
+      // Keep the transition so the return to origin is eased, not instant.
+      target.style.transition = "transform 500ms cubic-bezier(0.22, 1, 0.36, 1)";
       target.style.transform = "translate3d(0, 0, 0)";
-      target.style.transition = "";
+      // Clear transition only after it finishes so it doesn't interfere with re-entry.
+      const clear = () => {
+        target.style.transition = "";
+        target.removeEventListener("transitionend", clear);
+      };
+      target.addEventListener("transitionend", clear, { once: true });
     };
 
     const onResize = () => {

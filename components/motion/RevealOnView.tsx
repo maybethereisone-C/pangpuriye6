@@ -46,6 +46,15 @@ export function RevealOnView({
 
       const titleWords = titleEl ? splitWords(titleEl) : [];
 
+      // Set initial hidden state immediately so elements start invisible.
+      // Without this, GSAP's fromTo fires AFTER a frame where elements are
+      // already visible, causing the jarring "snap to hidden then animate" flash.
+      if (eyebrow) gsap.set(eyebrow, { opacity: 0, y: -8 });
+      if (titleWords.length) gsap.set(titleWords, { opacity: 0, y: 40 });
+      if (bodyEls.length) gsap.set(Array.from(bodyEls), { opacity: 0, y: 20 });
+      if (itemEls.length) gsap.set(Array.from(itemEls), { opacity: 0, y: 24 });
+      if (photoEls.length) gsap.set(Array.from(photoEls), { clipPath: "inset(0 100% 0 0)" });
+
       const ctx = ScrollTrigger.create({
         trigger: root,
         start,
