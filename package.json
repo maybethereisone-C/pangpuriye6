@@ -1,0 +1,36 @@
+{
+  "name": "pangpuriye6",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Awwwards-tier scroll-snap digital yearbook for House Pangpuriye — Super AI Engineer S6 L2.",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "next": "^16.0.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "lenis": "^1.1.20",
+    "gsap": "^3.13.0",
+    "@gsap/react": "^2.1.2",
+    "ogl": "^1.0.11"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "@tailwindcss/postcss": "^4.0.0",
+    "tailwindcss": "^4.0.0",
+    "postcss": "^8.4.49",
+    "typescript": "^5.6.0",
+    "eslint": "^9.0.0",
+    "eslint-config-next": "^16.0.0"
+  },
+  "engines": {
+    "node": ">=20.18.0"
+  }
+}

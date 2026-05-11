@@ -1,0 +1,83 @@
+{
+  "_schema": "lib/site-data.ts → Member[]",
+  "_source": "Mirrors AIAT API GET /member when api-config.json mode = 'live'. Use this file as the editable placeholder roster during bootcamp.",
+  "_field_docs": {
+    "aiat_id": "string — AIAT-assigned cohort ID, e.g. 'AIAT-001'",
+    "fullname": "string — full legal/preferred name",
+    "nickname": "string — informal name (Thai or English)",
+    "slogan": "string — one-line member quote, kept in the language they wrote it",
+    "interesting": "string[] — any subset of: ml | nlp | cv | ethics | genai",
+    "image": "string|null — public URL or '/images/member-{aiat_id}.jpg' for self-hosted",
+    "gmail": "string[] — email addresses, first one is primary",
+    "call": "string|null — phone number with country code, e.g. '+66 81 234 5678'",
+    "video_links": "string[] — YouTube/Vimeo URLs of intro videos"
+  },
+  "data": [
+    {
+      "aiat_id": "AIAT-001",
+      "fullname": "Lorem Ipsum One",
+      "nickname": "Nickname",
+      "slogan": "Replace with the member's slogan, in their own words.",
+      "interesting": ["ml", "genai"],
+      "image": null,
+      "gmail": ["placeholder@example.com"],
+      "call": null,
+      "video_links": []
+    },
+    {
+      "aiat_id": "AIAT-002",
+      "fullname": "Lorem Ipsum Two",
+      "nickname": "Nickname",
+      "slogan": "Replace with the member's slogan.",
+      "interesting": ["nlp", "ethics"],
+      "image": null,
+      "gmail": ["placeholder@example.com"],
+      "call": null,
+      "video_links": []
+    },
+    {
+      "aiat_id": "AIAT-003",
+      "fullname": "Lorem Ipsum Three",
+      "nickname": "Nickname",
+      "slogan": "Replace with the member's slogan.",
+      "interesting": ["cv", "ml"],
+      "image": null,
+      "gmail": ["placeholder@example.com"],
+      "call": null,
+      "video_links": []
+    },
+    {
+      "aiat_id": "AIAT-004",
+      "fullname": "Lorem Ipsum Four",
+      "nickname": "Nickname",
+      "slogan": "Replace with the member's slogan.",
+      "interesting": ["genai", "ethics"],
+      "image": null,
+      "gmail": ["placeholder@example.com"],
+      "call": null,
+      "video_links": []
+    },
+    {
+      "aiat_id": "AIAT-005",
+      "fullname": "Lorem Ipsum Five",
+      "nickname": "Nickname",
+      "slogan": "Replace with the member's slogan.",
+      "interesting": ["ml", "nlp"],
+      "image": null,
+      "gmail": ["placeholder@example.com"],
+      "call": null,
+      "video_links": []
+    },
+    {
+      "aiat_id": "AIAT-006",
+      "fullname": "Lorem Ipsum Six",
+      "nickname": "Nickname",
+      "slogan": "Replace with the member's slogan.",
+      "interesting": ["cv", "genai"],
+      "image": null,
+      "gmail": ["placeholder@example.com"],
+      "call": null,
+      "video_links": []
+    }
+  ]
+}

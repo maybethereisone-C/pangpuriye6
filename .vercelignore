@@ -1,0 +1,29 @@
+# Local-only assets
+assets/raw/
+*.local.json
+
+# Private — internal API contracts
+api/
+**/swagger.json
+**/api_guide.md
+**/credentials*
+**/secrets*
+
+# Repo metadata not needed in deploy
+.git/
+.github/
+
+# Project planning + agent docs
+docs/
+CLAUDE.md
+
+# OS noise
+.DS_Store
+Thumbs.db
+
+# Editors
+.vscode/
+.idea/
+
+# Test coverage
+coverage/

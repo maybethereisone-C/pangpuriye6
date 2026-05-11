@@ -1,0 +1,8 @@
+{
+  "_schema": "lib/site-data.ts → SiteData.red_wall",
+  "_source": "Red Wall transition slide content. One sentence + attribution.",
+  "data": {
+    "quote": "We forged this house in code.",
+    "attribution": "Pangpuriye, 2026"
+  }
+}
