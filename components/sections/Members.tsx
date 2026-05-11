@@ -28,7 +28,7 @@ export function Members({ members }: { members: Member[] }) {
       style={{ height: "auto", minHeight: "100svh" }}
     >
      <RevealOnView>
-      <div className="mx-auto w-full max-w-[var(--grid-max-width)] px-[var(--grid-margin-mobile)] py-24 md:px-[var(--grid-margin-desktop)]">
+      <div className="mx-auto w-full max-w-[var(--grid-max-width)] px-[var(--grid-margin-mobile)] pt-24 pb-24 md:px-[var(--grid-margin-desktop)] md:pt-32">
         <header>
           <p data-anim="reveal-eyebrow" className="font-[family-name:var(--font-mono-loaded)] text-xs uppercase tracking-[0.2em] text-[var(--color-accent-red)]">
             SEC.03 · MEMBERS // PANGPURIYE_ROSTER_v1

@@ -39,6 +39,8 @@ export function ParticleBackground() {
     let t = 0;
 
     const mouse = { x: -9999, y: -9999 };
+    // Smoothed mouse — lerps toward raw mouse each frame for organic trailing push
+    const sm = { x: -9999, y: -9999 };
 
     interface P {
       x: number;
@@ -99,6 +101,16 @@ export function ParticleBackground() {
       }
       t += 1;
 
+      // Lerp smoothed mouse toward raw position — trailing push feels organic
+      if (mouse.x < -1000) {
+        sm.x = -9999;
+        sm.y = -9999;
+      } else {
+        if (sm.x < -1000) { sm.x = mouse.x; sm.y = mouse.y; }
+        sm.x += (mouse.x - sm.x) * 0.1;
+        sm.y += (mouse.y - sm.y) * 0.1;
+      }
+
       ctx.clearRect(0, 0, width, height);
 
       // Theme-aware color — RED house theme reads through.
@@ -119,9 +131,9 @@ export function ParticleBackground() {
         p.vx += (Math.random() - 0.5) * 0.05;
         p.vy += (Math.random() - 0.5) * 0.05;
 
-        // Cursor push
-        const dx = p.x - mouse.x;
-        const dy = p.y - mouse.y;
+        // Cursor push — uses smoothed mouse for organic trailing feel
+        const dx = p.x - sm.x;
+        const dy = p.y - sm.y;
         const dist2 = dx * dx + dy * dy;
         if (dist2 < 22500) {
           const dist = Math.sqrt(dist2);
