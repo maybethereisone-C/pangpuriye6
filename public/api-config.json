@@ -3,6 +3,6 @@
   "mode": "live",
   "endpoints": {
     "members": "/member",
-    "gallery": "/gallery"
+    "gallery": "/media/gallery"
   }
 }
