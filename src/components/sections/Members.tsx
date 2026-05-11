@@ -84,7 +84,7 @@ export function Members({ members }: { members: Member[] }) {
 
       {/* Infinite horizontal scroll ticker — JS-driven for smooth hover deceleration */}
       <div
-        className="relative z-30 pb-24"
+        className="relative z-50 pb-24 pointer-events-none"
         style={{
           overflow: "hidden",
           WebkitMaskImage:
@@ -95,6 +95,7 @@ export function Members({ members }: { members: Member[] }) {
       >
         <ul
           ref={trackRef}
+          className="pointer-events-auto"
           style={{
             display: "flex",
             gap: "1.5rem",
