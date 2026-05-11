@@ -2,7 +2,6 @@ import type { Metadata, Viewport } from "next";
 import { Space_Grotesk, IBM_Plex_Mono } from "next/font/google";
 import localFont from "next/font/local";
 import { MotionProvider } from "@/components/motion/MotionProvider";
-import { SnapPaginator } from "@/components/motion/SnapPaginator";
 import { ThemeProvider, themeBootstrapScript } from "@/components/motion/ThemeProvider";
 import { ParticleBackground } from "@/components/motion/ParticleBackground";
 import { MagneticHover } from "@/components/motion/MagneticHover";
@@ -86,7 +85,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <ParticleBackground />
           <MotionProvider>
             <MenuProvider>
-              <SnapPaginator />
               <MagneticHover />
               <main>{children}</main>
             </MenuProvider>

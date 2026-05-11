@@ -9,7 +9,7 @@ export function Gallery({ items }: { items: GalleryItem[] }) {
       data-section="04-gallery"
       data-section-index="4"
       className="grid"
-      style={{ height: "auto", minHeight: "100svh", scrollSnapAlign: "start" }}
+      style={{ height: "auto", minHeight: "100svh" }}
     >
      <RevealOnView>
       <div className="mx-auto w-full max-w-[var(--grid-max-width)] px-[var(--grid-margin-mobile)] py-24 md:px-[var(--grid-margin-desktop)]">
