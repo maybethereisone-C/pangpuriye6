@@ -4,6 +4,8 @@ import localFont from "next/font/local";
 import { MotionProvider } from "@/components/motion/MotionProvider";
 import { SnapPaginator } from "@/components/motion/SnapPaginator";
 import { ThemeProvider, themeBootstrapScript } from "@/components/motion/ThemeProvider";
+import { ParticleBackground } from "@/components/motion/ParticleBackground";
+import { MagneticHover } from "@/components/motion/MagneticHover";
 import { MenuProvider } from "@/components/blocks/MenuProvider";
 import "./globals.css";
 
@@ -63,7 +65,7 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   themeColor: [
     { media: "(prefers-color-scheme: light)", color: "#faf7f2" },
-    { media: "(prefers-color-scheme: dark)", color: "#0e0e0e" },
+    { media: "(prefers-color-scheme: dark)", color: "#140e0e" },
   ],
   width: "device-width",
   initialScale: 1,
@@ -81,9 +83,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body>
         <ThemeProvider>
+          <ParticleBackground />
           <MotionProvider>
             <MenuProvider>
               <SnapPaginator />
+              <MagneticHover />
               <main>{children}</main>
             </MenuProvider>
           </MotionProvider>

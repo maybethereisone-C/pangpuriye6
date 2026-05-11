@@ -1,6 +1,7 @@
 import type { SiteData } from "@/lib/site-data";
+import { RevealOnView } from "@/components/motion/RevealOnView";
 
-/** Recognition — Section 05. Phase-01 SCAFFOLD. See docs/design.md §3.5 row 05. */
+/** Recognition — Section 05. */
 export function Recognition({ data }: { data: SiteData["recognition"] }) {
   return (
     <section
@@ -10,13 +11,14 @@ export function Recognition({ data }: { data: SiteData["recognition"] }) {
       className="grid"
       style={{ height: "auto", minHeight: "100svh", scrollSnapAlign: "start" }}
     >
+     <RevealOnView>
       <div className="mx-auto w-full max-w-[var(--grid-max-width)] px-[var(--grid-margin-mobile)] py-24 md:px-[var(--grid-margin-desktop)]">
         <header>
-          <p className="font-[family-name:var(--font-mono-loaded)] text-xs uppercase tracking-[0.2em] text-[var(--color-accent-red)]">
+          <p data-anim="reveal-eyebrow" className="font-[family-name:var(--font-mono-loaded)] text-xs uppercase tracking-[0.2em] text-[var(--color-accent-red)]">
             SEC.05 · RECOGNITION // HALL_OF_FAME
           </p>
-          <h2 className="mt-2 font-[family-name:var(--font-display-loaded)]">Recognition Archive</h2>
-          <p className="mt-6 max-w-3xl text-[var(--text-body)] leading-relaxed text-[var(--color-ink-gray-700)]">
+          <h2 data-anim="reveal-title" className="mt-2 font-[family-name:var(--font-display-loaded)]">Recognition Archive</h2>
+          <p data-anim="reveal-body" className="mt-6 max-w-3xl text-[var(--text-body)] leading-relaxed text-[var(--color-ink-gray-700)]">
             {data.lead}
           </p>
         </header>
@@ -29,7 +31,7 @@ export function Recognition({ data }: { data: SiteData["recognition"] }) {
           <div className="mt-12 grid grid-cols-1 gap-12 md:grid-cols-12">
             <ul className="space-y-6 md:col-span-7">
               {data.awards.map((a) => (
-                <li key={a.code} className="border border-[var(--color-ink-gray-300)] p-6">
+                <li key={a.code} data-anim="reveal-item" className="border border-[var(--color-ink-gray-300)] p-6">
                   <p className="font-[family-name:var(--font-mono-loaded)] text-[10px] uppercase tracking-[0.2em] text-[var(--color-accent-red)]">
                     {a.code}
                   </p>
@@ -42,7 +44,7 @@ export function Recognition({ data }: { data: SiteData["recognition"] }) {
             </ul>
             <ol className="md:col-span-5">
               {data.milestones.map((m, idx) => (
-                <li key={m.title} className="flex gap-4 border-b border-[var(--color-ink-gray-300)] py-4">
+                <li key={m.title} data-anim="reveal-item" className="flex gap-4 border-b border-[var(--color-ink-gray-300)] py-4">
                   <span className="font-[family-name:var(--font-mono-loaded)] text-2xl font-bold text-[var(--color-accent-red)]">
                     {String(idx + 1).padStart(2, "0")}
                   </span>
@@ -56,6 +58,7 @@ export function Recognition({ data }: { data: SiteData["recognition"] }) {
           </div>
         )}
       </div>
+     </RevealOnView>
     </section>
   );
 }

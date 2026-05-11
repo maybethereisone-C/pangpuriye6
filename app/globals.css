@@ -12,37 +12,39 @@
    ============================================================= */
 
 @theme {
-  /* Legacy raw tokens — kept for back-compat where literal hex is needed
-     (e.g. corner crop marks). New components should prefer semantic role
-     tokens below — they swap on .dark, raw tokens never do. */
+  /* Legacy raw tokens — kept for back-compat. New components should prefer
+     semantic role tokens below — they swap on .dark, raw tokens never do. */
   --color-ink-cream: #faf7f2;
-  --color-ink-charcoal: #2b2d42;
-  --color-ink-gray-700: #4a4a4a;
-  --color-ink-gray-300: #c9c5be;
+  --color-ink-charcoal: #1a1a1a;
+  --color-ink-gray-700: rgba(26, 26, 26, 0.68);
+  --color-ink-gray-300: rgba(26, 26, 26, 0.16);
   --color-accent-red: #c1121f;
   --color-accent-red-deep: #5e0006;
   --color-accent-red-warm: #9b0d06;
   --color-accent-red-orange: #d53e0f;
   --color-accent-gold: #d4a373;
 
-  /* Semantic role tokens — these swap in dark mode. */
+  /* Semantic role tokens — these swap in dark mode. RED-tinted darks (no blue). */
   --color-bg: #faf7f2;
   --color-paper: #fffaf0;
-  --color-fg: #2b2d42;
-  --color-fg-soft: rgba(43, 45, 66, 0.68);
-  --color-hairline: rgba(43, 45, 66, 0.16);
-  --color-overlay-scrim: rgba(43, 45, 66, 0.7);
+  --color-fg: #1a1a1a;
+  --color-fg-soft: rgba(26, 26, 26, 0.7);
+  --color-fg-muted: rgba(26, 26, 26, 0.55);
+  --color-hairline: rgba(26, 26, 26, 0.16);
+  --color-overlay-scrim: rgba(26, 26, 26, 0.72);
   --color-overlay-solid: #faf7f2;
 }
 
-/* Dark theme — swap semantic role tokens; red + gold unchanged. */
+/* Dark theme — swap semantic role tokens. Warm near-black (slight red tint),
+   cream stays cream. Red + gold unchanged. NO blue/navy anywhere. */
 .dark {
-  --color-bg: #1a1b2b;
-  --color-paper: #14152a;
+  --color-bg: #140e0e;
+  --color-paper: #1c1414;
   --color-fg: #eed9b9;
-  --color-fg-soft: rgba(238, 217, 185, 0.68);
-  --color-hairline: rgba(238, 217, 185, 0.16);
-  --color-overlay-scrim: rgba(0, 0, 0, 0.75);
+  --color-fg-soft: rgba(238, 217, 185, 0.75);
+  --color-fg-muted: rgba(238, 217, 185, 0.55);
+  --color-hairline: rgba(238, 217, 185, 0.18);
+  --color-overlay-scrim: rgba(0, 0, 0, 0.78);
   --color-overlay-solid: #000000;
 }
 
@@ -131,6 +133,47 @@ button {
   background: transparent;
   color: inherit;
   padding: 0;
+}
+
+/* =============================================================
+   CTA blocks — theme-token-aware buttons. Inline style{} was blocking
+   :hover in components; lifting to CSS classes so hover actually fires.
+   ============================================================= */
+
+.btn-primary {
+  background-color: var(--color-fg);
+  color: var(--color-bg);
+  border: 1px solid var(--color-fg);
+}
+.btn-primary:hover {
+  background-color: var(--color-accent-red);
+  color: #ffffff;
+  border-color: var(--color-accent-red);
+}
+
+.btn-ghost {
+  background-color: transparent;
+  color: var(--color-fg);
+  border: 1px solid var(--color-fg);
+}
+.btn-ghost:hover {
+  color: var(--color-accent-red);
+  border-color: var(--color-accent-red);
+}
+
+.theme-pill {
+  background-color: transparent;
+  color: var(--color-fg-soft);
+}
+.theme-pill:hover {
+  color: var(--color-accent-red);
+}
+.theme-pill[aria-checked="true"] {
+  background-color: var(--color-accent-red);
+  color: #ffffff;
+}
+.theme-pill[aria-checked="true"]:hover {
+  color: #ffffff;
 }
 
 /* =============================================================

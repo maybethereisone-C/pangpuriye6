@@ -1,6 +1,7 @@
 import type { SiteData } from "@/lib/site-data";
+import { RevealOnView } from "@/components/motion/RevealOnView";
 
-/** About — Section 02. Phase-01 SCAFFOLD. See docs/design.md §3.5 row 02. */
+/** About — Section 02. */
 export function About({ data }: { data: SiteData["about"] }) {
   return (
     <section
@@ -9,12 +10,13 @@ export function About({ data }: { data: SiteData["about"] }) {
       data-section-index="2"
       className="grid place-items-center"
     >
+     <RevealOnView>
       <div className="mx-auto grid max-w-[var(--grid-max-width)] grid-cols-1 gap-[var(--grid-gutter-mobile)] px-[var(--grid-margin-mobile)] md:grid-cols-12 md:gap-[var(--grid-gutter-desktop)] md:px-[var(--grid-margin-desktop)]">
         <header className="md:col-span-12">
-          <p className="font-[family-name:var(--font-mono-loaded)] text-xs uppercase tracking-[0.2em] text-[var(--color-accent-red)]">
+          <p data-anim="reveal-eyebrow" className="font-[family-name:var(--font-mono-loaded)] text-xs uppercase tracking-[0.2em] text-[var(--color-accent-red)]">
             SEC.02 · ABOUT // {data.doc_id}
           </p>
-          <h2 className="mt-2 font-[family-name:var(--font-display-loaded)]">About Pangpuriye</h2>
+          <h2 data-anim="reveal-title" className="mt-2 font-[family-name:var(--font-display-loaded)]">About Pangpuriye</h2>
         </header>
 
         <article className="md:col-span-7">
@@ -56,6 +58,7 @@ export function About({ data }: { data: SiteData["about"] }) {
           </ul>
         </aside>
       </div>
+     </RevealOnView>
     </section>
   );
 }
