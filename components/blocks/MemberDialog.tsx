@@ -46,7 +46,7 @@ export function MemberDialog({
             leaveFrom="opacity-100 translate-y-0"
             leaveTo="opacity-0 translate-y-2"
           >
-            <DialogPanel className="relative grid w-full max-w-4xl grid-cols-1 gap-6 border border-[var(--color-hairline)] bg-[var(--color-bg)] p-6 md:grid-cols-12 md:p-10">
+            <DialogPanel className="relative grid w-full max-w-4xl grid-cols-1 gap-6 overflow-y-auto border border-[var(--color-hairline)] bg-[var(--color-bg)] p-6 md:grid-cols-12 md:p-10" style={{ maxHeight: "90svh" }}>
               <button
                 type="button"
                 onClick={onClose}
