@@ -121,6 +121,9 @@ export interface SiteData {
   };
 }
 
+/** Sentinel ID used by the placeholder member. Never assigned by AIAT. */
+export const PLACEHOLDER_MEMBER_ID = "000000" as const;
+
 /**
  * Default-shown ONE mock member when no API data + no JSON template.
  * Once the live API returns members OR public/data/members.json has entries,

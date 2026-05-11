@@ -6,7 +6,12 @@ import { useMenu } from "./MenuProvider";
 
 export function TopBar({ total }: { total: number }) {
   const [current, setCurrent] = useState(1);
+  const [mounted, setMounted] = useState(false);
   const { toggle } = useMenu();
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     const sections = document.querySelectorAll<HTMLElement>("section[data-section]");
@@ -28,7 +33,15 @@ export function TopBar({ total }: { total: number }) {
   }, []);
 
   return (
-    <header className="fixed top-0 left-0 z-50 flex w-full items-center justify-between px-[var(--grid-margin-mobile)] py-4 md:px-[var(--grid-margin-desktop)]">
+    <header
+      className="fixed top-0 left-0 z-50 flex w-full flex-col items-center gap-1 px-[var(--grid-margin-mobile)] py-3 md:flex-row md:justify-between md:py-4 md:px-[var(--grid-margin-desktop)]"
+      style={{
+        opacity: mounted ? 1 : 0,
+        transform: mounted ? "translateX(0)" : "translateX(-24px)",
+        transition: "opacity 700ms cubic-bezier(0.65, 0, 0.35, 1), transform 700ms cubic-bezier(0.65, 0, 0.35, 1)",
+        transitionDelay: "80ms",
+      }}
+    >
       <a
         href="#home"
         aria-label="Pangpuriye home"
@@ -38,26 +51,28 @@ export function TopBar({ total }: { total: number }) {
           src="/images/logo.svg"
           alt=""
           aria-hidden
-          width={64}
-          height={64}
+          width={96}
+          height={96}
           unoptimized
-          className="block h-7 w-7"
+          priority
+          className="block h-14 w-14 md:h-16 md:w-16"
         />
-        <span className="font-[family-name:var(--font-mono-loaded)] sr-only text-xs uppercase tracking-[0.2em]">
-          Pangpuriye
-        </span>
       </a>
-      <span className="font-[family-name:var(--font-mono-loaded)] text-xs uppercase tracking-[0.2em] text-[var(--color-fg)]">
-        {String(current).padStart(2, "0")} / {String(total).padStart(2, "0")}
-      </span>
-      <button
-        type="button"
-        onClick={toggle}
-        aria-label="Open menu"
-        className="font-[family-name:var(--font-mono-loaded)] text-xs uppercase tracking-[0.2em] text-[var(--color-fg)] hover:text-[var(--color-accent-red)]"
-      >
-        Menu
-      </button>
+
+      {/* on mobile: full-width row for counter + menu; on desktop: becomes transparent wrapper */}
+      <div className="flex w-full items-center justify-between md:contents">
+        <span className="font-[family-name:var(--font-mono-loaded)] text-xs uppercase tracking-[0.2em] text-[var(--color-fg)]">
+          {String(current).padStart(2, "0")} / {String(total).padStart(2, "0")}
+        </span>
+        <button
+          type="button"
+          onClick={toggle}
+          aria-label="Open menu"
+          className="font-[family-name:var(--font-mono-loaded)] text-xs uppercase tracking-[0.2em] text-[var(--color-fg)] hover:text-[var(--color-accent-red)]"
+        >
+          Menu
+        </button>
+      </div>
     </header>
   );
 }

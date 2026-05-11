@@ -2,7 +2,9 @@
 
 import { useState } from "react";
 import type { Member } from "@/lib/site-data";
+import { PLACEHOLDER_MEMBER_ID } from "@/lib/site-data";
 import { MemberDialog } from "@/components/blocks/MemberDialog";
+import { RevealOnView } from "@/components/motion/RevealOnView";
 
 const INTEREST_LABEL: Record<Member["interesting"][number], string> = {
   ml: "Machine Learning",
@@ -14,7 +16,7 @@ const INTEREST_LABEL: Record<Member["interesting"][number], string> = {
 
 /** Members — Section 03. */
 export function Members({ members }: { members: Member[] }) {
-  const isMock = members.length === 1 && members[0]?.aiat_id === "000000";
+  const isMock = members.length === 1 && members[0]?.aiat_id === PLACEHOLDER_MEMBER_ID;
   const [selected, setSelected] = useState<Member | null>(null);
 
   return (
@@ -25,13 +27,14 @@ export function Members({ members }: { members: Member[] }) {
       className="grid"
       style={{ height: "auto", minHeight: "100svh", scrollSnapAlign: "start" }}
     >
+     <RevealOnView>
       <div className="mx-auto w-full max-w-[var(--grid-max-width)] px-[var(--grid-margin-mobile)] py-24 md:px-[var(--grid-margin-desktop)]">
         <header>
-          <p className="font-[family-name:var(--font-mono-loaded)] text-xs uppercase tracking-[0.2em] text-[var(--color-accent-red)]">
+          <p data-anim="reveal-eyebrow" className="font-[family-name:var(--font-mono-loaded)] text-xs uppercase tracking-[0.2em] text-[var(--color-accent-red)]">
             SEC.03 · MEMBERS // PANGPURIYE_ROSTER_v1
           </p>
-          <h2 className="mt-2 font-[family-name:var(--font-display-loaded)]">Cohort Roster</h2>
-          <p className="mt-2 font-[family-name:var(--font-mono-loaded)] text-sm text-[var(--color-fg-soft)]">
+          <h2 data-anim="reveal-title" className="mt-2 font-[family-name:var(--font-display-loaded)]">Cohort Roster</h2>
+          <p data-anim="reveal-body" className="mt-2 font-[family-name:var(--font-mono-loaded)] text-sm text-[var(--color-fg-soft)]">
             {isMock ? "// awaiting data — single template shown" : `${members.length} members`}
           </p>
         </header>
@@ -47,6 +50,7 @@ export function Members({ members }: { members: Member[] }) {
           ))}
         </ul>
       </div>
+     </RevealOnView>
 
       <MemberDialog
         member={selected}
@@ -69,6 +73,7 @@ function MemberCard({
   return (
     <li
       data-magnetic
+      data-anim="reveal-item"
       className="group relative flex flex-col border border-[var(--color-hairline)] bg-[var(--color-bg)] transition-colors hover:border-[var(--color-accent-red)]"
     >
       <button

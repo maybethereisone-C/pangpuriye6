@@ -1,6 +1,7 @@
 import type { GalleryItem } from "@/lib/site-data";
+import { RevealOnView } from "@/components/motion/RevealOnView";
 
-/** Gallery — Section 04. Phase-01 SCAFFOLD. See docs/design.md §3.5 row 04. */
+/** Gallery — Section 04. */
 export function Gallery({ items }: { items: GalleryItem[] }) {
   return (
     <section
@@ -10,12 +11,13 @@ export function Gallery({ items }: { items: GalleryItem[] }) {
       className="grid"
       style={{ height: "auto", minHeight: "100svh", scrollSnapAlign: "start" }}
     >
+     <RevealOnView>
       <div className="mx-auto w-full max-w-[var(--grid-max-width)] px-[var(--grid-margin-mobile)] py-24 md:px-[var(--grid-margin-desktop)]">
         <header>
-          <p className="font-[family-name:var(--font-mono-loaded)] text-xs uppercase tracking-[0.2em] text-[var(--color-accent-red)]">
+          <p data-anim="reveal-eyebrow" className="font-[family-name:var(--font-mono-loaded)] text-xs uppercase tracking-[0.2em] text-[var(--color-accent-red)]">
             SEC.04 · GALLERY // /records/pangpuriye/2026
           </p>
-          <h2 className="mt-2 font-[family-name:var(--font-display-loaded)]">House Activities</h2>
+          <h2 data-anim="reveal-title" className="mt-2 font-[family-name:var(--font-display-loaded)]">House Activities</h2>
         </header>
 
         {items.length === 0 ? (
@@ -27,10 +29,11 @@ export function Gallery({ items }: { items: GalleryItem[] }) {
             {items.map((item, idx) => (
               <li
                 key={item.id}
+                data-anim="reveal-item"
                 className={idx === 0 ? "md:col-span-8" : "md:col-span-4"}
               >
                 <figure>
-                  <div className="aspect-[4/3] bg-[var(--color-ink-gray-300)]/30" />
+                  <div data-anim="reveal-photo" className="aspect-[4/3] bg-[var(--color-ink-gray-300)]/30" />
                   <figcaption className="mt-3 font-[family-name:var(--font-mono-loaded)] text-[11px] uppercase tracking-[0.2em] text-[var(--color-ink-gray-700)]">
                     {item.title} · {item.date}
                   </figcaption>
@@ -40,6 +43,7 @@ export function Gallery({ items }: { items: GalleryItem[] }) {
           </ul>
         )}
       </div>
+     </RevealOnView>
     </section>
   );
 }
