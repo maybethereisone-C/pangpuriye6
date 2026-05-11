@@ -122,7 +122,7 @@ export interface SiteData {
 }
 
 /** Sentinel ID used by the placeholder member. Never assigned by AIAT. */
-export const PLACEHOLDER_MEMBER_ID = "600000" as const;
+export const PLACEHOLDER_MEMBER_ID = "000000" as const;
 
 /**
  * Default-shown ONE mock member when no API data + no JSON template.
