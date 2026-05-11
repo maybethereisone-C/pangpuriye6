@@ -71,7 +71,7 @@ export function Hero({ data }: { data: SiteData["hero"] }) {
                 height={500}
                 unoptimized
                 priority
-                className="block h-[90%] w-[90%] object-contain"
+                className="block h-[100%] w-[100%] object-contain scale-[1.4]"
               />
             </div>
             <p className="mt-3 font-[family-name:var(--font-mono-loaded)] text-[11px] uppercase tracking-[0.2em] text-[var(--color-fg-soft)]">
