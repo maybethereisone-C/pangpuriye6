@@ -10,7 +10,7 @@
     "awards.metric": "{ label; value }|undefined — optional progress bar"
   },
   "data": {
-    "lead": "What House Pangpuriye won, where the cohort's work was recognised, and the milestones we shipped during Super AI Engineer Season 6.",
+    "lead": "What Pangpuriye won, where the cohort's work was recognised, and the milestones we shipped during Super AI Engineer Season 6.",
     "awards": [
       {
         "code": "AWD-2026-01",

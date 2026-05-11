@@ -1,6 +1,6 @@
 # pangpuriye6
 
-The digital yearbook of **House Pangpuriye** — Super AI Engineer Season 6 · Level 2 · AIAT.
+The digital yearbook of **Pangpuriye** — Super AI Engineer Season 6 · Level 2 · AIAT.
 
 A scroll-snap full-viewport editorial site in the **Studio Namma / Obys.agency** school of web design. **Next.js 16 · React 19 · Tailwind v4 · GSAP · Lenis · OGL.**
 

@@ -36,4 +36,4 @@ The MIT license at `LICENSE` covers source code only. Fonts shipped under `asset
 
 ## Acknowledgements
 
-Designed for House Pangpuriye, Super AI Engineer Season 6, Level 2, by AIAT (https://aiat.or.th).
+Designed for Pangpuriye, Super AI Engineer Season 6, Level 2, by AIAT (https://aiat.or.th).

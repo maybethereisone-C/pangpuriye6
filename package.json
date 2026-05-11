@@ -2,7 +2,7 @@
   "name": "pangpuriye6",
   "version": "0.1.0",
   "private": true,
-  "description": "Awwwards-tier scroll-snap digital yearbook for House Pangpuriye — Super AI Engineer S6 L2.",
+  "description": "Awwwards-tier scroll-snap digital yearbook for Pangpuriye — Super AI Engineer S6 L2.",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

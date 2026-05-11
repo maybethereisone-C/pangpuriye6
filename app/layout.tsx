@@ -42,18 +42,18 @@ const ppSupplyMono = localFont({
 export const metadata: Metadata = {
   metadataBase: new URL("https://pangpuriye6.vercel.app"),
   title: {
-    default: "House Pangpuriye — Super AI Engineer S6 L2",
-    template: "%s · House Pangpuriye",
+    default: "Pangpuriye — Super AI Engineer S6 L2",
+    template: "%s · Pangpuriye",
   },
   description:
-    "The digital yearbook of House Pangpuriye — the cohort, the hackathons, and the models we shipped during Super AI Engineer Season 6 with AIAT.",
-  keywords: ["AIAT", "Super AI Engineer", "House Pangpuriye", "yearbook"],
+    "The digital yearbook of Pangpuriye — the cohort, the hackathons, and the models we shipped during Super AI Engineer Season 6 with AIAT.",
+  keywords: ["AIAT", "Super AI Engineer", "Pangpuriye", "yearbook"],
   openGraph: {
     type: "website",
-    title: "House Pangpuriye — Cohort SS6 L2",
+    title: "Pangpuriye — Cohort SS6 L2",
     description:
-      "The digital yearbook of House Pangpuriye — Super AI Engineer Season 6 with AIAT.",
-    siteName: "House Pangpuriye",
+      "The digital yearbook of Pangpuriye — Super AI Engineer Season 6 with AIAT.",
+    siteName: "Pangpuriye",
   },
   robots: { index: true, follow: true },
 };

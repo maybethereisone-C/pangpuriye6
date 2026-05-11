@@ -23,10 +23,12 @@ export function MotionProvider({ children }: { children: React.ReactNode }) {
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (reduceMotion) return;
 
+    // Lerp 0.06 = heavier, more "weighted" feel (Obys uses ~0.05). Lower = slower decay.
     const instance = new Lenis({
-      lerp: 0.1,
+      lerp: 0.06,
       smoothWheel: true,
       syncTouch: false,
+      wheelMultiplier: 0.9,
     });
 
     const raf = (time: number) => {

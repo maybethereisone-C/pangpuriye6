@@ -21,9 +21,9 @@ export function Hero({ data }: { data: SiteData["hero"] }) {
             {data.eyebrow}
           </p>
           <h1 className="font-[family-name:var(--font-display-loaded)]">
-            <span className="block">{data.title_line_1}</span>
+            {data.title_line_1 && <span className="block">{data.title_line_1}</span>}
             <span className="block text-[var(--color-accent-red)]">{data.title_line_2}</span>
-            <span className="block">{data.title_line_3}</span>
+            {data.title_line_3 && <span className="block">{data.title_line_3}</span>}
           </h1>
           <p className="mt-8 max-w-xl border-l border-[var(--color-accent-gold)] pl-6 italic text-[var(--color-ink-gray-700)]">
             {data.motto}
