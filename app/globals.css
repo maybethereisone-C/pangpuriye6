@@ -57,9 +57,12 @@
 }
 
 html {
-  /* scroll-snap shell — CUBE: Composition */
-  scroll-snap-type: y mandatory;
-  scroll-behavior: smooth;
+  /*
+   * NOTE: native CSS scroll-snap is intentionally OFF.
+   * SnapPaginator (client component) owns section pagination via Lenis.scrollTo
+   * with one-gesture lock + eased glide. CSS snap would fight the JS engine.
+   */
+  scroll-behavior: auto;
   height: 100%;
 }
 
@@ -93,11 +96,9 @@ main {
   z-index: 2;
 }
 
-/* full-viewport scroll-snap section shell */
+/* full-viewport section shell — pagination handled by SnapPaginator (JS) */
 section[data-section] {
   height: 100svh;
-  scroll-snap-align: start;
-  scroll-snap-stop: always;
   position: relative;
   overflow: hidden;
 }
@@ -141,7 +142,6 @@ button {
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
-    scroll-snap-type: none;
   }
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
