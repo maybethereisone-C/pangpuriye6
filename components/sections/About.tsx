@@ -20,16 +20,16 @@ export function About({ data }: { data: SiteData["about"] }) {
         </header>
 
         <article className="md:col-span-7">
-          <p className="text-[var(--text-lead)] leading-relaxed text-[var(--color-ink-gray-700)]">
+          <p className="text-[var(--text-lead)] leading-relaxed text-[var(--color-fg-soft)]">
             <span className="float-left mr-3 text-[var(--text-h2-min)] leading-none font-bold text-[var(--color-accent-red)]">
               {data.dna_paragraph_1.charAt(0)}
             </span>
             {data.dna_paragraph_1.slice(1)}
           </p>
-          <p className="mt-6 leading-relaxed text-[var(--color-ink-gray-700)]">
+          <p className="mt-6 leading-relaxed text-[var(--color-fg-soft)]">
             {data.dna_paragraph_2}
           </p>
-          <p className="mt-12 max-w-md border-l border-[var(--color-accent-gold)] pl-6 italic text-[var(--color-ink-charcoal)]">
+          <p className="mt-12 max-w-md border-l border-[var(--color-accent-gold)] pl-6 italic text-[var(--color-fg)]">
             {data.motto}
           </p>
         </article>
@@ -45,9 +45,10 @@ export function About({ data }: { data: SiteData["about"] }) {
             ].map((card) => (
               <li
                 key={card.label}
-                className="aspect-square border border-[var(--color-ink-gray-300)] p-4"
+                data-anim="reveal-item"
+                className="aspect-square border border-[var(--color-hairline)] p-4 transition-colors hover:border-[var(--color-accent-red)]"
               >
-                <p className="font-[family-name:var(--font-mono-loaded)] text-[10px] uppercase tracking-[0.2em] text-[var(--color-ink-gray-700)]">
+                <p className="font-[family-name:var(--font-mono-loaded)] text-[10px] uppercase tracking-[0.2em] text-[var(--color-fg-soft)]">
                   {card.label}
                 </p>
                 <p className="mt-2 font-[family-name:var(--font-display-loaded)] text-base font-bold">

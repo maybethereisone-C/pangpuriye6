@@ -30,11 +30,13 @@ export function Gallery({ items }: { items: GalleryItem[] }) {
               <li
                 key={item.id}
                 data-anim="reveal-item"
-                className={idx === 0 ? "md:col-span-8" : "md:col-span-4"}
+                className={`group ${idx === 0 ? "md:col-span-8" : "md:col-span-4"}`}
               >
                 <figure>
-                  <div data-anim="reveal-photo" className="aspect-[4/3] bg-[var(--color-ink-gray-300)]/30" />
-                  <figcaption className="mt-3 font-[family-name:var(--font-mono-loaded)] text-[11px] uppercase tracking-[0.2em] text-[var(--color-ink-gray-700)]">
+                  <div data-anim="reveal-photo" className="aspect-[4/3] overflow-hidden bg-[var(--color-hairline)]/30">
+                    <div className="h-full w-full transition-transform duration-500 group-hover:scale-[1.04]" />
+                  </div>
+                  <figcaption className="mt-3 font-[family-name:var(--font-mono-loaded)] text-[11px] uppercase tracking-[0.2em] text-[var(--color-fg-soft)] transition-colors group-hover:text-[var(--color-fg)]">
                     {item.title} · {item.date}
                   </figcaption>
                 </figure>

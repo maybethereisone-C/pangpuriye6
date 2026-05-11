@@ -68,7 +68,7 @@ export function TopBar({ total }: { total: number }) {
           type="button"
           onClick={toggle}
           aria-label="Open menu"
-          className="font-[family-name:var(--font-mono-loaded)] text-xs uppercase tracking-[0.2em] text-[var(--color-fg)] hover:text-[var(--color-accent-red)]"
+          className="font-[family-name:var(--font-mono-loaded)] text-xs uppercase tracking-[0.2em] text-[var(--color-fg)] transition-colors hover:text-[var(--color-accent-red)]"
         >
           Menu
         </button>
