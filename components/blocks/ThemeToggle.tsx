@@ -5,37 +5,63 @@ import { useTheme, type Theme } from "@/components/motion/ThemeProvider";
 const ORDER: Theme[] = ["light", "dark", "system"];
 
 const LABEL: Record<Theme, string> = {
-  light: "LIGHT",
-  dark: "DARK",
-  system: "SYSTEM",
+  light: "Light theme",
+  dark: "Dark theme",
+  system: "System theme",
 };
+
+function Icon({ name }: { name: Theme }) {
+  const stroke = "currentColor";
+  if (name === "light") {
+    return (
+      <svg aria-hidden width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={stroke} strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="12" cy="12" r="4" />
+        <path d="M12 2v2M12 20v2M4 12H2M22 12h-2M5.6 5.6 4.2 4.2M19.8 19.8l-1.4-1.4M5.6 18.4l-1.4 1.4M19.8 4.2l-1.4 1.4" />
+      </svg>
+    );
+  }
+  if (name === "dark") {
+    return (
+      <svg aria-hidden width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={stroke} strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z" />
+      </svg>
+    );
+  }
+  return (
+    <svg aria-hidden width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={stroke} strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="3" y="4" width="18" height="13" rx="1.5" />
+      <path d="M8 21h8M12 17v4" />
+    </svg>
+  );
+}
 
 export function ThemeToggle() {
   const { theme, setTheme } = useTheme();
 
   return (
-    <div className="flex items-center gap-2 font-[family-name:var(--font-mono-loaded)] text-[10px] uppercase tracking-[0.2em]">
-      <span className="text-[var(--color-fg-soft)]">Theme</span>
-      <div className="flex divide-x divide-[var(--color-hairline)] border border-[var(--color-hairline)]">
-        {ORDER.map((t) => {
-          const active = theme === t;
-          return (
-            <button
-              key={t}
-              type="button"
-              aria-pressed={active}
-              onClick={() => setTheme(t)}
-              className={
-                active
-                  ? "bg-[var(--color-fg)] px-3 py-1.5 text-[var(--color-bg)]"
-                  : "px-3 py-1.5 text-[var(--color-fg-soft)] transition-colors hover:text-[var(--color-accent-red)]"
-              }
-            >
-              {LABEL[t]}
-            </button>
-          );
-        })}
-      </div>
+    <div
+      role="radiogroup"
+      aria-label="Theme"
+      className="relative inline-flex items-center gap-1 rounded-full border p-1"
+      style={{ borderColor: "var(--color-hairline)" }}
+    >
+      {ORDER.map((t) => {
+        const active = theme === t;
+        return (
+          <button
+            key={t}
+            type="button"
+            role="radio"
+            aria-checked={active}
+            aria-label={LABEL[t]}
+            title={LABEL[t]}
+            onClick={() => setTheme(t)}
+            className="theme-pill grid h-8 w-8 place-items-center rounded-full transition-colors duration-200"
+          >
+            <Icon name={t} />
+          </button>
+        );
+      })}
     </div>
   );
 }
