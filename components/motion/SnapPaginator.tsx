@@ -39,6 +39,7 @@ export function SnapPaginator() {
   useEffect(() => {
     if (!lenis) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (window.matchMedia("(max-width: 768px)").matches) return;
 
     const sections = Array.from(
       document.querySelectorAll<HTMLElement>("section[data-section]"),

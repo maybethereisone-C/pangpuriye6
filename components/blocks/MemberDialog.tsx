@@ -65,12 +65,12 @@ export function MemberDialog({
             leaveFrom="opacity-100 translate-y-0"
             leaveTo="opacity-0 translate-y-2"
           >
-            <DialogPanel className="relative grid w-full max-w-4xl grid-cols-1 gap-6 overflow-y-auto overflow-x-hidden border border-[var(--color-hairline)] bg-[var(--color-bg)] p-6 md:grid-cols-12 md:p-10" style={{ maxHeight: "90svh" }}>
+            <DialogPanel className="relative grid w-full max-w-4xl grid-cols-1 gap-6 overflow-y-auto overflow-x-hidden border border-[var(--color-hairline)] bg-[var(--color-bg)] p-6 pt-12 md:grid-cols-12 md:p-10" style={{ maxHeight: "90svh" }}>
               <button
                 type="button"
                 onClick={onClose}
                 aria-label="Close member detail"
-                className="absolute top-4 right-4 font-[family-name:var(--font-mono-loaded)] text-xs uppercase tracking-[0.2em] text-[var(--color-fg-soft)] transition-colors hover:text-[var(--color-accent-red)]"
+                className="absolute top-4 right-4 z-10 bg-[var(--color-bg)]/80 backdrop-blur-sm p-1 font-[family-name:var(--font-mono-loaded)] text-xs uppercase tracking-[0.2em] text-[var(--color-fg-soft)] transition-colors hover:text-[var(--color-accent-red)] md:top-6 md:right-6 md:bg-transparent md:p-0"
               >
                 × Close
               </button>
@@ -78,7 +78,7 @@ export function MemberDialog({
               {member && (
                 <>
                   <div className="md:col-span-5">
-                    <div className="relative aspect-[4/5] bg-[var(--color-hairline)]/30">
+                    <div className="relative mx-auto aspect-[4/5] w-3/4 max-w-[280px] bg-[var(--color-hairline)]/30 md:w-full md:max-w-none">
                       <span className="absolute -top-1 -left-1 h-3 w-3 border-t border-l border-[var(--color-accent-gold)]" />
                       <span className="absolute -top-1 -right-1 h-3 w-3 border-t border-r border-[var(--color-accent-gold)]" />
                       <span className="absolute -bottom-1 -left-1 h-3 w-3 border-b border-l border-[var(--color-accent-gold)]" />

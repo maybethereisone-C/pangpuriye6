@@ -116,7 +116,7 @@ export function Members({ members }: { members: Member[] }) {
       </div>
 
       {/* Scroll controls */}
-      <div className="absolute bottom-4 right-4 z-20 flex gap-2 md:bottom-8 md:right-8">
+      <div className="absolute bottom-4 right-4 z-40 flex gap-2 md:bottom-8 md:right-8">
         <button
           onClick={() => handleManualScroll("left")}
           className="grid h-12 w-12 place-items-center border border-[var(--color-hairline)] bg-[var(--color-bg)] text-[var(--color-fg)] transition-colors hover:border-[var(--color-accent-red)] hover:text-[var(--color-accent-red)]"
