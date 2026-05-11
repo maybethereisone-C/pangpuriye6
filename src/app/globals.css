@@ -259,7 +259,6 @@ a[role="button"]:active,
   --font-display: var(--font-display-loaded), "Inter", system-ui, -apple-system, sans-serif;
   --font-body: var(--font-display-loaded), "Inter", system-ui, -apple-system, sans-serif;
   --font-mono: var(--font-mono-loaded), "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
-  --font-mono-accent: var(--font-mono-accent-loaded), var(--font-mono-loaded), ui-monospace, monospace;
 }
 
 /* drop caps — Space Grotesk 700, ~5 lines tall. Apply [data-drop-cap] to section lead paragraphs. */

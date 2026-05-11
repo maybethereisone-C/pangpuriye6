@@ -1,6 +1,6 @@
-# pangpuriye6 — Project Charter (Codex)
+# pangpuriye6 — Project Charter (Claude Code)
 
-This file is the project-level AI charter for Codex. Read it at every session start. `CLAUDE.md` is the Claude Code equivalent.
+This file is the project-level AI charter for Claude Code. Read it at every session start. `AGENTS.md` is the Codex equivalent.
 
 ---
 
@@ -86,8 +86,8 @@ If a change would override any of the above, **stop and confirm with the team** 
 ├── docs/                           # design specs, motion notes, font research
 ├── k8s/                            # Kubernetes manifests
 ├── pipeline/                       # CI/CD pipeline definitions
-├── CLAUDE.md                       # Claude Code equivalent of this file
-├── AGENTS.md                       # this file
+├── CLAUDE.md                       # this file
+├── AGENTS.md                       # Codex equivalent of this file
 ├── README.md
 ├── LICENSE
 ├── LICENSE.fonts.md

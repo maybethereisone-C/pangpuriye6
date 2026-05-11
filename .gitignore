@@ -23,12 +23,15 @@ assets/
 *.local.json
 public/api-config.local.json
 
-# Non-runtime — planning docs, design docs, agent ops files
-# Stay on disk locally so gsd workflow + Claude charter work, but never deploy
+# Non-runtime — planning docs, design docs
 .planning/
 docs/
+AGENTS.md
 CLAUDE.md
 LICENSE.fonts.md
+
+# Machine-specific AI tool hooks (paths are host-specific, useless to teammates)
+.github/hooks/
 
 # Reference media (example/preview, not shipped UI)
 public/blendr.mp4
@@ -42,11 +45,6 @@ public/blendr-t*.jpeg
 !public/**/*.png
 !public/**/*.jpg
 !public/**/*.jpeg
-
-# PP Supply / trial font files — cut 2026-05-11
-public/fonts/PPSupply*.otf
-public/fonts/PPSupply*.woff2
-public/fonts/EULA-PangramPangram*.pdf
 
 # Private — internal API contracts, never commit to public repos
 api/

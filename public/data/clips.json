@@ -4,7 +4,7 @@
   "_field_docs": {
     "topic": "string — one of: llm | cv | rl | mlops | ethics | data",
     "title": "string — clip title",
-    "speaker": "string — speaker name + role, e.g. 'Tew · Pangpuriye'",
+    "speaker": "string — speaker name + role, e.g. 'Name · Pangpuriye'",
     "date": "string — 'YYYY-MM-DD'",
     "duration": "string — 'MM:SS' or 'HH:MM:SS'",
     "url": "string — YouTube or Vimeo embed URL",
