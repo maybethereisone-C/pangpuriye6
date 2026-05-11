@@ -1,4 +1,8 @@
+"use client";
+
+import { useState } from "react";
 import type { Member } from "@/lib/site-data";
+import { MemberDialog } from "@/components/blocks/MemberDialog";
 
 const INTEREST_LABEL: Record<Member["interesting"][number], string> = {
   ml: "Machine Learning",
@@ -11,6 +15,7 @@ const INTEREST_LABEL: Record<Member["interesting"][number], string> = {
 /** Members — Section 03. */
 export function Members({ members }: { members: Member[] }) {
   const isMock = members.length === 1 && members[0]?.aiat_id === "000000";
+  const [selected, setSelected] = useState<Member | null>(null);
 
   return (
     <section
@@ -26,50 +31,82 @@ export function Members({ members }: { members: Member[] }) {
             SEC.03 · MEMBERS // PANGPURIYE_ROSTER_v1
           </p>
           <h2 className="mt-2 font-[family-name:var(--font-display-loaded)]">Cohort Roster</h2>
-          <p className="mt-2 font-[family-name:var(--font-mono-loaded)] text-sm text-[var(--color-ink-gray-700)]">
+          <p className="mt-2 font-[family-name:var(--font-mono-loaded)] text-sm text-[var(--color-fg-soft)]">
             {isMock ? "// awaiting data — single template shown" : `${members.length} members`}
           </p>
         </header>
 
         <ul className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {members.map((m) => (
-            <MemberCard key={m.aiat_id} member={m} isMock={isMock} />
+            <MemberCard
+              key={m.aiat_id}
+              member={m}
+              isMock={isMock}
+              onOpen={() => setSelected(m)}
+            />
           ))}
         </ul>
       </div>
+
+      <MemberDialog
+        member={selected}
+        open={selected !== null}
+        onClose={() => setSelected(null)}
+      />
     </section>
   );
 }
 
-function MemberCard({ member: m, isMock }: { member: Member; isMock: boolean }) {
+function MemberCard({
+  member: m,
+  isMock,
+  onOpen,
+}: {
+  member: Member;
+  isMock: boolean;
+  onOpen: () => void;
+}) {
   return (
     <li
       data-magnetic
-      className="group flex flex-col border border-[var(--color-ink-gray-300)] bg-[var(--color-ink-cream)] transition-colors hover:border-[var(--color-accent-red)]"
+      className="group relative flex flex-col border border-[var(--color-hairline)] bg-[var(--color-bg)] transition-colors hover:border-[var(--color-accent-red)]"
     >
-      <div className="flex items-center justify-between border-b border-[var(--color-ink-gray-300)] px-3 py-2 font-[family-name:var(--font-mono-loaded)] text-[10px] uppercase tracking-[0.2em]">
+      <button
+        type="button"
+        onClick={onOpen}
+        aria-label={`Open detail for ${m.fullname}`}
+        className="absolute inset-0 z-10"
+      >
+        <span className="sr-only">Open member detail</span>
+      </button>
+
+      <div className="flex items-center justify-between border-b border-[var(--color-hairline)] px-3 py-2 font-[family-name:var(--font-mono-loaded)] text-[10px] uppercase tracking-[0.2em]">
         <span>ID: {m.aiat_id}</span>
-        <span className={isMock ? "text-[var(--color-ink-gray-700)]" : "text-[var(--color-accent-red)]"}>
+        <span
+          className={
+            isMock ? "text-[var(--color-fg-soft)]" : "text-[var(--color-accent-red)]"
+          }
+        >
           {isMock ? "MOCK" : "ACTIVE"}
         </span>
       </div>
 
-      <div className="aspect-[4/5] bg-[var(--color-ink-gray-300)]/30" />
+      <div className="aspect-[4/5] bg-[var(--color-hairline)]/30" />
 
       <div className="flex flex-1 flex-col gap-3 p-4">
         <h3 className="font-[family-name:var(--font-display-loaded)] text-xl font-bold leading-tight">
           {m.fullname}
         </h3>
 
-        <p className="font-[family-name:var(--font-mono-loaded)] text-xs text-[var(--color-ink-gray-700)]">
+        <p className="font-[family-name:var(--font-mono-loaded)] text-xs text-[var(--color-fg-soft)]">
           &ldquo;{m.nickname}&rdquo;
         </p>
 
-        <p className="text-sm italic leading-snug text-[var(--color-ink-gray-700)]">{m.slogan}</p>
+        <p className="text-sm italic leading-snug text-[var(--color-fg-soft)]">{m.slogan}</p>
 
         {m.ai_skill && (
           <div>
-            <p className="font-[family-name:var(--font-mono-loaded)] text-[9px] uppercase tracking-[0.18em] text-[var(--color-ink-gray-700)]">
+            <p className="font-[family-name:var(--font-mono-loaded)] text-[9px] uppercase tracking-[0.18em] text-[var(--color-fg-soft)]">
               AI Skill
             </p>
             <p className="mt-0.5 font-[family-name:var(--font-mono-loaded)] text-xs font-bold text-[var(--color-accent-red)]">
@@ -79,14 +116,14 @@ function MemberCard({ member: m, isMock }: { member: Member; isMock: boolean }) 
         )}
 
         <div>
-          <p className="font-[family-name:var(--font-mono-loaded)] text-[9px] uppercase tracking-[0.18em] text-[var(--color-ink-gray-700)]">
+          <p className="font-[family-name:var(--font-mono-loaded)] text-[9px] uppercase tracking-[0.18em] text-[var(--color-fg-soft)]">
             AI Interests
           </p>
           <ul className="mt-1 flex flex-wrap gap-1.5">
             {m.interesting.map((tag) => (
               <li
                 key={tag}
-                className="border border-[var(--color-ink-gray-300)] px-2 py-0.5 font-[family-name:var(--font-mono-loaded)] text-[10px] uppercase tracking-[0.1em]"
+                className="border border-[var(--color-hairline)] px-2 py-0.5 font-[family-name:var(--font-mono-loaded)] text-[10px] uppercase tracking-[0.1em]"
               >
                 {INTEREST_LABEL[tag]}
               </li>
@@ -95,13 +132,13 @@ function MemberCard({ member: m, isMock }: { member: Member; isMock: boolean }) 
         </div>
 
         {m.other_skills && (
-          <p className="font-[family-name:var(--font-mono-loaded)] text-[11px] leading-snug text-[var(--color-ink-gray-700)]">
+          <p className="font-[family-name:var(--font-mono-loaded)] text-[11px] leading-snug text-[var(--color-fg-soft)]">
             <span className="text-[9px] uppercase tracking-[0.18em]">Other </span>
             {m.other_skills}
           </p>
         )}
 
-        <div className="mt-auto flex flex-wrap items-center gap-2 border-t border-[var(--color-ink-gray-300)] pt-3">
+        <div className="relative z-20 mt-auto flex flex-wrap items-center gap-2 border-t border-[var(--color-hairline)] pt-3">
           {m.gmail[0] && <ContactIcon href={`mailto:${m.gmail[0]}`} label="Email" icon="mail" />}
           {m.call && <ContactIcon href={`tel:${m.call.replace(/\s+/g, "")}`} label="Call" icon="phone" />}
           {m.video_links[0] && <ContactIcon href={m.video_links[0]} label="Intro video" icon="play" external />}
@@ -133,7 +170,8 @@ function ContactIcon({
       title={label}
       target={external ? "_blank" : undefined}
       rel={external ? "noopener noreferrer" : undefined}
-      className="grid h-8 w-8 place-items-center border border-[var(--color-ink-gray-300)] text-[var(--color-ink-charcoal)] transition-colors hover:border-[var(--color-accent-red)] hover:text-[var(--color-accent-red)]"
+      onClick={(e) => e.stopPropagation()}
+      className="grid h-8 w-8 place-items-center border border-[var(--color-hairline)] text-[var(--color-fg)] transition-colors hover:border-[var(--color-accent-red)] hover:text-[var(--color-accent-red)]"
     >
       <Icon name={icon} />
     </a>

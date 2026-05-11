@@ -124,6 +124,40 @@ Content pipeline + API integration. **Phase 04+ as needed.**
 - [ ] **DATA-04**: Live API integration verified — `NEXT_PUBLIC_API_BASE_URL` set, `mode: live`, members + gallery hydrate from real endpoint
 - [ ] **DATA-05**: ETag / cache headers on JSON template files via `vercel.json`
 
+### Menu (MENU)
+
+Full-screen overlay menu, triggered by TopBar's MENU button. **Phase 02 (Stitch frame) + Phase 03 (code).**
+
+- [ ] **MENU-01**: MENU button in TopBar opens full-screen overlay (curtain wipe down)
+- [ ] **MENU-02**: Overlay shows section list `01 / HOME`, `02 / ABOUT`, ... in big serif
+- [ ] **MENU-03**: Overlay shows contact info (email + social links) at bottom
+- [ ] **MENU-04**: Click section item → overlay closes + SnapPaginator scrollTo that section
+- [ ] **MENU-05**: ESC key closes overlay; click backdrop closes overlay
+- [ ] **MENU-06**: Built with Headless UI `Disclosure` for keyboard nav + ARIA states
+
+### Member Modal (MODAL)
+
+Member card click opens detail modal with full bio + all contacts + intro video.
+
+- [ ] **MODAL-01**: Member card click opens HU `Dialog` with full member detail
+- [ ] **MODAL-02**: Modal shows larger photo, full name, nickname, slogan, AI skill, all AI interests, all contacts, intro video link
+- [ ] **MODAL-03**: ESC key + backdrop click + close button all dismiss modal
+- [ ] **MODAL-04**: Focus trapped inside modal while open
+- [ ] **MODAL-05**: Modal works keyboard-only (Tab cycles inside, Shift+Tab reverses)
+- [ ] **MODAL-06**: Mobile: modal becomes full-screen sheet
+
+### Theme (THEME)
+
+Light + dark theme toggle. Light = Red Sniper (cream/charcoal). Dark = inverted (charcoal/cream). Red and gold stay identical across themes.
+
+- [ ] **THEME-01**: Light theme is default (matches existing `app/globals.css` tokens)
+- [ ] **THEME-02**: Dark theme inverts cream ↔ charcoal; red and gold tokens unchanged
+- [ ] **THEME-03**: Theme toggle lives in MenuOverlay (visible only when overlay open)
+- [ ] **THEME-04**: Choice persists in `localStorage` as `pangpuriye6-theme: light|dark|system`
+- [ ] **THEME-05**: Initial render respects `prefers-color-scheme` if no user choice stored
+- [ ] **THEME-06**: Theme swap takes <100ms, no flash of unstyled content
+- [ ] **THEME-07**: All photo treatments work on both bg colors (grayscale photos look fine on both)
+
 ### Accessibility (A11Y)
 
 - [x] **A11Y-01**: `prefers-reduced-motion: reduce` disables Lenis + SnapPaginator (page falls back to native scroll)
@@ -202,6 +236,9 @@ Deferred. Tracked but not in v1 roadmap.
 | CLIPS-02–04 | Phase 05 | Pending |
 | OTHERS-02–03 | Phase 06 | Pending |
 | MOTION-06–07 | Phase 03–06 | Pending |
+| MENU-01–06 | Phase 02 (frame) + 03 (code) | Pending |
+| MODAL-01–06 | Phase 02 (frame) + 04 (code) | Pending |
+| THEME-01–07 | Phase 02 (frames doubled) + 03 (toggle wiring) | Pending |
 | MOTION-08–10, HOME-04, MEMBERS-06, GALLERY-04 | Phase 07 (Tier B WebGL) | Pending |
 | DATA-04–05 | Phase 04 + 08 | Pending |
 | A11Y-04–05 | Phase 08 | Pending |
@@ -210,8 +247,8 @@ Deferred. Tracked but not in v1 roadmap.
 | SHIP-01–03 | Phase 08 | Pending |
 
 **Coverage:**
-- v1 requirements: 51 total
-- Mapped to phases: 51
+- v1 requirements: 70 total (was 51, +19 from MENU + MODAL + THEME)
+- Mapped to phases: 70
 - Unmapped: 0 ✅
 
 ---

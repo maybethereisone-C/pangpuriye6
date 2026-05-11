@@ -8,6 +8,7 @@ import { Recognition } from "@/components/sections/Recognition";
 import { Clips } from "@/components/sections/Clips";
 import { Others } from "@/components/sections/Others";
 import { Footer } from "@/components/blocks/Footer";
+import { MenuOverlay } from "@/components/blocks/MenuOverlay";
 import { ProgressBar } from "@/components/motion/ProgressBar";
 import { TopBar } from "@/components/blocks/TopBar";
 import { Cursor } from "@/components/motion/Cursor";
@@ -20,6 +21,7 @@ export default async function Page() {
       <Cursor />
       <ProgressBar />
       <TopBar total={data.others.enabled ? 7 : 6} />
+      <MenuOverlay footer={data.footer} />
 
       <Hero data={data.hero} />
       <About data={data.about} />
