@@ -1,0 +1,8 @@
+{
+  "_note": "Public config. Real baseUrl lives in .env.local (NEXT_PUBLIC_API_BASE_URL) — gitignored. This file only carries the mode flag + relative endpoints.",
+  "mode": "placeholder",
+  "endpoints": {
+    "members": "/member",
+    "gallery": "/gallery"
+  }
+}
