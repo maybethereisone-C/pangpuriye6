@@ -15,7 +15,7 @@ export function Hero({ data }: { data: SiteData["hero"] }) {
       className="grid place-items-center"
     >
       <HeroAnim>
-        <div className="mx-auto grid max-w-[var(--grid-max-width)] grid-cols-1 items-center gap-[var(--grid-gutter-mobile)] px-[var(--grid-margin-mobile)] md:grid-cols-12 md:gap-[var(--grid-gutter-desktop)] md:px-[var(--grid-margin-desktop)]">
+        <div className="mx-auto grid max-w-[var(--grid-max-width)] grid-cols-1 items-center gap-[var(--grid-gutter-mobile)] px-[var(--grid-margin-mobile)] pt-16 md:grid-cols-12 md:gap-[var(--grid-gutter-desktop)] md:px-[var(--grid-margin-desktop)] md:pt-0">
           <div className="md:col-span-7">
             <p
               data-anim="hero-eyebrow"
@@ -62,7 +62,7 @@ export function Hero({ data }: { data: SiteData["hero"] }) {
           <div className="md:col-span-5">
             <div
               data-anim="hero-photo"
-              className="relative grid aspect-[4/5] w-full place-items-center"
+              className="relative grid h-48 w-full place-items-center md:aspect-[4/5] md:h-auto"
             >
               <Image
                 src="/images/logo.svg"

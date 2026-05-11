@@ -34,7 +34,7 @@ export function TopBar({ total }: { total: number }) {
 
   return (
     <header
-      className="fixed top-0 left-0 z-50 flex w-full flex-col items-center gap-1 px-[var(--grid-margin-mobile)] py-3 md:flex-row md:justify-between md:py-4 md:px-[var(--grid-margin-desktop)]"
+      className="fixed top-0 left-0 z-50 flex w-full flex-row items-center justify-between px-[var(--grid-margin-mobile)] py-3 md:py-4 md:px-[var(--grid-margin-desktop)]"
       style={{
         opacity: mounted ? 1 : 0,
         transform: mounted ? "translateX(0)" : "translateX(-24px)",
@@ -45,22 +45,21 @@ export function TopBar({ total }: { total: number }) {
       <a
         href="#home"
         aria-label="Pangpuriye home"
-        className="flex items-center gap-2 text-[var(--color-accent-red)]"
+        className="flex items-center gap-2"
       >
         <Image
-          src="/images/logo.svg"
+          src="/images/logo2_red.svg"
           alt=""
           aria-hidden
           width={96}
           height={96}
           unoptimized
           priority
-          className="block h-14 w-14 md:h-16 md:w-16"
+          className="block h-10 w-10 md:h-14 md:w-14"
         />
       </a>
 
-      {/* on mobile: full-width row for counter + menu; on desktop: becomes transparent wrapper */}
-      <div className="flex w-full items-center justify-between md:contents">
+      <div className="flex items-center gap-4">
         <span className="font-[family-name:var(--font-mono-loaded)] text-xs uppercase tracking-[0.2em] text-[var(--color-fg)]">
           {String(current).padStart(2, "0")} / {String(total).padStart(2, "0")}
         </span>
