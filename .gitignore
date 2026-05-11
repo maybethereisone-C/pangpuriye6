@@ -17,8 +17,8 @@ node_modules/
 # Testing
 coverage/
 
-# Local-only assets
-assets/raw/
+# Local-only assets — teammate brainstorm scratch, fonts trial zip, palette refs
+assets/
 *.local.json
 public/api-config.local.json
 

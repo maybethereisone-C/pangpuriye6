@@ -33,7 +33,7 @@ export function MemberDialog({
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div aria-hidden className="fixed inset-0 bg-[var(--color-fg)]/60 backdrop-blur-sm" />
+          <div aria-hidden className="fixed inset-0 bg-[var(--color-overlay-scrim)] backdrop-blur-sm" />
         </TransitionChild>
 
         <div className="fixed inset-0 flex items-center justify-center p-4 md:p-12">

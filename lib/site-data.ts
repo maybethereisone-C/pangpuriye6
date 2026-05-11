@@ -195,8 +195,8 @@ export const placeholderSiteData: SiteData = {
   footer: {
     email: "hello@pangpuriye.example",
     phone: "+66",
-    github: "https://github.com/PLACEHOLDER/pangpuriye6",
-    instagram: "#",
+    github: "https://github.com/maybethereisone-C/pangpuriye6",
+    instagram: "https://www.instagram.com/pangpuriye.venator/",
     youtube: "#",
   },
 };
