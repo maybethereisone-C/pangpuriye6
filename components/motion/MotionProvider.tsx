@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useEffect, useRef, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import Lenis from "lenis";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -17,7 +17,6 @@ export function useLenis(): Lenis | null {
 
 export function MotionProvider({ children }: { children: React.ReactNode }) {
   const [lenis, setLenis] = useState<Lenis | null>(null);
-  const rafRef = useRef<number>(0);
 
   useEffect(() => {
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -31,20 +30,16 @@ export function MotionProvider({ children }: { children: React.ReactNode }) {
       wheelMultiplier: 0.9,
     });
 
-    const raf = (time: number) => {
-      instance.raf(time);
-      rafRef.current = requestAnimationFrame(raf);
-    };
-    rafRef.current = requestAnimationFrame(raf);
-
-    instance.on("scroll", ScrollTrigger.update);
-    gsap.ticker.add((time) => instance.raf(time * 1000));
+    // Single RAF source: GSAP ticker drives Lenis. Avoid dual-RAF (Lenis docs).
+    const tick = (time: number) => instance.raf(time * 1000);
+    gsap.ticker.add(tick);
     gsap.ticker.lagSmoothing(0);
+    instance.on("scroll", ScrollTrigger.update);
 
     setLenis(instance);
 
     return () => {
-      cancelAnimationFrame(rafRef.current);
+      gsap.ticker.remove(tick);
       instance.destroy();
       setLenis(null);
     };

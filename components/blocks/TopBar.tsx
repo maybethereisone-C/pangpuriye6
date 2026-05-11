@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import { useMenu } from "./MenuProvider";
 
 export function TopBar({ total }: { total: number }) {
@@ -33,13 +34,13 @@ export function TopBar({ total }: { total: number }) {
         aria-label="Pangpuriye home"
         className="flex items-center gap-2 text-[var(--color-accent-red)]"
       >
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
+        <Image
           src="/images/logo.svg"
           alt=""
           aria-hidden
           width={28}
           height={28}
+          unoptimized
           className="block h-7 w-7"
         />
         <span className="font-[family-name:var(--font-mono-loaded)] sr-only text-xs uppercase tracking-[0.2em]">
