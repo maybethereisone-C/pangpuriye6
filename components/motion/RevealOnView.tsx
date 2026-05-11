@@ -6,9 +6,6 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { DURATION, EASE, prefersReducedMotion, splitWords } from "@/lib/anim";
 
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
-}
 
 /**
  * Reveal-on-view wrapper. Plays forward on scroll-down enter, reverses on

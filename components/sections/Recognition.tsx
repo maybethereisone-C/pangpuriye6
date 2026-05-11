@@ -23,6 +23,12 @@ export function Recognition({ data }: { data: SiteData["recognition"] }) {
           </p>
         </header>
 
+        {data.awards.length === 0 && data.milestones.length === 0 && (
+          <p className="mt-12 font-[family-name:var(--font-mono-loaded)] text-xs uppercase tracking-[0.2em] text-[var(--color-fg-muted)]">
+            Awards &amp; milestones drop at the showcase — check back then.
+          </p>
+        )}
+
         {(data.awards.length > 0 || data.milestones.length > 0) && (
           <div className="mt-12 grid grid-cols-1 gap-12 md:grid-cols-12">
             <ul className="space-y-6 md:col-span-7">

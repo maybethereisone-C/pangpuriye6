@@ -19,7 +19,7 @@
   --color-ink-gray-700: rgba(26, 26, 26, 0.68);
   --color-ink-gray-300: rgba(26, 26, 26, 0.16);
   --color-accent-red: #c1121f;
-  --color-accent-red-deep: #5e0006;
+  --color-accent-red-deep: #780000;
   --color-accent-red-warm: #9b0d06;
   --color-accent-red-orange: #d53e0f;
   --color-accent-gold: #d4a373;
@@ -107,6 +107,16 @@ section[data-section] {
   height: 100svh;
   position: relative;
   overflow: hidden;
+}
+
+/* Hero anim targets default to visible — GSAP overrides to opacity:0 on mount,
+   but SSR output and the pre-JS window stay readable. */
+[data-anim="hero-title"],
+[data-anim="hero-eyebrow"],
+[data-anim="hero-motto"],
+[data-anim="hero-cta"],
+[data-anim="hero-photo"] {
+  opacity: 1;
 }
 
 /* typography defaults */
@@ -226,6 +236,9 @@ a[role="button"]:active,
   --text-h2-max: 88px;
   --text-hero-min: 56px;
   --text-hero-max: 144px;
+
+  /* topbar height — used to offset fixed bar from section content */
+  --topbar-h: 56px;
 
   /* layout */
   --grid-margin-desktop: 80px;

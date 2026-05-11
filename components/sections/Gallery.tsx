@@ -58,9 +58,15 @@ export function Gallery({ items }: { items: GalleryItem[] }) {
                 <li
                   key={item.id}
                   data-anim="reveal-item"
-                  className={`group cursor-pointer ${idx === 0 ? "md:col-span-8" : "md:col-span-4"}`}
-                  onClick={() => setSelected(item)}
+                  className={`group ${idx === 0 ? "md:col-span-8" : "md:col-span-4"}`}
                 >
+                  <button
+                    type="button"
+                    className="w-full cursor-pointer text-left"
+                    onClick={() => setSelected(item)}
+                    onKeyDown={(e) => e.key === "Enter" && setSelected(item)}
+                    aria-label={`View gallery: ${item.title}`}
+                  >
                   <figure>
                     <div data-anim="reveal-photo" className="relative aspect-[4/3] overflow-hidden bg-[var(--color-hairline)]/30">
                       <GalleryThumb item={item} idx={idx} />
@@ -74,6 +80,7 @@ export function Gallery({ items }: { items: GalleryItem[] }) {
                       {item.title} · {item.date}
                     </figcaption>
                   </figure>
+                  </button>
                 </li>
               ))}
             </ul>

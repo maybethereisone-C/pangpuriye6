@@ -20,29 +20,29 @@ export function Clips({ data }: { data: SiteData["clips"] }) {
           <h2 data-anim="reveal-title" className="mt-2 font-[family-name:var(--font-display-loaded)]">Videos</h2>
         </header>
 
-        <article className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-12">
-          <div data-anim="reveal-photo" className="group relative aspect-video cursor-pointer overflow-hidden bg-[var(--color-hairline)]/30 md:col-span-8">
-            <div className="absolute inset-0 transition-transform duration-500 group-hover:scale-[1.03]" />
-            <span className="absolute bottom-4 left-4 font-[family-name:var(--font-mono-loaded)] text-[10px] uppercase tracking-[0.2em] text-[var(--color-ink-cream)] mix-blend-difference">
-              FEATURED · {data.featured.duration}
-            </span>
-          </div>
-          <div className="md:col-span-4">
-            <p data-anim="reveal-body" className="font-[family-name:var(--font-mono-loaded)] text-[10px] uppercase tracking-[0.2em] text-[var(--color-accent-red)]">
-              {data.featured.topic.toUpperCase()} · {data.featured.date}
-            </p>
-            <h3 data-anim="reveal-body" className="mt-2 font-[family-name:var(--font-display-loaded)] text-2xl font-bold">
-              {data.featured.title}
-            </h3>
-            <p data-anim="reveal-body" className="mt-3 font-[family-name:var(--font-mono-loaded)] text-sm text-[var(--color-fg-soft)]">
-              {data.featured.speaker}
-            </p>
-          </div>
-        </article>
-
-        {data.list.length === 0 && (
-          <p className="mt-12 font-[family-name:var(--font-mono-loaded)] text-sm text-[var(--color-ink-gray-700)]">
-            // STATUS: secondary clips hydrate during Phase 05.
+        {data.featured.url !== "#" ? (
+          <article className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-12">
+            <div data-anim="reveal-photo" className="group relative aspect-video cursor-pointer overflow-hidden bg-[var(--color-hairline)]/30 md:col-span-8">
+              <div className="absolute inset-0 transition-transform duration-500 group-hover:scale-[1.03]" />
+              <span className="absolute bottom-4 left-4 font-[family-name:var(--font-mono-loaded)] text-[10px] uppercase tracking-[0.2em] text-[var(--color-ink-cream)] mix-blend-difference">
+                FEATURED · {data.featured.duration}
+              </span>
+            </div>
+            <div className="md:col-span-4">
+              <p data-anim="reveal-body" className="font-[family-name:var(--font-mono-loaded)] text-[10px] uppercase tracking-[0.2em] text-[var(--color-accent-red)]">
+                {data.featured.topic.toUpperCase()} · {data.featured.date}
+              </p>
+              <h3 data-anim="reveal-body" className="mt-2 font-[family-name:var(--font-display-loaded)] text-2xl font-bold">
+                {data.featured.title}
+              </h3>
+              <p data-anim="reveal-body" className="mt-3 font-[family-name:var(--font-mono-loaded)] text-sm text-[var(--color-fg-soft)]">
+                {data.featured.speaker}
+              </p>
+            </div>
+          </article>
+        ) : (
+          <p className="mt-12 font-[family-name:var(--font-mono-loaded)] text-xs uppercase tracking-[0.2em] text-[var(--color-fg-muted)]">
+            Clips drop after the showcase — check back then.
           </p>
         )}
       </div>

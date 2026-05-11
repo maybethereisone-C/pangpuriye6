@@ -5,8 +5,6 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-gsap.registerPlugin(ScrollTrigger);
-
 type JourneyStep = { date: string; title: string; desc: string; side: "left" | "right"; dot: "red" | "gold" | "now" };
 
 const JOURNEY: JourneyStep[] = [
