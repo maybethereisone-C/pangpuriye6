@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Space_Grotesk, IBM_Plex_Mono } from "next/font/google";
 import localFont from "next/font/local";
 import { MotionProvider } from "@/components/motion/MotionProvider";
+import { SnapPaginator } from "@/components/motion/SnapPaginator";
 import "./globals.css";
 
 const spaceGrotesk = Space_Grotesk({
@@ -71,6 +72,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     >
       <body>
         <MotionProvider>
+          <SnapPaginator />
           <main>{children}</main>
         </MotionProvider>
       </body>
