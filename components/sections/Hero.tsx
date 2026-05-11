@@ -1,3 +1,4 @@
+import Image from "next/image";
 import type { SiteData } from "@/lib/site-data";
 
 /**
@@ -33,7 +34,8 @@ export function Hero({ data }: { data: SiteData["hero"] }) {
               href={data.cta_primary.href}
               role="button"
               data-magnetic
-              className="bg-[var(--color-fg)] px-8 py-4 font-[family-name:var(--font-mono-loaded)] text-xs uppercase tracking-[0.2em] text-[var(--color-bg)] hover:bg-[var(--color-accent-red)] hover:text-white"
+              style={{ backgroundColor: "var(--color-fg)", color: "var(--color-bg)" }}
+              className="px-8 py-4 font-[family-name:var(--font-mono-loaded)] text-xs uppercase tracking-[0.2em] hover:!bg-[var(--color-accent-red)] hover:!text-white"
             >
               {data.cta_primary.label}
             </a>
@@ -41,7 +43,8 @@ export function Hero({ data }: { data: SiteData["hero"] }) {
               href={data.cta_secondary.href}
               role="button"
               data-magnetic
-              className="border border-[var(--color-fg)] px-8 py-4 font-[family-name:var(--font-mono-loaded)] text-xs uppercase tracking-[0.2em] text-[var(--color-fg)] hover:border-[var(--color-accent-red)] hover:text-[var(--color-accent-red)]"
+              style={{ color: "var(--color-fg)", borderColor: "var(--color-fg)" }}
+              className="border px-8 py-4 font-[family-name:var(--font-mono-loaded)] text-xs uppercase tracking-[0.2em] hover:!border-[var(--color-accent-red)] hover:!text-[var(--color-accent-red)]"
             >
               {data.cta_secondary.label}
             </a>
@@ -49,12 +52,16 @@ export function Hero({ data }: { data: SiteData["hero"] }) {
         </div>
 
         <div className="md:col-span-5">
-          {/* photo-frame placeholder — Phase 03: real photo + corner crop marks + caption */}
-          <div className="relative aspect-[4/5] w-full border border-[var(--color-hairline)] bg-[var(--color-hairline)]/30">
-            <span className="absolute -top-1 -left-1 h-3 w-3 border-t border-l border-[var(--color-accent-gold)]" />
-            <span className="absolute -top-1 -right-1 h-3 w-3 border-t border-r border-[var(--color-accent-gold)]" />
-            <span className="absolute -bottom-1 -left-1 h-3 w-3 border-b border-l border-[var(--color-accent-gold)]" />
-            <span className="absolute -bottom-1 -right-1 h-3 w-3 border-b border-r border-[var(--color-accent-gold)]" />
+          <div className="relative grid aspect-[4/5] w-full place-items-center">
+            <Image
+              src="/images/logo.svg"
+              alt="Pangpuriye logo"
+              width={400}
+              height={500}
+              unoptimized
+              priority
+              className="block h-[70%] w-[70%] object-contain"
+            />
           </div>
           <p className="mt-3 font-[family-name:var(--font-mono-loaded)] text-[11px] uppercase tracking-[0.2em] text-[var(--color-fg-soft)]">
             FIG.01 · COHORT_PRIME · 2026.05

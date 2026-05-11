@@ -4,19 +4,19 @@ import { useEffect, useRef } from "react";
 import { useTheme } from "./ThemeProvider";
 
 /**
- * Particle background — subtle floating specks behind content.
+ * ParticleBackground — animated flow-field of specks behind content.
  *
  * Reference DNA: https://medium.com/hackernoon/playing-with-particles-part-2-9a4804091024
  *
- * Behavior:
- *   - Renders a fixed full-viewport <canvas> beneath all content (z below 0).
- *   - ~60 particles, slow drift, low alpha. Density scales with viewport area.
- *   - Color is theme-aware: red glow on light bg, warm cream on dark bg.
- *   - Cursor proximity nudges nearby particles outward (low-intensity).
- *   - Disabled under prefers-reduced-motion: reduce.
- *   - Pauses on document.hidden to save battery.
- *
- * Performance budget: ~0.3ms/frame on M-series, single requestAnimationFrame loop.
+ * Behavior (livable + visible):
+ *   - Higher particle count + larger radius so the field reads against bg
+ *   - Pseudo-Perlin flow field: particles follow a slowly-rotating noise field
+ *     producing organic curving paths (claude.com / lusion.co coded)
+ *   - Cursor proximity push (low intensity, kept from v1)
+ *   - Connecting lines between near particles (sparse)
+ *   - Theme-aware color: surgical red on light bg, warm cream on dark bg
+ *   - Disabled under prefers-reduced-motion
+ *   - Pauses on document.hidden (battery)
  */
 export function ParticleBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -36,6 +36,7 @@ export function ParticleBackground() {
     let dpr = Math.min(window.devicePixelRatio || 1, 2);
     let rafId = 0;
     let paused = false;
+    let t = 0;
 
     const mouse = { x: -9999, y: -9999 };
 
@@ -46,16 +47,19 @@ export function ParticleBackground() {
       vy: number;
       r: number;
       a: number;
+      seed: number;
     }
 
-    const COUNT = Math.min(80, Math.round((width * height) / 22000));
+    // Density scales with viewport area; cap for perf.
+    const COUNT = Math.min(140, Math.round((width * height) / 14000));
     const particles: P[] = Array.from({ length: COUNT }, () => ({
       x: Math.random() * width,
       y: Math.random() * height,
-      vx: (Math.random() - 0.5) * 0.18,
-      vy: (Math.random() - 0.5) * 0.18,
-      r: 0.6 + Math.random() * 1.6,
-      a: 0.15 + Math.random() * 0.35,
+      vx: (Math.random() - 0.5) * 0.4,
+      vy: (Math.random() - 0.5) * 0.4,
+      r: 1.0 + Math.random() * 2.4,
+      a: 0.35 + Math.random() * 0.4,
+      seed: Math.random() * 1000,
     }));
 
     const resize = () => {
@@ -73,14 +77,20 @@ export function ParticleBackground() {
       mouse.x = e.clientX;
       mouse.y = e.clientY;
     };
-
     const onMouseLeave = () => {
       mouse.x = -9999;
       mouse.y = -9999;
     };
-
     const onVisibility = () => {
       paused = document.hidden;
+    };
+
+    // Pseudo-noise flow field — simple multi-octave sine soup. Fast enough.
+    const flow = (x: number, y: number, time: number): number => {
+      const a = Math.sin(x * 0.0035 + time * 0.0007) * Math.cos(y * 0.004 + time * 0.0005);
+      const b = Math.cos(x * 0.007 - time * 0.0009) * Math.sin(y * 0.006 + time * 0.0008);
+      // Returns angle (radians) in roughly [-π, π]
+      return (a + b * 0.6) * Math.PI;
     };
 
     const draw = () => {
@@ -88,29 +98,46 @@ export function ParticleBackground() {
         rafId = requestAnimationFrame(draw);
         return;
       }
+      t += 1;
 
       ctx.clearRect(0, 0, width, height);
 
-      // Theme-aware color — surgical red dots (RGB) so theme reads "red house".
+      // Theme-aware color — RED house theme reads through.
       const baseColor = resolved === "dark" ? "238, 217, 185" : "193, 18, 31";
 
       // 1) Update + draw particles
       for (const p of particles) {
-        // Cursor push (low intensity)
+        // Flow field acceleration
+        const angle = flow(p.x, p.y, t + p.seed);
+        const flowF = 0.06;
+        p.vx += Math.cos(angle) * flowF;
+        p.vy += Math.sin(angle) * flowF;
+
+        // Cursor push
         const dx = p.x - mouse.x;
         const dy = p.y - mouse.y;
         const dist2 = dx * dx + dy * dy;
-        if (dist2 < 14400) {
-          const f = 0.06 * (1 - dist2 / 14400);
-          p.vx += (dx / Math.sqrt(dist2)) * f;
-          p.vy += (dy / Math.sqrt(dist2)) * f;
+        if (dist2 < 22500) {
+          const dist = Math.sqrt(dist2);
+          const f = 0.22 * (1 - dist2 / 22500);
+          p.vx += (dx / dist) * f;
+          p.vy += (dy / dist) * f;
         }
-        // Drift
+
+        // Speed cap
+        const sp = Math.hypot(p.vx, p.vy);
+        const cap = 1.4;
+        if (sp > cap) {
+          p.vx = (p.vx / sp) * cap;
+          p.vy = (p.vy / sp) * cap;
+        }
+
+        // Drift + drag
         p.x += p.vx;
         p.y += p.vy;
-        // Drag toward zero velocity
-        p.vx *= 0.985;
-        p.vy *= 0.985;
+        p.vx *= 0.96;
+        p.vy *= 0.96;
+
         // Wrap edges
         if (p.x < -10) p.x = width + 10;
         if (p.x > width + 10) p.x = -10;
@@ -123,8 +150,9 @@ export function ParticleBackground() {
         ctx.fill();
       }
 
-      // 2) Connecting lines between near particles (sparse)
-      ctx.lineWidth = 0.4;
+      // 2) Connecting lines between near particles
+      ctx.lineWidth = 0.6;
+      const linkDist2 = 13000;
       for (let i = 0; i < particles.length; i++) {
         const a = particles[i];
         for (let j = i + 1; j < particles.length; j++) {
@@ -132,8 +160,8 @@ export function ParticleBackground() {
           const dx = a.x - b.x;
           const dy = a.y - b.y;
           const d2 = dx * dx + dy * dy;
-          if (d2 < 9000) {
-            const alpha = 0.14 * (1 - d2 / 9000);
+          if (d2 < linkDist2) {
+            const alpha = 0.28 * (1 - d2 / linkDist2);
             ctx.strokeStyle = `rgba(${baseColor}, ${alpha})`;
             ctx.beginPath();
             ctx.moveTo(a.x, a.y);
@@ -167,7 +195,6 @@ export function ParticleBackground() {
       ref={canvasRef}
       aria-hidden
       className="pointer-events-none fixed inset-0 z-0"
-      style={{ mixBlendMode: "normal" }}
     />
   );
 }
