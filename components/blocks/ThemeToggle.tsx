@@ -5,9 +5,9 @@ import { useTheme, type Theme } from "@/components/motion/ThemeProvider";
 const ORDER: Theme[] = ["light", "dark", "system"];
 
 const LABEL: Record<Theme, string> = {
-  light: "Light",
-  dark: "Dark",
-  system: "Auto",
+  light: "Light theme",
+  dark: "Dark theme",
+  system: "System theme",
 };
 
 function Icon({ name }: { name: Theme }) {
@@ -42,7 +42,7 @@ export function ThemeToggle() {
     <div
       role="radiogroup"
       aria-label="Theme"
-      className="relative inline-flex items-center gap-0.5 rounded-full border p-1 font-[family-name:var(--font-mono-loaded)] text-[10px] uppercase tracking-[0.18em]"
+      className="relative inline-flex items-center gap-1 rounded-full border p-1"
       style={{ borderColor: "var(--color-hairline)" }}
     >
       {ORDER.map((t) => {
@@ -53,12 +53,12 @@ export function ThemeToggle() {
             type="button"
             role="radio"
             aria-checked={active}
-            aria-label={`${LABEL[t]} theme`}
+            aria-label={LABEL[t]}
+            title={LABEL[t]}
             onClick={() => setTheme(t)}
-            className="theme-pill relative flex h-7 items-center gap-1.5 rounded-full px-3 transition-colors duration-200"
+            className="theme-pill grid h-8 w-8 place-items-center rounded-full transition-colors duration-200"
           >
             <Icon name={t} />
-            <span>{LABEL[t]}</span>
           </button>
         );
       })}
