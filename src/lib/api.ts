@@ -125,7 +125,8 @@ async function loadConfig(): Promise<ApiConfig> {
 }
 
 function getBaseUrl(): string | null {
-  return process.env.NEXT_PUBLIC_API_BASE_URL ?? null;
+  const url = process.env.API_BASE_URL || process.env.NEXT_PUBLIC_API_BASE_URL;
+  return url || null;
 }
 
 function getAuthHeaders(): Record<string, string> {
