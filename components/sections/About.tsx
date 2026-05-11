@@ -20,7 +20,7 @@ export function About({ data }: { data: SiteData["about"] }) {
           <div className="grid grid-cols-1 gap-[var(--grid-gutter-mobile)] md:grid-cols-12 md:gap-[var(--grid-gutter-tablet)] md:items-center lg:gap-[var(--grid-gutter-desktop)]">
             <div className="md:col-span-7">
               <header>
-                <h2 data-anim="reveal-title" className="font-[family-name:var(--font-display-loaded)]">About Pangpuriye</h2>
+                <h2 data-anim="reveal-title" className="font-[family-name:var(--font-display-loaded)]">About Pang</h2>
               </header>
 
               <article className="mt-6">

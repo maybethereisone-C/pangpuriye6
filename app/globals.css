@@ -102,9 +102,9 @@ main {
   z-index: 2;
 }
 
-/* full-viewport section shell — pagination handled by SnapPaginator (JS) */
+/* full-viewport section shell */
 section[data-section] {
-  height: 100svh;
+  min-height: 100svh;
   position: relative;
   overflow: hidden;
 }

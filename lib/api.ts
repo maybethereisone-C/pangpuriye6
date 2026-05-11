@@ -53,9 +53,18 @@ interface RawApiMember {
   gmail: string[] | null;
   call: string;
   image: string;
+  role?: string;
 }
 
 const URL_RE = /^https?:\/\//;
+
+/** Capitalizes the first letter of every word in a string. */
+function capitalizeWords(s: string): string {
+  return s
+    .split(" ")
+    .map((w) => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase())
+    .join(" ");
+}
 
 function normalizeVideoLink(raw: string): string | null {
   const s = raw.trim();
@@ -80,14 +89,15 @@ function normalizeApiMember(raw: RawApiMember): Member | null {
 
   return {
     aiat_id: raw.aiat_id,
-    fullname: raw.fullname,
-    nickname: raw.nickname,
+    fullname: capitalizeWords(raw.fullname),
+    nickname: capitalizeWords(raw.nickname),
     slogan: raw.slogan,
     interesting,
     video_links,
     gmail: raw.gmail ?? [],
     call: raw.call || null,
     image: raw.image || null,
+    role: raw.role,
   };
 }
 

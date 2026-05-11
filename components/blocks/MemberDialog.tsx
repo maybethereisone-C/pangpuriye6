@@ -20,15 +20,24 @@ export function MemberDialog({
 
   useEffect(() => {
     const el = nameRef.current;
-    if (!el) return;
+    if (!el || !open) return;
     el.style.fontSize = `${NAME_MAX_PX}px`;
-    requestAnimationFrame(() => {
-      let size = NAME_MAX_PX;
-      while (el.scrollWidth > el.offsetWidth && size > NAME_MIN_PX) {
-        size -= 1;
-        el.style.fontSize = `${size}px`;
-      }
+    // Double rAF: first frame commits mount, second frame has layout ready
+    let raf1: number;
+    let raf2: number;
+    raf1 = requestAnimationFrame(() => {
+      raf2 = requestAnimationFrame(() => {
+        let size = NAME_MAX_PX;
+        while (el.scrollWidth > el.offsetWidth && size > NAME_MIN_PX) {
+          size -= 1;
+          el.style.fontSize = `${size}px`;
+        }
+      });
     });
+    return () => {
+      cancelAnimationFrame(raf1);
+      cancelAnimationFrame(raf2);
+    };
   }, [member?.fullname, open]);
 
   return (

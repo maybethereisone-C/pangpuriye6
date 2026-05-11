@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import type { Member } from "@/lib/site-data";
 import { PLACEHOLDER_MEMBER_ID } from "@/lib/site-data";
 import { MemberDialog } from "@/components/blocks/MemberDialog";
@@ -12,38 +12,130 @@ export function Members({ members }: { members: Member[] }) {
   const isMock = members.length === 1 && members[0]?.aiat_id === PLACEHOLDER_MEMBER_ID;
   const [selected, setSelected] = useState<Member | null>(null);
 
+  // Duplicate for seamless infinite loop
+  const looped = [...members, ...members];
+
+  const trackRef = useRef<HTMLUListElement>(null);
+  const rafRef = useRef<number>(0);
+  const xRef = useRef(0);
+  const speedRef = useRef(0); // starts at 0, ramps up
+  const hovering = useRef(false);
+
+  // We store settings in a ref that updates every render so Hot Module Replacement (HMR) picks up live edits!
+  const settings = useRef({ speed: 2, lerp: 0.05 });
+  settings.current = { speed: 2, lerp: 0.05 }; // Change this to 4 or 5 if you want it faster, it will update instantly now.
+
+  const handleManualScroll = (direction: "left" | "right") => {
+    const kick = 30; // ~600px scroll distance over time
+    if (direction === "left") {
+      speedRef.current = -kick;
+    } else {
+      speedRef.current = kick;
+    }
+  };
+
+  useEffect(() => {
+    const el = trackRef.current;
+    if (!el) return;
+
+    function tick() {
+      const target = hovering.current ? 0 : settings.current.speed;
+      speedRef.current += (target - speedRef.current) * settings.current.lerp;
+
+      xRef.current -= speedRef.current;
+
+      // Wrap using modulo — works at any speed, even > halfWidth per frame
+      const halfWidth = el!.scrollWidth / 2;
+      if (xRef.current <= -halfWidth) {
+        xRef.current = xRef.current % halfWidth;
+      } else if (xRef.current > 0) {
+        xRef.current = (xRef.current % halfWidth) - halfWidth;
+      }
+
+      el!.style.transform = `translateX(${xRef.current}px)`;
+      rafRef.current = requestAnimationFrame(tick);
+    }
+
+    rafRef.current = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(rafRef.current);
+  }, []);
+
   return (
     <section
       id="members"
       data-section="03-members"
       data-section-index="3"
-      className="grid"
+      className="grid relative"
       style={{ height: "auto", minHeight: "100svh" }}
     >
-     <RevealOnView>
-      <div className="mx-auto w-full max-w-[var(--grid-max-width)] px-[var(--grid-margin-mobile)] pt-24 pb-24 md:px-[var(--grid-margin-tablet)] md:pt-32 lg:px-[var(--grid-margin-desktop)]">
-        <header>
-          <p data-anim="reveal-eyebrow" className="font-[family-name:var(--font-mono-loaded)] text-xs uppercase tracking-[0.2em] text-[var(--color-accent-red)]">
-            MEMBERS
-          </p>
-          <h2 data-anim="reveal-title" className="mt-2 font-[family-name:var(--font-display-loaded)]">Cohort Roster</h2>
-          <p data-anim="reveal-body" className="mt-2 font-[family-name:var(--font-mono-loaded)] text-sm text-[var(--color-fg-soft)]">
-            {members.length} members
-          </p>
-        </header>
+      <RevealOnView>
+        <div className="mx-auto w-full max-w-[var(--grid-max-width)] px-[var(--grid-margin-mobile)] pt-24 pb-8 md:px-[var(--grid-margin-tablet)] md:pt-32 lg:px-[var(--grid-margin-desktop)]">
+          <header>
+            <p data-anim="reveal-eyebrow" className="font-[family-name:var(--font-mono-loaded)] text-xs uppercase tracking-[0.2em] text-[var(--color-accent-red)]">
+              MEMBERS
+            </p>
+            <h2 data-anim="reveal-title" className="mt-2 font-[family-name:var(--font-display-loaded)]">Cohort Roster</h2>
+            <p data-anim="reveal-body" className="mt-2 font-[family-name:var(--font-mono-loaded)] text-sm text-[var(--color-fg-soft)]">
+              {members.length} members
+            </p>
+          </header>
+        </div>
+      </RevealOnView>
 
-        <ul className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-          {members.map((m) => (
+      {/* Infinite horizontal scroll ticker — JS-driven for smooth hover deceleration */}
+      <div
+        className="relative z-30 pb-24"
+        style={{
+          overflow: "hidden",
+          WebkitMaskImage:
+            "linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%)",
+          maskImage:
+            "linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%)",
+        }}
+      >
+        <ul
+          ref={trackRef}
+          style={{
+            display: "flex",
+            gap: "1.5rem",
+            width: "max-content",
+            willChange: "transform",
+          }}
+          aria-label="Member cards"
+        >
+          {looped.map((m, i) => (
             <MemberCard
-              key={m.aiat_id}
+              key={`${m.aiat_id}-${i}`}
               member={m}
               isMock={isMock}
               onOpen={() => setSelected(m)}
+              hovering={hovering}
             />
           ))}
         </ul>
       </div>
-     </RevealOnView>
+
+      {/* Scroll controls */}
+      <div className="absolute bottom-4 right-4 z-20 flex gap-2 md:bottom-8 md:right-8">
+        <button
+          onClick={() => handleManualScroll("left")}
+          className="grid h-12 w-12 place-items-center border border-[var(--color-hairline)] bg-[var(--color-bg)] text-[var(--color-fg)] transition-colors hover:border-[var(--color-accent-red)] hover:text-[var(--color-accent-red)]"
+          aria-label="Scroll left"
+        >
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+            <path d="m15 18-6-6 6-6"/>
+          </svg>
+        </button>
+        <button
+          onClick={() => handleManualScroll("right")}
+          className="grid h-12 w-12 place-items-center border border-[var(--color-hairline)] bg-[var(--color-bg)] text-[var(--color-fg)] transition-colors hover:border-[var(--color-accent-red)] hover:text-[var(--color-accent-red)]"
+          aria-label="Scroll right"
+        >
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+            <path d="m9 18 6-6-6-6"/>
+          </svg>
+        </button>
+      </div>
 
       <MemberDialog
         member={selected}
@@ -58,16 +150,21 @@ function MemberCard({
   member: m,
   isMock,
   onOpen,
+  hovering,
 }: {
   member: Member;
   isMock: boolean;
   onOpen: () => void;
+  hovering: React.MutableRefObject<boolean>;
 }) {
   return (
     <li
       data-magnetic
       data-anim="reveal-item"
       className="group relative flex flex-col border border-[var(--color-hairline)] bg-[var(--color-bg)] transition-colors hover:border-[var(--color-accent-red)]"
+      style={{ width: "280px", flexShrink: 0 }}
+      onMouseEnter={() => { hovering.current = true; }}
+      onMouseLeave={() => { hovering.current = false; }}
     >
       <button
         type="button"
@@ -84,7 +181,13 @@ function MemberCard({
             isMock ? "text-[var(--color-fg-soft)]" : "text-[var(--color-accent-red)]"
           }
         >
-          {isMock ? "MOCK" : "ACTIVE"}
+          {isMock 
+            ? "MOCK" 
+            : (m.role?.toLowerCase() === "chairman" 
+                ? "CAPTAIN" 
+                : m.role?.toLowerCase() === "vice-chairman" 
+                  ? "VICE" 
+                  : "MEMBER")}
         </span>
       </div>
 

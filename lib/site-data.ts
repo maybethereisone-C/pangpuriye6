@@ -43,6 +43,8 @@ export interface Member {
   github_url?: string;
   /** ลิงค์ LinkedIn (form-only) */
   linkedin_url?: string;
+  /** บทบาท (e.g. chairman, vice-chairman) */
+  role?: string;
 }
 
 export interface GalleryItem {

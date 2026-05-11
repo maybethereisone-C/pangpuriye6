@@ -12,7 +12,6 @@ import { MenuOverlay } from "@/components/blocks/MenuOverlay";
 import { ProgressBar } from "@/components/motion/ProgressBar";
 import { TopBar } from "@/components/blocks/TopBar";
 import { Cursor } from "@/components/motion/Cursor";
-import { SnapPaginator } from "@/components/motion/SnapPaginator";
 
 export default async function Page() {
   const data = await getSiteData();
@@ -20,7 +19,6 @@ export default async function Page() {
   return (
     <>
       <Cursor />
-      <SnapPaginator />
       <ProgressBar />
       <TopBar />
       <MenuOverlay footer={data.footer} />
