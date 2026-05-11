@@ -9,7 +9,7 @@ export function Others({ items }: { items: SiteData["others"]["items"] }) {
       data-section="07-others"
       data-section-index="7"
       className="grid"
-      style={{ height: "auto", minHeight: "100svh", scrollSnapAlign: "start" }}
+      style={{ height: "auto", minHeight: "100svh" }}
     >
       <RevealOnView>
         <div className="mx-auto w-full max-w-[var(--grid-max-width)] px-[var(--grid-margin-mobile)] py-24 md:px-[var(--grid-margin-desktop)]">

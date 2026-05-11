@@ -9,7 +9,7 @@ export function Clips({ data }: { data: SiteData["clips"] }) {
       data-section="06-clips"
       data-section-index="6"
       className="grid"
-      style={{ height: "auto", minHeight: "100svh", scrollSnapAlign: "start" }}
+      style={{ height: "auto", minHeight: "100svh" }}
     >
      <RevealOnView>
       <div className="mx-auto w-full max-w-[var(--grid-max-width)] px-[var(--grid-margin-mobile)] py-24 md:px-[var(--grid-margin-desktop)]">
