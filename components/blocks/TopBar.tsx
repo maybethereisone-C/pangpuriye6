@@ -28,9 +28,24 @@ export function TopBar({ total }: { total: number }) {
 
   return (
     <header className="fixed top-0 left-0 z-50 flex w-full items-center justify-between px-[var(--grid-margin-mobile)] py-4 md:px-[var(--grid-margin-desktop)]">
-      <span className="font-[family-name:var(--font-display-loaded)] text-2xl font-bold text-[var(--color-accent-red)]">
-        P
-      </span>
+      <a
+        href="#home"
+        aria-label="Pangpuriye home"
+        className="flex items-center gap-2 text-[var(--color-accent-red)]"
+      >
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/images/logo.svg"
+          alt=""
+          aria-hidden
+          width={28}
+          height={28}
+          className="block h-7 w-7"
+        />
+        <span className="font-[family-name:var(--font-mono-loaded)] sr-only text-xs uppercase tracking-[0.2em]">
+          Pangpuriye
+        </span>
+      </a>
       <span className="font-[family-name:var(--font-mono-loaded)] text-xs uppercase tracking-[0.2em] text-[var(--color-fg)]">
         {String(current).padStart(2, "0")} / {String(total).padStart(2, "0")}
       </span>
@@ -38,7 +53,7 @@ export function TopBar({ total }: { total: number }) {
         type="button"
         onClick={toggle}
         aria-label="Open menu"
-        className="font-[family-name:var(--font-mono-loaded)] text-xs uppercase tracking-[0.2em] text-[var(--color-fg)] transition-colors hover:text-[var(--color-accent-red)]"
+        className="font-[family-name:var(--font-mono-loaded)] text-xs uppercase tracking-[0.2em] text-[var(--color-fg)] hover:text-[var(--color-accent-red)]"
       >
         Menu
       </button>

@@ -22,6 +22,18 @@ assets/
 *.local.json
 public/api-config.local.json
 
+# Non-runtime — planning docs, design docs, agent ops files
+# Stay on disk locally so gsd workflow + Claude charter work, but never deploy
+.planning/
+docs/
+CLAUDE.md
+LICENSE.fonts.md
+
+# Reference media (example/preview, not shipped UI)
+public/blendr.mp4
+public/blendr-t*.jpeg
+.playwright-mcp/
+
 # Private — internal API contracts, never commit to public repos
 api/
 **/swagger.json
