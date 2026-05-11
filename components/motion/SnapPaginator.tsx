@@ -86,19 +86,19 @@ export function SnapPaginator() {
     };
 
     /**
-     * Find the section that occupies the most of the current viewport, in case
-     * native scroll has changed which section the user is in.
+     * Find the section that occupies the most viewport pixels.
+     * Center-distance fails for tall sections (Members, Gallery) because their
+     * geometric center drifts far above the viewport as you scroll down —
+     * causing a nearby short section to be picked and trigger a false snap.
      */
     const refreshCurrentIndex = () => {
-      const mid = window.innerHeight / 2;
       let bestIdx = indexRef.current;
-      let bestDist = Infinity;
+      let bestOverlap = -1;
       sections.forEach((s, idx) => {
         const r = s.getBoundingClientRect();
-        const center = (r.top + r.bottom) / 2;
-        const dist = Math.abs(center - mid);
-        if (dist < bestDist) {
-          bestDist = dist;
+        const overlap = Math.max(0, Math.min(r.bottom, window.innerHeight) - Math.max(r.top, 0));
+        if (overlap > bestOverlap) {
+          bestOverlap = overlap;
           bestIdx = idx;
         }
       });
