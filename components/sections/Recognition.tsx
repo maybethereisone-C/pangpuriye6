@@ -18,7 +18,7 @@ export function Recognition({ data }: { data: SiteData["recognition"] }) {
             SEC.05 · RECOGNITION // HALL_OF_FAME
           </p>
           <h2 data-anim="reveal-title" className="mt-2 font-[family-name:var(--font-display-loaded)]">Recognition Archive</h2>
-          <p data-anim="reveal-body" className="mt-6 max-w-3xl text-[var(--text-body)] leading-relaxed text-[var(--color-ink-gray-700)]">
+          <p data-anim="reveal-body" className="mt-6 max-w-3xl text-[var(--text-body)] leading-relaxed text-[var(--color-fg-soft)]">
             {data.lead}
           </p>
         </header>
@@ -31,26 +31,26 @@ export function Recognition({ data }: { data: SiteData["recognition"] }) {
           <div className="mt-12 grid grid-cols-1 gap-12 md:grid-cols-12">
             <ul className="space-y-6 md:col-span-7">
               {data.awards.map((a) => (
-                <li key={a.code} data-anim="reveal-item" className="border border-[var(--color-ink-gray-300)] p-6">
+                <li key={a.code} data-anim="reveal-item" className="border border-[var(--color-hairline)] p-6 transition-colors hover:border-[var(--color-accent-red)]">
                   <p className="font-[family-name:var(--font-mono-loaded)] text-[10px] uppercase tracking-[0.2em] text-[var(--color-accent-red)]">
                     {a.code}
                   </p>
                   <h3 className="mt-2 font-[family-name:var(--font-display-loaded)] text-2xl font-bold">
                     {a.title}
                   </h3>
-                  <p className="mt-3 text-[var(--color-ink-gray-700)]">{a.description}</p>
+                  <p className="mt-3 text-[var(--color-fg-soft)]">{a.description}</p>
                 </li>
               ))}
             </ul>
             <ol className="md:col-span-5">
               {data.milestones.map((m, idx) => (
-                <li key={m.title} data-anim="reveal-item" className="flex gap-4 border-b border-[var(--color-ink-gray-300)] py-4">
+                <li key={m.title} data-anim="reveal-item" className="flex gap-4 border-b border-[var(--color-hairline)] py-4 transition-colors hover:border-[var(--color-accent-red)]/40">
                   <span className="font-[family-name:var(--font-mono-loaded)] text-2xl font-bold text-[var(--color-accent-red)]">
                     {String(idx + 1).padStart(2, "0")}
                   </span>
                   <div>
                     <p className="font-bold">{m.title}</p>
-                    <p className="text-sm text-[var(--color-ink-gray-700)]">{m.description}</p>
+                    <p className="text-sm text-[var(--color-fg-soft)]">{m.description}</p>
                   </div>
                 </li>
               ))}
