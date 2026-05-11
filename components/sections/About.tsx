@@ -21,10 +21,7 @@ export function About({ data }: { data: SiteData["about"] }) {
 
         <article className="md:col-span-7">
           <p className="text-[var(--text-lead)] leading-relaxed text-[var(--color-fg-soft)]">
-            <span className="float-left mr-3 text-[var(--text-h2-min)] leading-none font-bold text-[var(--color-accent-red)]">
-              {data.dna_paragraph_1.charAt(0)}
-            </span>
-            {data.dna_paragraph_1.slice(1)}
+            {data.dna_paragraph_1}
           </p>
           <p className="mt-6 leading-relaxed text-[var(--color-fg-soft)]">
             {data.dna_paragraph_2}
