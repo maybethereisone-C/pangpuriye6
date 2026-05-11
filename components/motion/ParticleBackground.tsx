@@ -89,7 +89,6 @@ export function ParticleBackground() {
     const flow = (x: number, y: number, time: number): number => {
       const a = Math.sin(x * 0.0035 + time * 0.0007) * Math.cos(y * 0.004 + time * 0.0005);
       const b = Math.cos(x * 0.007 - time * 0.0009) * Math.sin(y * 0.006 + time * 0.0008);
-      // Returns angle (radians) in roughly [-π, π]
       return (a + b * 0.6) * Math.PI;
     };
 
@@ -107,11 +106,18 @@ export function ParticleBackground() {
 
       // 1) Update + draw particles
       for (const p of particles) {
-        // Flow field acceleration
-        const angle = flow(p.x, p.y, t + p.seed);
+        // Flow field — each particle samples a seed-shifted position so
+        // particles in the same spatial region see different vectors.
+        // This breaks attractor coherence and prevents long-term convergence.
+        const angle = flow(p.x + p.seed * 7, p.y + p.seed * 5, t + p.seed);
         const flowF = 0.06;
         p.vx += Math.cos(angle) * flowF;
         p.vy += Math.sin(angle) * flowF;
+
+        // Thermal noise — small random impulse prevents particles stalling
+        // at flow field fixed points over long sessions.
+        p.vx += (Math.random() - 0.5) * 0.05;
+        p.vy += (Math.random() - 0.5) * 0.05;
 
         // Cursor push
         const dx = p.x - mouse.x;
@@ -132,11 +138,11 @@ export function ParticleBackground() {
           p.vy = (p.vy / sp) * cap;
         }
 
-        // Drift + drag
+        // Drift + drag (0.97 instead of 0.96 — less aggressive energy removal)
         p.x += p.vx;
         p.y += p.vy;
-        p.vx *= 0.96;
-        p.vy *= 0.96;
+        p.vx *= 0.97;
+        p.vy *= 0.97;
 
         // Wrap edges
         if (p.x < -10) p.x = width + 10;
