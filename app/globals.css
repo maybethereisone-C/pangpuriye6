@@ -262,6 +262,18 @@ a[role="button"]:active,
   --font-mono-accent: var(--font-mono-accent-loaded), var(--font-mono-loaded), ui-monospace, monospace;
 }
 
+/* drop caps — Space Grotesk 700, ~5 lines tall. Apply [data-drop-cap] to section lead paragraphs. */
+[data-drop-cap]::first-letter {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 5.4em;
+  line-height: 0.82;
+  float: left;
+  margin-right: 0.08em;
+  margin-top: 0.05em;
+  color: var(--color-fg);
+}
+
 /* respect reduced motion */
 @media (prefers-reduced-motion: reduce) {
   html {

@@ -24,7 +24,7 @@ export function Others({ items }: { items: SiteData["others"]["items"] }) {
             <ul className="mt-12 grid grid-cols-2 gap-4 md:grid-cols-4">
               {items.map((item, idx) => (
                 <li key={idx} data-anim="reveal-item" className="aspect-square border border-[var(--color-hairline)] bg-[var(--color-hairline)]/30 p-4 transition-colors hover:border-[var(--color-accent-red)]">
-                  <p className="font-[family-name:var(--font-mono-loaded)] text-[10px] uppercase tracking-[0.2em] text-[var(--color-accent-red)]">
+                  <p className="font-[family-name:var(--font-mono-loaded)] text-xs uppercase tracking-[0.2em] text-[var(--color-accent-red)]">
                     {item.type === "meme" ? "MEME" : "BRAINSTORM"}
                   </p>
                   <p className="mt-2 text-sm text-[var(--color-fg-soft)]">{item.caption}</p>

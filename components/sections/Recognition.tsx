@@ -18,7 +18,7 @@ export function Recognition({ data }: { data: SiteData["recognition"] }) {
             RECOGNITION
           </p>
           <h2 data-anim="reveal-title" className="mt-2 font-[family-name:var(--font-display-loaded)]">Recognition Archive</h2>
-          <p data-anim="reveal-body" className="mt-6 max-w-3xl text-[var(--text-body)] leading-relaxed text-[var(--color-fg-soft)]">
+          <p data-anim="reveal-body" data-drop-cap className="mt-6 max-w-3xl text-[var(--text-body)] leading-relaxed text-[var(--color-fg-soft)]">
             {data.lead}
           </p>
         </header>
@@ -34,7 +34,7 @@ export function Recognition({ data }: { data: SiteData["recognition"] }) {
             <ul className="space-y-6 md:col-span-7">
               {data.awards.map((a) => (
                 <li key={a.code} data-anim="reveal-item" className="border border-[var(--color-hairline)] p-6 transition-colors hover:border-[var(--color-accent-red)]">
-                  <p className="font-[family-name:var(--font-mono-loaded)] text-[10px] uppercase tracking-[0.2em] text-[var(--color-accent-red)]">
+                  <p className="font-[family-name:var(--font-mono-loaded)] text-xs uppercase tracking-[0.2em] text-[var(--color-accent-red)]">
                     {a.code}
                   </p>
                   <h3 className="mt-2 font-[family-name:var(--font-display-loaded)] text-2xl font-bold">

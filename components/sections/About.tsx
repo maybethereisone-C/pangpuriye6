@@ -24,7 +24,7 @@ export function About({ data }: { data: SiteData["about"] }) {
               </header>
 
               <article className="mt-6">
-                <p className="text-[var(--text-lead)] leading-relaxed text-[var(--color-fg-soft)]">
+                <p data-drop-cap className="text-[var(--text-lead)] leading-relaxed text-[var(--color-fg-soft)]">
                   {data.dna_paragraph_1}
                 </p>
                 <p className="mt-6 leading-relaxed text-[var(--color-fg-soft)]">
@@ -49,7 +49,7 @@ export function About({ data }: { data: SiteData["about"] }) {
                     data-anim="reveal-item"
                     className="aspect-square border border-[var(--color-hairline)] p-4 transition-colors hover:border-[var(--color-accent-red)]"
                   >
-                    <p className="font-[family-name:var(--font-mono-loaded)] text-[10px] uppercase tracking-[0.2em] text-[var(--color-fg-soft)]">
+                    <p className="font-[family-name:var(--font-mono-loaded)] text-xs uppercase tracking-[0.2em] text-[var(--color-fg-soft)]">
                       {card.label}
                     </p>
                     <p className="mt-2 font-[family-name:var(--font-display-loaded)] text-base font-bold">
@@ -66,8 +66,8 @@ export function About({ data }: { data: SiteData["about"] }) {
           {/* — Mission & Vision — */}
           <div className="mt-24 grid grid-cols-1 gap-6 md:grid-cols-2">
             <div data-anim="reveal-item" className="relative overflow-hidden border-l-4 border-[var(--color-accent-red)] p-8" style={{ background: "var(--color-bg)" }}>
-              <span className="absolute top-4 right-4 font-[family-name:var(--font-mono-loaded)] text-[10px] uppercase tracking-[0.2em] text-[var(--color-accent-gold)]">M / 01</span>
-              <p className="font-[family-name:var(--font-mono-loaded)] text-[10px] uppercase tracking-[0.2em] text-[var(--color-accent-red)]">Our Mission</p>
+              <span className="absolute top-4 right-4 font-[family-name:var(--font-mono-loaded)] text-xs uppercase tracking-[0.2em] text-[var(--color-accent-gold)]">M / 01</span>
+              <p className="font-[family-name:var(--font-mono-loaded)] text-xs uppercase tracking-[0.2em] text-[var(--color-accent-red)]">Our Mission</p>
               <h4 className="mt-3 font-[family-name:var(--font-display-loaded)] text-2xl font-bold text-[var(--color-fg)]">Innovate &amp; Solve</h4>
               <p className="mt-3 text-sm leading-relaxed text-[var(--color-fg-soft)]">
                 Build AI systems that address real problems — not demos that live only in notebooks.
@@ -75,8 +75,8 @@ export function About({ data }: { data: SiteData["about"] }) {
             </div>
 
             <div data-anim="reveal-item" className="relative overflow-hidden border-l-4 border-[var(--color-accent-gold)] p-8" style={{ background: "var(--color-fg)", color: "var(--color-bg)" }}>
-              <span className="absolute top-4 right-4 font-[family-name:var(--font-mono-loaded)] text-[10px] uppercase tracking-[0.2em] text-[var(--color-accent-gold)]">V / 02</span>
-              <p className="font-[family-name:var(--font-mono-loaded)] text-[10px] uppercase tracking-[0.2em] text-[var(--color-accent-gold)]">Our Vision</p>
+              <span className="absolute top-4 right-4 font-[family-name:var(--font-mono-loaded)] text-xs uppercase tracking-[0.2em] text-[var(--color-accent-gold)]">V / 02</span>
+              <p className="font-[family-name:var(--font-mono-loaded)] text-xs uppercase tracking-[0.2em] text-[var(--color-accent-gold)]">Our Vision</p>
               <h4 className="mt-3 font-[family-name:var(--font-display-loaded)] text-2xl font-bold">Lasting Legacy</h4>
               <p className="mt-3 text-sm leading-relaxed opacity-75">
                 A house that engineers remember — because what we shipped actually mattered.

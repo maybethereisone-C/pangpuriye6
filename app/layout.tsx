@@ -1,6 +1,5 @@
 import type { Metadata, Viewport } from "next";
 import { Space_Grotesk, IBM_Plex_Mono } from "next/font/google";
-import localFont from "next/font/local";
 import { MotionProvider } from "@/components/motion/MotionProvider";
 import { ThemeProvider, themeBootstrapScript } from "@/components/motion/ThemeProvider";
 import { ParticleBackground } from "@/components/motion/ParticleBackground";
@@ -23,24 +22,6 @@ const ibmPlexMono = IBM_Plex_Mono({
   variable: "--font-mono-loaded",
 });
 
-// PP Supply Mono — Pangram trial. License risk accepted (decisions/log.md 2026-05-10).
-// Trial pack only ships Regular + Ultralight in OTF. No Bold variant available without purchase.
-const ppSupplyMono = localFont({
-  src: [
-    {
-      path: "../public/fonts/PPSupplyMono-Regular.otf",
-      weight: "400",
-      style: "normal",
-    },
-    {
-      path: "../public/fonts/PPSupplyMono-Ultralight.otf",
-      weight: "200",
-      style: "normal",
-    },
-  ],
-  display: "swap",
-  variable: "--font-mono-accent-loaded",
-});
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://pangpuriye6.vercel.app"),
@@ -74,7 +55,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html
       lang="en"
-      className={`${spaceGrotesk.variable} ${ibmPlexMono.variable} ${ppSupplyMono.variable}`}
+      className={`${spaceGrotesk.variable} ${ibmPlexMono.variable}`}
       suppressHydrationWarning
     >
       <head>
