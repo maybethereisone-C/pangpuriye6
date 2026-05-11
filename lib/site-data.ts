@@ -137,7 +137,7 @@ export const placeholderSiteData: SiteData = {
     title_line_3: "Cohort.",
     motto: "United by code, forged in fire.",
     cta_primary: { label: "Enter Yearbook", href: "#about" },
-    cta_secondary: { label: "About", href: "#about" },
+    cta_secondary: { label: "Meet the Cohort", href: "#members" },
   },
   about: {
     motto: "House motto goes here — replace with the line your team picks.",

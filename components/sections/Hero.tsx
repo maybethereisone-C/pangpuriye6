@@ -15,7 +15,7 @@ export function Hero({ data }: { data: SiteData["hero"] }) {
       className="grid place-items-center"
     >
       <HeroAnim>
-        <div className="mx-auto grid max-w-[var(--grid-max-width)] grid-cols-1 items-center gap-[var(--grid-gutter-mobile)] px-[var(--grid-margin-mobile)] pt-16 md:grid-cols-12 md:gap-[var(--grid-gutter-desktop)] md:px-[var(--grid-margin-desktop)] md:pt-0">
+        <div className="mx-auto grid max-w-[var(--grid-max-width)] grid-cols-1 items-center gap-[var(--grid-gutter-mobile)] px-[var(--grid-margin-mobile)] pt-[calc(var(--topbar-h)+1rem)] md:grid-cols-12 md:gap-[var(--grid-gutter-desktop)] md:px-[var(--grid-margin-desktop)] md:pt-[var(--topbar-h)]">
           <div className="md:col-span-7">
             <p
               data-anim="hero-eyebrow"
