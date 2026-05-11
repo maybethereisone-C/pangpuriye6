@@ -47,7 +47,7 @@ public/blendr-t*.jpeg
 !public/**/*.jpeg
 
 # Private — internal API contracts, never commit to public repos
-api/
+/api/
 **/swagger.json
 **/api_guide.md
 **/credentials*

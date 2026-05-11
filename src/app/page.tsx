@@ -1,3 +1,5 @@
+export const revalidate = 3600;
+
 import { getSiteData } from "@/lib/api";
 import { Hero } from "@/components/sections/Hero";
 import { About } from "@/components/sections/About";
