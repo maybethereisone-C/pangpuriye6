@@ -14,10 +14,10 @@ export function About({ data }: { data: SiteData["about"] }) {
       style={{ height: "auto", minHeight: "100svh" }}
     >
       <RevealOnView>
-        <div className="mx-auto w-full max-w-[var(--grid-max-width)] px-[var(--grid-margin-mobile)] py-20 md:px-[var(--grid-margin-desktop)] md:py-24">
+        <div className="mx-auto w-full max-w-[var(--grid-max-width)] px-[var(--grid-margin-mobile)] py-20 md:px-[var(--grid-margin-tablet)] md:py-24 lg:px-[var(--grid-margin-desktop)]">
 
           {/* — Original layout: text + DNA cards — */}
-          <div className="grid grid-cols-1 gap-[var(--grid-gutter-mobile)] md:grid-cols-12 md:gap-[var(--grid-gutter-desktop)] md:items-center">
+          <div className="grid grid-cols-1 gap-[var(--grid-gutter-mobile)] md:grid-cols-12 md:gap-[var(--grid-gutter-tablet)] md:items-center lg:gap-[var(--grid-gutter-desktop)]">
             <div className="md:col-span-7">
               <header>
                 <h2 data-anim="reveal-title" className="font-[family-name:var(--font-display-loaded)]">About Pangpuriye</h2>

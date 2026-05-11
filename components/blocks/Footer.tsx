@@ -2,7 +2,7 @@ import type { SiteData } from "@/lib/site-data";
 
 export function Footer({ data }: { data: SiteData["footer"] }) {
   return (
-    <footer className="border-t border-[var(--color-hairline)] px-[var(--grid-margin-mobile)] py-12 md:px-[var(--grid-margin-desktop)]">
+    <footer className="border-t border-[var(--color-hairline)] px-[var(--grid-margin-mobile)] py-12 md:px-[var(--grid-margin-tablet)] lg:px-[var(--grid-margin-desktop)]">
       <div className="mx-auto flex max-w-[var(--grid-max-width)] flex-col gap-8 md:flex-row md:items-center md:justify-between">
         <span className="font-[family-name:var(--font-mono-loaded)] text-xs uppercase tracking-[0.2em]">
           © 2026 Pangpuriye · Super AI Engineer S6 · AIAT
