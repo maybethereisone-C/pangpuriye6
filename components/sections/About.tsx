@@ -24,7 +24,7 @@ export function About({ data }: { data: SiteData["about"] }) {
               </header>
 
               <article className="mt-6">
-                <p data-drop-cap className="text-[var(--text-lead)] leading-relaxed text-[var(--color-fg-soft)]">
+                <p className="text-[var(--text-lead)] leading-relaxed text-[var(--color-fg-soft)]">
                   {data.dna_paragraph_1}
                 </p>
                 <p className="mt-6 leading-relaxed text-[var(--color-fg-soft)]">
