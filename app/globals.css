@@ -5,69 +5,45 @@
 
 /* =============================================================
    Design tokens — CUBE: Utility layer
-   Per docs/design.md §3.1
+   Sourced from:
+   - docs/design.md §3.1 (locked design system)
+   - assets/style.css (teammate brainstorm — Space Cadet ink, warm cream)
+   - Color Hunt palette `5e00069b0f06d53e0feed9b9` (red ramp + warm cream)
    ============================================================= */
 
 @theme {
-  /* palette — Red Sniper rule: 92% cream/charcoal, red surgical */
+  /* Legacy raw tokens — kept for back-compat where literal hex is needed
+     (e.g. corner crop marks). New components should prefer semantic role
+     tokens below — they swap on .dark, raw tokens never do. */
   --color-ink-cream: #faf7f2;
-  --color-ink-charcoal: #1a1a1a;
+  --color-ink-charcoal: #2b2d42;
   --color-ink-gray-700: #4a4a4a;
   --color-ink-gray-300: #c9c5be;
   --color-accent-red: #c1121f;
-  --color-accent-red-deep: #780000;
+  --color-accent-red-deep: #5e0006;
+  --color-accent-red-warm: #9b0d06;
+  --color-accent-red-orange: #d53e0f;
   --color-accent-gold: #d4a373;
 
-  /* Semantic role tokens — these swap in dark mode. Prefer these in components
-     so the theme toggle propagates automatically. */
+  /* Semantic role tokens — these swap in dark mode. */
   --color-bg: #faf7f2;
-  --color-fg: #1a1a1a;
-  --color-fg-soft: #4a4a4a;
-  --color-hairline: #c9c5be;
-
-  /* type — next/font CSS variables wired in app/layout.tsx */
-  --font-display: var(--font-display-loaded), "Inter", system-ui, -apple-system, sans-serif;
-  --font-body: var(--font-display-loaded), "Inter", system-ui, -apple-system, sans-serif;
-  --font-mono: var(--font-mono-loaded), "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
-  --font-mono-accent: var(--font-mono-accent-loaded), var(--font-mono-loaded), ui-monospace, monospace;
-
-  /* type scale */
-  --text-eyebrow: 12px;
-  --text-mono-caption: 13px;
-  --text-mono-body: 14px;
-  --text-body: 18px;
-  --text-lead: 22px;
-  --text-h2-min: 40px;
-  --text-h2-max: 88px;
-  --text-hero-min: 56px;
-  --text-hero-max: 144px;
-
-  /* layout */
-  --grid-margin-desktop: 80px;
-  --grid-margin-tablet: 40px;
-  --grid-margin-mobile: 24px;
-  --grid-gutter-desktop: 32px;
-  --grid-gutter-tablet: 24px;
-  --grid-gutter-mobile: 16px;
-  --grid-max-width: 1440px;
-
-  /* breakpoints */
-  --breakpoint-sm: 640px;
-  --breakpoint-md: 768px;
-  --breakpoint-lg: 1024px;
-  --breakpoint-xl: 1440px;
+  --color-paper: #fffaf0;
+  --color-fg: #2b2d42;
+  --color-fg-soft: rgba(43, 45, 66, 0.68);
+  --color-hairline: rgba(43, 45, 66, 0.16);
+  --color-overlay-scrim: rgba(43, 45, 66, 0.7);
+  --color-overlay-solid: #faf7f2;
 }
-
-/* =============================================================
-   Base — CUBE: Composition + primitives
-   ============================================================= */
 
 /* Dark theme — swap semantic role tokens; red + gold unchanged. */
 .dark {
-  --color-bg: #0e0e0e;
-  --color-fg: #f0ece6;
-  --color-fg-soft: #b8b3aa;
-  --color-hairline: #2a2a2a;
+  --color-bg: #1a1b2b;
+  --color-paper: #14152a;
+  --color-fg: #eed9b9;
+  --color-fg-soft: rgba(238, 217, 185, 0.68);
+  --color-hairline: rgba(238, 217, 185, 0.16);
+  --color-overlay-scrim: rgba(0, 0, 0, 0.75);
+  --color-overlay-solid: #000000;
 }
 
 * {
@@ -157,6 +133,70 @@ button {
   padding: 0;
 }
 
+/* =============================================================
+   Button motion — universal micro-feedback on every <button> and
+   anchor[role=button]. CUBE Composition layer.
+   ============================================================= */
+
+button,
+a[role="button"],
+[data-btn] {
+  transition: transform 180ms cubic-bezier(0.34, 1.56, 0.64, 1),
+              background-color 180ms ease,
+              color 180ms ease,
+              border-color 180ms ease,
+              opacity 180ms ease;
+  will-change: transform;
+}
+
+button:not(:disabled):hover,
+a[role="button"]:hover,
+[data-btn]:hover {
+  transform: translateY(-1px);
+}
+
+button:not(:disabled):active,
+a[role="button"]:active,
+[data-btn]:active {
+  transform: translateY(0) scale(0.97);
+  transition-duration: 80ms;
+}
+
+/* tokens — exposed as Tailwind theme vars */
+@theme {
+  /* type scale (already locked) */
+  --text-eyebrow: 12px;
+  --text-mono-caption: 13px;
+  --text-mono-body: 14px;
+  --text-body: 18px;
+  --text-lead: 22px;
+  --text-h2-min: 40px;
+  --text-h2-max: 88px;
+  --text-hero-min: 56px;
+  --text-hero-max: 144px;
+
+  /* layout */
+  --grid-margin-desktop: 80px;
+  --grid-margin-tablet: 40px;
+  --grid-margin-mobile: 24px;
+  --grid-gutter-desktop: 32px;
+  --grid-gutter-tablet: 24px;
+  --grid-gutter-mobile: 16px;
+  --grid-max-width: 1440px;
+
+  /* breakpoints */
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1440px;
+
+  /* type — next/font CSS variables wired in app/layout.tsx */
+  --font-display: var(--font-display-loaded), "Inter", system-ui, -apple-system, sans-serif;
+  --font-body: var(--font-display-loaded), "Inter", system-ui, -apple-system, sans-serif;
+  --font-mono: var(--font-mono-loaded), "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --font-mono-accent: var(--font-mono-accent-loaded), var(--font-mono-loaded), ui-monospace, monospace;
+}
+
 /* respect reduced motion */
 @media (prefers-reduced-motion: reduce) {
   html {
@@ -166,5 +206,13 @@ button {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+  button:hover,
+  a[role="button"]:hover,
+  [data-btn]:hover,
+  button:active,
+  a[role="button"]:active,
+  [data-btn]:active {
+    transform: none !important;
   }
 }

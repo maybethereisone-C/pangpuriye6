@@ -59,7 +59,7 @@ export function MenuOverlay({ footer }: { footer: SiteData["footer"] }) {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div aria-hidden className="fixed inset-0 bg-[var(--color-bg)]" />
+          <div aria-hidden className="fixed inset-0 bg-[var(--color-overlay-solid)]" />
         </TransitionChild>
 
         {/* Panel — wipes down from top */}
@@ -73,14 +73,14 @@ export function MenuOverlay({ footer }: { footer: SiteData["footer"] }) {
             leaveFrom="translate-y-0"
             leaveTo="-translate-y-full"
           >
-            <DialogPanel className="relative flex min-h-full flex-col">
+            <DialogPanel className="relative flex min-h-full flex-col text-[var(--color-fg)]">
               {/* Top row — close + theme */}
               <header className="flex items-start justify-between px-[var(--grid-margin-mobile)] py-6 md:px-[var(--grid-margin-desktop)]">
                 <button
                   type="button"
                   onClick={() => setOpen(false)}
                   aria-label="Close menu"
-                  className="font-[family-name:var(--font-mono-loaded)] text-xs uppercase tracking-[0.2em] text-[var(--color-fg)] transition-colors hover:text-[var(--color-accent-red)]"
+                  className="font-[family-name:var(--font-mono-loaded)] text-xs uppercase tracking-[0.2em] text-[var(--color-fg)] hover:text-[var(--color-accent-red)]"
                 >
                   × Close
                 </button>
@@ -98,12 +98,12 @@ export function MenuOverlay({ footer }: { footer: SiteData["footer"] }) {
                       <button
                         type="button"
                         onClick={() => goTo(s.id)}
-                        className="group flex items-baseline gap-6 transition-opacity hover:opacity-100 focus:outline-none focus-visible:text-[var(--color-accent-red)]"
+                        className="group flex items-baseline gap-6 focus:outline-none focus-visible:text-[var(--color-accent-red)]"
                       >
-                        <span className="font-[family-name:var(--font-mono-loaded)] text-xs uppercase tracking-[0.2em] text-[var(--color-fg-soft)] group-hover:text-[var(--color-accent-red)]">
+                        <span className="font-[family-name:var(--font-mono-loaded)] text-xs uppercase tracking-[0.2em] text-[var(--color-fg-soft)] transition-colors group-hover:text-[var(--color-accent-red)]">
                           {s.number}
                         </span>
-                        <span className="font-[family-name:var(--font-display-loaded)] text-4xl font-bold leading-tight text-[var(--color-fg)] transition-colors group-hover:text-[var(--color-accent-red)] md:text-6xl lg:text-7xl">
+                        <span className="font-[family-name:var(--font-display-loaded)] text-4xl font-bold leading-tight text-[var(--color-fg)] transition-all group-hover:translate-x-2 group-hover:text-[var(--color-accent-red)] md:text-6xl lg:text-7xl">
                           {s.label}
                         </span>
                       </button>
