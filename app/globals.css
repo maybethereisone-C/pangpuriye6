@@ -24,6 +24,11 @@
   --color-accent-red-orange: #d53e0f;
   --color-accent-gold: #d4a373;
 
+  /* Navbar frosted glass bg — alpha and zero variants for smooth CSS transition */
+  --topbar-bg: rgba(250, 247, 242, 0.55);
+  --topbar-bg-zero: rgba(250, 247, 242, 0);
+  --topbar-border: rgba(26, 26, 26, 0.06);
+
   /* Semantic role tokens — these swap in dark mode. RED-tinted darks (no blue). */
   --color-bg: #faf7f2;
   --color-paper: #fffaf0;
@@ -38,6 +43,10 @@
 /* Dark theme — swap semantic role tokens. Warm near-black (slight red tint),
    cream stays cream. Red + gold unchanged. NO blue/navy anywhere. */
 .dark {
+  --topbar-bg: rgba(20, 14, 14, 0.70);
+  --topbar-bg-zero: rgba(20, 14, 14, 0);
+  --topbar-border: rgba(238, 217, 185, 0.06);
+
   --color-bg: #140e0e;
   --color-paper: #1c1414;
   --color-fg: #eed9b9;

@@ -15,9 +15,9 @@ export function Clips({ data }: { data: SiteData["clips"] }) {
       <div className="mx-auto w-full max-w-[var(--grid-max-width)] px-[var(--grid-margin-mobile)] pt-24 pb-24 md:px-[var(--grid-margin-desktop)] md:pt-32">
         <header>
           <p data-anim="reveal-eyebrow" className="font-[family-name:var(--font-mono-loaded)] text-xs uppercase tracking-[0.2em] text-[var(--color-accent-red)]">
-            SEC.06 · CLIPS // KB.LOG · VIDEO_ARCHIVE
+            CLIPS
           </p>
-          <h2 data-anim="reveal-title" className="mt-2 font-[family-name:var(--font-display-loaded)]">Knowledge Clips</h2>
+          <h2 data-anim="reveal-title" className="mt-2 font-[family-name:var(--font-display-loaded)]">Videos</h2>
         </header>
 
         <article className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-12">

@@ -11,24 +11,24 @@ if (typeof window !== "undefined") {
 }
 
 /**
- * Reveal-on-view wrapper for section content. Single ScrollTrigger fires
- * when section enters viewport.
+ * Reveal-on-view wrapper. Plays forward on scroll-down enter, reverses on
+ * scroll-up leave — journey-path effect. All data-anim targets inside.
  *
- * Targets (data attributes inside the wrapped subtree):
+ * Targets:
  *   [data-anim="reveal-eyebrow"] — fade-up + slight slide
  *   [data-anim="reveal-title"]   — word-by-word rise (stagger 40ms)
  *   [data-anim="reveal-body"]    — fade-up
  *   [data-anim="reveal-item"]    — stagger fade-up (for grid/list items)
  *   [data-anim="reveal-photo"]   — clip-path inset reveal
- *
- * Each fires once on first enter; no replay on scroll back (cleaner feel).
  */
 export function RevealOnView({
   children,
   start = "top 75%",
+  end = "bottom 20%",
 }: {
   children: React.ReactNode;
   start?: string;
+  end?: string;
 }) {
   const scope = useRef<HTMLDivElement>(null);
 
@@ -46,80 +46,81 @@ export function RevealOnView({
 
       const titleWords = titleEl ? splitWords(titleEl) : [];
 
-      // Set initial hidden state immediately so elements start invisible.
-      // Without this, GSAP's fromTo fires AFTER a frame where elements are
-      // already visible, causing the jarring "snap to hidden then animate" flash.
       if (eyebrow) gsap.set(eyebrow, { opacity: 0, y: -8 });
       if (titleWords.length) gsap.set(titleWords, { opacity: 0, y: 40 });
       if (bodyEls.length) gsap.set(Array.from(bodyEls), { opacity: 0, y: 20 });
       if (itemEls.length) gsap.set(Array.from(itemEls), { opacity: 0, y: 24 });
       if (photoEls.length) gsap.set(Array.from(photoEls), { clipPath: "inset(0 100% 0 0)" });
 
+      // Build timeline paused — ScrollTrigger drives play/reverse
+      const tl = gsap.timeline({ paused: true, defaults: { ease: EASE.out } });
+
+      if (eyebrow) {
+        tl.fromTo(
+          eyebrow,
+          { opacity: 0, y: -8 },
+          { opacity: 1, y: 0, duration: DURATION.short },
+          0,
+        );
+      }
+      if (titleWords.length) {
+        tl.fromTo(
+          titleWords,
+          { opacity: 0, y: 40 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: DURATION.medium,
+            stagger: 0.04,
+            ease: EASE.expo,
+          },
+          0.1,
+        );
+      }
+      if (bodyEls.length) {
+        tl.fromTo(
+          Array.from(bodyEls),
+          { opacity: 0, y: 20 },
+          { opacity: 1, y: 0, duration: DURATION.medium, stagger: 0.08 },
+          0.35,
+        );
+      }
+      if (itemEls.length) {
+        tl.fromTo(
+          Array.from(itemEls),
+          { opacity: 0, y: 24 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: DURATION.medium,
+            stagger: 0.05,
+            ease: EASE.out,
+          },
+          0.45,
+        );
+      }
+      if (photoEls.length) {
+        tl.fromTo(
+          Array.from(photoEls),
+          { clipPath: "inset(0 100% 0 0)" },
+          {
+            clipPath: "inset(0 0% 0 0)",
+            duration: DURATION.long,
+            stagger: 0.1,
+            ease: "cubic-bezier(0.65, 0, 0.35, 1)",
+          },
+          0.5,
+        );
+      }
+
       const ctx = ScrollTrigger.create({
         trigger: root,
         start,
-        once: true,
-        onEnter: () => {
-          const tl = gsap.timeline({ defaults: { ease: EASE.out } });
-
-          if (eyebrow) {
-            tl.fromTo(
-              eyebrow,
-              { opacity: 0, y: -8 },
-              { opacity: 1, y: 0, duration: DURATION.short },
-              0,
-            );
-          }
-          if (titleWords.length) {
-            tl.fromTo(
-              titleWords,
-              { opacity: 0, y: 40 },
-              {
-                opacity: 1,
-                y: 0,
-                duration: DURATION.medium,
-                stagger: 0.04,
-                ease: EASE.expo,
-              },
-              0.1,
-            );
-          }
-          if (bodyEls.length) {
-            tl.fromTo(
-              Array.from(bodyEls),
-              { opacity: 0, y: 20 },
-              { opacity: 1, y: 0, duration: DURATION.medium, stagger: 0.08 },
-              0.35,
-            );
-          }
-          if (itemEls.length) {
-            tl.fromTo(
-              Array.from(itemEls),
-              { opacity: 0, y: 24 },
-              {
-                opacity: 1,
-                y: 0,
-                duration: DURATION.medium,
-                stagger: 0.05,
-                ease: EASE.out,
-              },
-              0.45,
-            );
-          }
-          if (photoEls.length) {
-            tl.fromTo(
-              Array.from(photoEls),
-              { clipPath: "inset(0 100% 0 0)" },
-              {
-                clipPath: "inset(0 0% 0 0)",
-                duration: DURATION.long,
-                stagger: 0.1,
-                ease: "cubic-bezier(0.65, 0, 0.35, 1)",
-              },
-              0.5,
-            );
-          }
-        },
+        end,
+        animation: tl,
+        // play→ on enter, stay visible on scroll-down past end,
+        // reverse← only when scrolling back UP past start
+        toggleActions: "play none play reverse",
       });
 
       return () => ctx.kill();

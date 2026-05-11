@@ -31,11 +31,11 @@ export function Members({ members }: { members: Member[] }) {
       <div className="mx-auto w-full max-w-[var(--grid-max-width)] px-[var(--grid-margin-mobile)] pt-24 pb-24 md:px-[var(--grid-margin-desktop)] md:pt-32">
         <header>
           <p data-anim="reveal-eyebrow" className="font-[family-name:var(--font-mono-loaded)] text-xs uppercase tracking-[0.2em] text-[var(--color-accent-red)]">
-            SEC.03 · MEMBERS // PANGPURIYE_ROSTER_v1
+            MEMBERS
           </p>
           <h2 data-anim="reveal-title" className="mt-2 font-[family-name:var(--font-display-loaded)]">Cohort Roster</h2>
           <p data-anim="reveal-body" className="mt-2 font-[family-name:var(--font-mono-loaded)] text-sm text-[var(--color-fg-soft)]">
-            {isMock ? "// awaiting data — single template shown" : `${members.length} members`}
+            {members.length} members
           </p>
         </header>
 
@@ -85,8 +85,7 @@ function MemberCard({
         <span className="sr-only">Open member detail</span>
       </button>
 
-      <div className="flex items-center justify-between border-b border-[var(--color-hairline)] px-3 py-2 font-[family-name:var(--font-mono-loaded)] text-[10px] uppercase tracking-[0.2em]">
-        <span>ID: {m.aiat_id}</span>
+      <div className="flex items-center justify-end border-b border-[var(--color-hairline)] px-3 py-2 font-[family-name:var(--font-mono-loaded)] text-[10px] uppercase tracking-[0.2em]">
         <span
           className={
             isMock ? "text-[var(--color-fg-soft)]" : "text-[var(--color-accent-red)]"

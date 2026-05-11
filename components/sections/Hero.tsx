@@ -74,9 +74,6 @@ export function Hero({ data }: { data: SiteData["hero"] }) {
                 className="block h-[100%] w-[100%] object-contain scale-[1.4]"
               />
             </div>
-            <p className="mt-3 font-[family-name:var(--font-mono-loaded)] text-[11px] uppercase tracking-[0.2em] text-[var(--color-fg-soft)]">
-              FIG.01 · COHORT_PRIME · 2026.05
-            </p>
           </div>
         </div>
       </HeroAnim>
