@@ -40,7 +40,7 @@ npm run lint       # next lint
 | Smooth scroll | [Lenis](https://github.com/darkroomengineering/lenis) |
 | Motion | [GSAP](https://greensock.com/gsap/) + ScrollTrigger via `@gsap/react`'s `useGSAP()` hook |
 | WebGL (Phase 07+) | [OGL](https://github.com/oframe/ogl) — image shaders, lighter than three.js |
-| Fonts | Space Grotesk + IBM Plex Mono via `next/font/google` (OFL) + PP Supply Mono via `next/font/local` *(see fonts caveat)* |
+| Fonts | Space Grotesk + IBM Plex Mono via `next/font/google` + PP Supply Mono via `next/font/local` |
 | Backend | Internal API (URL in `.env.local`, gitignored). Contract docs in local `api/` folder (gitignored). |
 | Deploy | Vercel (auto preview on every PR) |
 
@@ -91,7 +91,7 @@ Each section is full-viewport, scroll-snap-locked, designed standalone. Bespoke 
 ├── lib/
 │   └── site-data.ts            # placeholder content + TS types (replace with API fetch in Phase 04)
 ├── public/
-│   ├── fonts/                  # PP Supply Mono self-hosted (Pangram trial)
+│   ├── fonts/                  # PP Supply Mono self-hosted
 │   ├── images/                 # placeholder svgs + uploaded brand assets
 │   ├── blendr.mp4              # hero scroll-sequence asset
 │   ├── blendr-t*.jpeg          # 7 pre-extracted frames at sec 0/2/5/8/11/14/17
@@ -158,14 +158,6 @@ npx vercel --prod --yes
 `assets/raw/` is excluded via `.vercelignore`. **Don't run prod deploy without a greenlight from Tew** — the URL is shared with the cohort.
 
 Preview deploys auto-fire on every push to a non-`main` branch.
-
----
-
-## Fonts caveat
-
-Space Grotesk and IBM Plex Mono are SIL OFL — embed freely.
-
-**PP Supply Mono is a Pangram Pangram trial font.** Trial license is personal-use-only; embedding on a public site without a Web License (~$40+) is a license violation. Tew has chosen to proceed without the license, accepting takedown risk. See [`decisions/log.md`](../../decisions/log.md) (parent project) and [`docs/font-research.md`](docs/font-research.md). A Space Mono swap branch is staged as standby in case Pangram issues a takedown.
 
 ---
 
