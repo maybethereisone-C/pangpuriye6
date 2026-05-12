@@ -1,4 +1,3 @@
-import Image from "next/image";
 import type { SiteData } from "@/lib/site-data";
 import { HeroAnim } from "@/components/motion/HeroAnim";
 
@@ -64,13 +63,10 @@ export function Hero({ data }: { data: SiteData["hero"] }) {
               data-anim="hero-photo"
               className="relative grid h-48 w-full place-items-center md:aspect-[4/5] md:h-auto"
             >
-              <Image
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
                 src="/images/logo.svg"
                 alt="Pangpuriye logo"
-                width={400}
-                height={500}
-                unoptimized
-                priority
                 className="block h-[100%] w-[100%] object-contain scale-[1.4]"
               />
             </div>

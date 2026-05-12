@@ -13,6 +13,8 @@
  */
 
 export interface Member {
+  /** Backend object ID */
+  id?: string;
   /** รหัสโครงการ — AIAT project ID, e.g. "600965" */
   aiat_id: string;
   /** ชื่อจริง + นามสกุล (TH) — Thai full name */
@@ -44,7 +46,13 @@ export interface Member {
   /** ลิงค์ LinkedIn (form-only) */
   linkedin_url?: string;
   /** บทบาท (e.g. chairman, vice-chairman) */
-  role?: string;
+  role?: string | null;
+}
+
+export interface Category {
+  id: string;
+  name: string;
+  description: string;
 }
 
 export interface GalleryItem {
@@ -52,7 +60,10 @@ export interface GalleryItem {
   title: string;
   description: string;
   images: string[];
-  date: string;
+  date?: string;
+  category?: Category[];
+  category_ids?: string[];
+  video_links?: string[];
 }
 
 export interface Award {
@@ -98,6 +109,7 @@ export interface SiteData {
   };
   members: Member[];
   red_wall: { quote: string; attribution: string };
+  categories: Category[];
   gallery: GalleryItem[];
   recognition: {
     lead: string;
@@ -155,14 +167,14 @@ export const placeholderSiteData: SiteData = {
   },
   members: [
     {
-      aiat_id: "600000",
+      aiat_id: "000000",
       fullname: "First Last",
       fullname_en: undefined,
       nickname: "Nick",
       nickname_en: undefined,
       slogan: "Member motto goes here — replace with the real line.",
       ai_skill: "Agentic AI",
-      interesting: ["Machine Learning", "Generative AI"],
+      interesting: ["ml", "genai"],
       other_skills: "Video editing, running",
       image: null,
       gmail: ["placeholder@example.com"],
@@ -176,6 +188,11 @@ export const placeholderSiteData: SiteData = {
     quote: "We forged this house in code.",
     attribution: "Pangpuriye, 2026",
   },
+  categories: [
+    { id: "cat-1", name: "Hackathons", description: "Intense coding sessions" },
+    { id: "cat-2", name: "Workshops", description: "Learning and sharing" },
+    { id: "cat-3", name: "Leisure", "description": "Fun and bonding" }
+  ],
   gallery: [
     {
       id: "gal-01",
@@ -187,6 +204,8 @@ export const placeholderSiteData: SiteData = {
         "/images/placeholders/03-red-orange.svg",
       ],
       date: "March 2026",
+      category_ids: ["cat-1"],
+      video_links: ["https://youtu.be/PLACEHOLDER"]
     },
     {
       id: "gal-02",
@@ -197,6 +216,7 @@ export const placeholderSiteData: SiteData = {
         "/images/placeholders/15-ocean.svg",
       ],
       date: "May 2026",
+      category_ids: ["cat-1"]
     },
     {
       id: "gal-03",
@@ -208,6 +228,7 @@ export const placeholderSiteData: SiteData = {
         "/images/placeholders/11-sage.svg",
       ],
       date: "May 2026",
+      category_ids: ["cat-2"]
     },
   ],
   recognition: {

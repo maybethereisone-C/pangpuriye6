@@ -1,11 +1,11 @@
 "use client";
 
 import { Dialog, DialogPanel, DialogTitle, Transition, TransitionChild } from "@headlessui/react";
-import { Fragment, useRef, useEffect } from "react";
+import { Fragment, useRef, useEffect, useState } from "react";
 import type { Member } from "@/lib/site-data";
 
 const NAME_MAX_PX = 48;
-const NAME_MIN_PX = 16;
+const NAME_MIN_PX = 12;
 
 export function MemberDialog({
   member,
@@ -17,28 +17,39 @@ export function MemberDialog({
   onClose: () => void;
 }) {
   const nameRef = useRef<HTMLHeadingElement>(null);
+  const [imageFailed, setImageFailed] = useState(false);
 
   useEffect(() => {
     const el = nameRef.current;
     if (!el || !open) return;
-    el.style.fontSize = `${NAME_MAX_PX}px`;
-    // Double rAF: first frame commits mount, second frame has layout ready
+
+    const fit = () => {
+      const max = Math.min(NAME_MAX_PX, Math.max(24, window.innerWidth * 0.08));
+      el.style.fontSize = `${max}px`;
+      let size = max;
+      while ((el.scrollWidth > el.clientWidth || el.scrollHeight > el.clientHeight) && size > NAME_MIN_PX) {
+        size -= 1;
+        el.style.fontSize = `${size}px`;
+      }
+    };
+
     let raf1: number;
     let raf2: number;
     raf1 = requestAnimationFrame(() => {
-      raf2 = requestAnimationFrame(() => {
-        let size = NAME_MAX_PX;
-        while (el.scrollWidth > el.offsetWidth && size > NAME_MIN_PX) {
-          size -= 1;
-          el.style.fontSize = `${size}px`;
-        }
-      });
+      raf2 = requestAnimationFrame(fit);
     });
+    const observer = new ResizeObserver(fit);
+    observer.observe(el);
     return () => {
       cancelAnimationFrame(raf1);
       cancelAnimationFrame(raf2);
+      observer.disconnect();
     };
   }, [member?.fullname, open]);
+
+  useEffect(() => {
+    setImageFailed(false);
+  }, [member?.image]);
 
   return (
     <Transition show={open} as={Fragment}>
@@ -65,7 +76,7 @@ export function MemberDialog({
             leaveFrom="opacity-100 translate-y-0"
             leaveTo="opacity-0 translate-y-2"
           >
-            <DialogPanel className="relative grid w-full max-w-4xl grid-cols-1 gap-6 overflow-y-auto overflow-x-hidden border border-[var(--color-hairline)] bg-[var(--color-bg)] p-6 pt-12 md:grid-cols-12 md:p-10" style={{ maxHeight: "90svh" }}>
+            <DialogPanel className="relative grid w-full max-w-4xl grid-cols-1 gap-6 overflow-y-auto overflow-x-hidden border border-[var(--color-hairline)] bg-[var(--color-bg)] p-5 pt-12 sm:p-6 sm:pt-12 md:grid-cols-12 md:p-10" style={{ maxHeight: "90svh" }}>
               <button
                 type="button"
                 onClick={onClose}
@@ -78,7 +89,23 @@ export function MemberDialog({
               {member && (
                 <>
                   <div className="md:col-span-5">
-                    <div className="relative mx-auto aspect-[4/5] w-3/4 max-w-[280px] bg-[var(--color-hairline)]/30 md:w-full md:max-w-none">
+                    <div className="relative mx-auto aspect-[4/5] w-full max-w-[260px] bg-[var(--color-hairline)]/30 sm:w-3/4 sm:max-w-[280px] md:w-full md:max-w-none">
+                      {member.image && !imageFailed && (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img
+                          key={member.image}
+                          src={member.image}
+                          alt={member.fullname}
+                          onError={() => setImageFailed(true)}
+                          className="object-cover"
+                          style={{
+                            position: "absolute",
+                            inset: 0,
+                            width: "100%",
+                            height: "100%",
+                          }}
+                        />
+                      )}
                       <span className="absolute -top-1 -left-1 h-3 w-3 border-t border-l border-[var(--color-accent-gold)]" />
                       <span className="absolute -top-1 -right-1 h-3 w-3 border-t border-r border-[var(--color-accent-gold)]" />
                       <span className="absolute -bottom-1 -left-1 h-3 w-3 border-b border-l border-[var(--color-accent-gold)]" />
@@ -93,13 +120,13 @@ export function MemberDialog({
                     <DialogTitle
                       ref={nameRef}
                       as="h2"
-                      className="font-[family-name:var(--font-display-loaded)] font-bold leading-none text-[var(--color-fg)] whitespace-nowrap overflow-hidden"
-                      style={{ fontSize: `${NAME_MAX_PX}px` }}
+                      className="font-[family-name:var(--font-display-loaded)] font-bold text-[var(--color-fg)]"
+                      style={{ fontSize: "clamp(24px, 8vw, 48px)", lineHeight: 1.2, overflowWrap: "anywhere", paddingBottom: "0.1em" }}
                     >
                       {member.fullname}
                     </DialogTitle>
                     <p className="font-[family-name:var(--font-mono-loaded)] text-sm italic text-[var(--color-fg-soft)]">
-                      &ldquo;{member.nickname}&rdquo;
+                      {member.nickname}
                     </p>
                     <p className="text-base italic leading-relaxed text-[var(--color-fg-soft)]">
                       {member.slogan}
@@ -141,52 +168,66 @@ export function MemberDialog({
                       </div>
                     )}
 
-                    <div className="mt-2 flex flex-wrap gap-3 border-t border-[var(--color-hairline)] pt-4 font-[family-name:var(--font-mono-loaded)] text-xs uppercase tracking-[0.2em] text-[var(--color-fg)]">
-                      {member.gmail[0] && (
-                        <a
-                          href={`mailto:${member.gmail[0]}`}
-                          className="transition-colors hover:text-[var(--color-accent-red)]"
-                        >
-                          Email
-                        </a>
-                      )}
-                      {member.call && (
-                        <a
-                          href={`tel:${member.call.replace(/\s+/g, "")}`}
-                          className="transition-colors hover:text-[var(--color-accent-red)]"
-                        >
-                          Call
-                        </a>
-                      )}
-                      {member.video_links[0] && (
-                        <a
-                          href={member.video_links[0]}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="transition-colors hover:text-[var(--color-accent-red)]"
-                        >
-                          Intro Video
-                        </a>
-                      )}
-                      {member.github_url && (
-                        <a
-                          href={member.github_url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="transition-colors hover:text-[var(--color-accent-red)]"
-                        >
-                          GitHub
-                        </a>
-                      )}
-                      {member.linkedin_url && (
-                        <a
-                          href={member.linkedin_url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="transition-colors hover:text-[var(--color-accent-red)]"
-                        >
-                          LinkedIn
-                        </a>
+                    <div className="mt-2 flex flex-col gap-4 border-t border-[var(--color-hairline)] pt-4">
+                      <div className="flex flex-wrap gap-4 font-[family-name:var(--font-mono-loaded)] text-xs uppercase tracking-[0.2em] text-[var(--color-fg)]">
+                        {member.gmail?.map((email, i) => (
+                          <a
+                            key={email}
+                            href={`mailto:${email}`}
+                            className="transition-colors hover:text-[var(--color-accent-red)]"
+                          >
+                            Email{member.gmail.length > 1 ? ` ${i + 1}` : ""}
+                          </a>
+                        ))}
+                        {member.call && (
+                          <a
+                            href={`tel:${member.call.replace(/\s+/g, "")}`}
+                            className="transition-colors hover:text-[var(--color-accent-red)]"
+                          >
+                            Call
+                          </a>
+                        )}
+                        {member.github_url && (
+                          <a
+                            href={member.github_url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="transition-colors hover:text-[var(--color-accent-red)]"
+                          >
+                            GitHub
+                          </a>
+                        )}
+                        {member.linkedin_url && (
+                          <a
+                            href={member.linkedin_url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="transition-colors hover:text-[var(--color-accent-red)]"
+                          >
+                            LinkedIn
+                          </a>
+                        )}
+                      </div>
+
+                      {member.video_links?.length > 0 && (
+                        <div>
+                          <p className="font-[family-name:var(--font-mono-loaded)] text-[10px] uppercase tracking-[0.2em] text-[var(--color-fg-soft)]">
+                            Video Links
+                          </p>
+                          <div className="mt-2 flex flex-wrap gap-2">
+                            {member.video_links.map((link, i) => (
+                              <a
+                                key={link}
+                                href={link}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="border border-[var(--color-hairline)] px-3 py-1.5 font-[family-name:var(--font-mono-loaded)] text-[10px] uppercase tracking-[0.1em] transition-colors hover:border-[var(--color-accent-red)] hover:text-[var(--color-accent-red)]"
+                              >
+                                {link.includes("youtube.com") || link.includes("youtu.be") ? "YouTube" : link.includes("tiktok.com") ? "TikTok" : `Video ${i + 1}`}
+                              </a>
+                            ))}
+                          </div>
+                        </div>
                       )}
                     </div>
                   </div>

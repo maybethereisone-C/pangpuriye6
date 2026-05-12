@@ -1,4 +1,5 @@
-export const revalidate = 3600;
+export const dynamic = "force-dynamic";
+export const fetchCache = "force-no-store";
 
 import { getSiteData } from "@/lib/api";
 import { Hero } from "@/components/sections/Hero";
@@ -29,9 +30,9 @@ export default async function Page() {
       <About data={data.about} />
       <Members members={data.members} />
       <RedWall data={data.red_wall} />
-      <Gallery items={data.gallery} />
+      <Gallery items={data.gallery} categories={data.categories} />
       <Recognition data={data.recognition} />
-      <Clips data={data.clips} />
+      <Clips data={data.clips} members={data.members} />
       {data.others.enabled && <Others items={data.others.items} />}
 
       <Footer data={data.footer} />

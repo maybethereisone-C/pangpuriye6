@@ -1,18 +1,9 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import Image from "next/image";
 import { Dialog, DialogPanel, DialogTitle, Transition, TransitionChild } from "@headlessui/react";
 import { Fragment } from "react";
 import type { GalleryItem } from "@/lib/site-data";
-
-const FALLBACK_PLACEHOLDERS = [
-  "/images/placeholders/01-red.svg",
-  "/images/placeholders/14-navy.svg",
-  "/images/placeholders/09-forest.svg",
-  "/images/placeholders/18-purple.svg",
-  "/images/placeholders/05-gold.svg",
-];
 
 export function GalleryDialog({
   item,
@@ -48,12 +39,10 @@ export function GalleryDialog({
 
   const getSrc = (idx: number) => {
     const src = images[idx];
-    if (!src || errIdx.has(idx)) {
-      const seed = (item ? item.id.charCodeAt(item.id.length - 1) : 0) + idx;
-      return FALLBACK_PLACEHOLDERS[seed % FALLBACK_PLACEHOLDERS.length];
-    }
-    return src;
+    return !src || errIdx.has(idx) ? null : src;
   };
+
+  const activeSrc = getSrc(imgIdx);
 
   return (
     <Transition show={open} as={Fragment}>
@@ -98,17 +87,27 @@ export function GalleryDialog({
                 <>
                   {/* Main image */}
                   <div className="relative aspect-[16/9] bg-[var(--color-hairline)]/30">
-                    <Image
-                      key={getSrc(imgIdx)}
-                      src={getSrc(imgIdx)}
-                      alt={item.title}
-                      fill
-                      unoptimized
-                      className="object-cover"
-                      sizes="(max-width: 768px) 100vw, 80vw"
-                      priority
-                      onError={() => setErrIdx((s) => new Set([...s, imgIdx]))}
-                    />
+                    {activeSrc ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img
+                        key={activeSrc}
+                        src={activeSrc}
+                        alt={item.title}
+                        className="object-cover"
+                        onError={() => {
+                          setErrIdx((s) => new Set([...s, imgIdx]));
+                          next();
+                        }}
+                        style={{
+                          position: "absolute",
+                          inset: 0,
+                          width: "100%",
+                          height: "100%",
+                        }}
+                      />
+                    ) : (
+                      <GalleryImageUnavailable imageCount={images.length} />
+                    )}
 
                     {/* Prev / Next */}
                     {hasMany && (
@@ -148,16 +147,22 @@ export function GalleryDialog({
                           className="relative shrink-0 aspect-video w-20 overflow-hidden border transition-colors"
                           style={{ borderColor: i === imgIdx ? "var(--color-accent-red)" : "var(--color-hairline)" }}
                         >
-                          <Image
-                            key={getSrc(i)}
-                            src={getSrc(i)}
-                            alt=""
-                            fill
-                            unoptimized
-                            className="object-cover"
-                            sizes="80px"
-                            onError={() => setErrIdx((s) => new Set([...s, i]))}
-                          />
+                          {getSrc(i) && (
+                            // eslint-disable-next-line @next/next/no-img-element
+                            <img
+                              key={getSrc(i) ?? i}
+                              src={getSrc(i) ?? ""}
+                              alt=""
+                              className="object-cover"
+                              onError={() => setErrIdx((s) => new Set([...s, i]))}
+                              style={{
+                                position: "absolute",
+                                inset: 0,
+                                width: "100%",
+                                height: "100%",
+                              }}
+                            />
+                          )}
                         </button>
                       ))}
                     </div>
@@ -166,7 +171,7 @@ export function GalleryDialog({
                   {/* Info */}
                   <div className="p-6 md:p-8">
                     <p className="font-[family-name:var(--font-mono-loaded)] text-xs uppercase tracking-[0.2em] text-[var(--color-accent-red)]">
-                      {item.date}
+                      {item.date || "Gallery"}
                     </p>
                     <DialogTitle
                       as="h2"
@@ -175,6 +180,27 @@ export function GalleryDialog({
                       {item.title}
                     </DialogTitle>
                     <p className="mt-3 leading-relaxed text-[var(--color-fg-soft)]">{item.description}</p>
+
+                    {item.video_links && item.video_links.length > 0 && (
+                      <div className="mt-6 pt-6 border-t border-[var(--color-hairline)]">
+                        <p className="font-[family-name:var(--font-mono-loaded)] text-[10px] uppercase tracking-[0.2em] text-[var(--color-fg-soft)]">
+                          Related Videos
+                        </p>
+                        <div className="mt-2 flex flex-wrap gap-2">
+                          {item.video_links.map((link, i) => (
+                            <a
+                              key={link}
+                              href={link}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="border border-[var(--color-hairline)] px-3 py-1.5 font-[family-name:var(--font-mono-loaded)] text-[10px] uppercase tracking-[0.1em] transition-colors hover:border-[var(--color-accent-red)] hover:text-[var(--color-accent-red)]"
+                            >
+                              {link.includes("youtube.com") || link.includes("youtu.be") ? "YouTube" : link.includes("tiktok.com") ? "TikTok" : `Video ${i + 1}`}
+                            </a>
+                          ))}
+                        </div>
+                      </div>
+                    )}
                   </div>
 
                   {/* ID footer */}
@@ -190,5 +216,20 @@ export function GalleryDialog({
         </div>
       </Dialog>
     </Transition>
+  );
+}
+
+function GalleryImageUnavailable({ imageCount }: { imageCount: number }) {
+  return (
+    <div className="absolute inset-0 grid place-items-center bg-[var(--color-ink-charcoal)] px-6 text-center">
+      <div>
+        <p className="font-[family-name:var(--font-mono-loaded)] text-xs uppercase tracking-[0.2em] text-[var(--color-accent-red)]">
+          API image unavailable
+        </p>
+        <p className="mt-3 max-w-sm font-[family-name:var(--font-mono-loaded)] text-[10px] uppercase tracking-[0.16em] text-[var(--color-fg-soft)]">
+          {imageCount > 0 ? "The API returned an image URL, but the object did not load." : "The API returned this gallery item without images."}
+        </p>
+      </div>
+    </div>
   );
 }

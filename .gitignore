@@ -17,6 +17,15 @@ node_modules/
 
 # Testing
 coverage/
+test.sh
+tests/
+e2e/
+*.test.ts
+*.test.tsx
+*.spec.ts
+*.spec.tsx
+playwright-report/
+test-results/
 
 # Local-only assets — teammate brainstorm scratch, fonts trial zip, palette refs
 assets/
@@ -32,11 +41,20 @@ LICENSE.fonts.md
 
 # Machine-specific AI tool hooks (paths are host-specific, useless to teammates)
 .github/hooks/
+.claude/
+.codex/
+.gemini/
+.playwright-mcp/
+AGENTS.local.md
+CLAUDE.local.md
+CODEX.md
+CODEX.local.md
+GEMINI.md
+GEMINI.local.md
 
 # Reference media (example/preview, not shipped UI)
 public/blendr.mp4
 public/blendr-t*.jpeg
-.playwright-mcp/
 
 # Root-level dev screenshots
 *.png

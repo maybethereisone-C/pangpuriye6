@@ -17,7 +17,9 @@
         "/images/placeholder-gallery-1.svg",
         "/images/placeholder-gallery-2.svg"
       ],
-      "date": "2026-05-15"
+      "date": "2026-05-15",
+      "category_ids": ["cat-1"],
+      "video_links": ["https://youtu.be/PLACEHOLDER"]
     },
     {
       "id": "ws-01",
@@ -27,7 +29,8 @@
         "/images/placeholder-gallery-3.svg",
         "/images/placeholder-gallery-4.svg"
       ],
-      "date": "2026-05-20"
+      "date": "2026-05-20",
+      "category_ids": ["cat-2"]
     }
   ]
 }

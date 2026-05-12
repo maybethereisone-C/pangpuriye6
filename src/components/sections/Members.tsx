@@ -2,49 +2,51 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import type { Member } from "@/lib/site-data";
-import { PLACEHOLDER_MEMBER_ID } from "@/lib/site-data";
 import { MemberDialog } from "@/components/blocks/MemberDialog";
 import { RevealOnView } from "@/components/motion/RevealOnView";
 
+const CARD_NAME_MAX_PX = 20;
+const CARD_NAME_MIN_PX = 13;
 
 /** Members — Section 03. */
 export function Members({ members }: { members: Member[] }) {
-  const isMock = members.length === 1 && members[0]?.aiat_id === PLACEHOLDER_MEMBER_ID;
   const [selected, setSelected] = useState<Member | null>(null);
 
-  // Duplicate for seamless infinite loop
   const looped = [...members, ...members];
 
   const trackRef = useRef<HTMLUListElement>(null);
   const rafRef = useRef<number>(0);
   const xRef = useRef(0);
-  const speedRef = useRef(0); // starts at 0, ramps up
+  const speedRef = useRef(0);
   const hovering = useRef(false);
 
-  // We store settings in a ref that updates every render so Hot Module Replacement (HMR) picks up live edits!
+  // Drag state — document-level so pointer capture doesn't block card clicks
+  const isDragging = useRef(false);
+  const hasDragged = useRef(false);
+  const dragLastX = useRef(0);
+  const dragVelocity = useRef(0);
+  const dragLastTime = useRef(0);
+
   const settings = useRef({ speed: 2, lerp: 0.05 });
-  settings.current = { speed: 2, lerp: 0.05 }; // Change this to 4 or 5 if you want it faster, it will update instantly now.
+  settings.current = { speed: 2, lerp: 0.05 };
 
   const handleManualScroll = (direction: "left" | "right") => {
-    const kick = 30; // ~600px scroll distance over time
-    if (direction === "left") {
-      speedRef.current = -kick;
-    } else {
-      speedRef.current = kick;
-    }
+    const kick = 30;
+    speedRef.current = direction === "left" ? -kick : kick;
   };
 
   useEffect(() => {
     const el = trackRef.current;
     if (!el) return;
 
+    // RAF — skips auto-scroll while drag is active
     function tick() {
-      const target = hovering.current ? 0 : settings.current.speed;
-      speedRef.current += (target - speedRef.current) * settings.current.lerp;
+      if (!isDragging.current) {
+        const target = hovering.current ? 0 : settings.current.speed;
+        speedRef.current += (target - speedRef.current) * settings.current.lerp;
+        xRef.current -= speedRef.current;
+      }
 
-      xRef.current -= speedRef.current;
-
-      // Wrap using modulo — works at any speed, even > halfWidth per frame
       const halfWidth = el!.scrollWidth / 2;
       if (xRef.current <= -halfWidth) {
         xRef.current = xRef.current % halfWidth;
@@ -55,9 +57,43 @@ export function Members({ members }: { members: Member[] }) {
       el!.style.transform = `translateX(${xRef.current}px)`;
       rafRef.current = requestAnimationFrame(tick);
     }
-
     rafRef.current = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(rafRef.current);
+
+    // Document-level handlers so pointer capture never blocks card click events
+    function onPointerMove(e: PointerEvent) {
+      if (!isDragging.current) return;
+      const dx = e.clientX - dragLastX.current;
+      // 4px threshold distinguishes drag from click
+      if (!hasDragged.current && Math.abs(e.clientX - (dragLastX.current - dx + dx)) < 4) {
+        if (Math.abs(dx) < 4) return;
+      }
+      hasDragged.current = true;
+      const now = performance.now();
+      const dt = now - dragLastTime.current;
+      if (dt > 0) dragVelocity.current = (dx / dt) * 16;
+      dragLastX.current = e.clientX;
+      dragLastTime.current = now;
+      xRef.current += dx;
+    }
+
+    function onPointerUp() {
+      if (!isDragging.current) return;
+      isDragging.current = false;
+      hovering.current = false;
+      if (hasDragged.current) speedRef.current = -dragVelocity.current;
+      el!.style.cursor = "grab";
+    }
+
+    document.addEventListener("pointermove", onPointerMove);
+    document.addEventListener("pointerup", onPointerUp);
+    document.addEventListener("pointercancel", onPointerUp);
+
+    return () => {
+      cancelAnimationFrame(rafRef.current);
+      document.removeEventListener("pointermove", onPointerMove);
+      document.removeEventListener("pointerup", onPointerUp);
+      document.removeEventListener("pointercancel", onPointerUp);
+    };
   }, []);
 
   return (
@@ -82,11 +118,13 @@ export function Members({ members }: { members: Member[] }) {
         </div>
       </RevealOnView>
 
-      {/* Infinite horizontal scroll ticker — JS-driven for smooth hover deceleration */}
+      {/* z-[45]: below navbar (z-50), above scroll arrows (z-40) */}
       <div
-        className="relative z-50 pb-24 pointer-events-none"
+        className="relative z-[45] pb-24 pointer-events-none"
         style={{
           overflow: "hidden",
+          paddingTop: "2rem",
+          marginTop: "-2rem",
           WebkitMaskImage:
             "linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%)",
           maskImage:
@@ -101,6 +139,20 @@ export function Members({ members }: { members: Member[] }) {
             gap: "1.5rem",
             width: "max-content",
             willChange: "transform",
+            cursor: "grab",
+            userSelect: "none",
+            touchAction: "pan-y",
+          }}
+          onPointerDown={(e) => {
+            // Only primary button (mouse left) or touch
+            if (e.button !== 0 && e.pointerType === "mouse") return;
+            isDragging.current = true;
+            hasDragged.current = false;
+            dragLastX.current = e.clientX;
+            dragVelocity.current = 0;
+            dragLastTime.current = performance.now();
+            hovering.current = true;
+            e.currentTarget.style.cursor = "grabbing";
           }}
           aria-label="Member cards"
         >
@@ -108,9 +160,9 @@ export function Members({ members }: { members: Member[] }) {
             <MemberCard
               key={`${m.aiat_id}-${i}`}
               member={m}
-              isMock={isMock}
-              onOpen={() => setSelected(m)}
+              onOpen={() => !hasDragged.current && setSelected(m)}
               hovering={hovering}
+              priority={i < 4}
             />
           ))}
         </ul>
@@ -149,20 +201,22 @@ export function Members({ members }: { members: Member[] }) {
 
 function MemberCard({
   member: m,
-  isMock,
   onOpen,
   hovering,
+  priority,
 }: {
   member: Member;
-  isMock: boolean;
   onOpen: () => void;
   hovering: React.MutableRefObject<boolean>;
+  priority?: boolean;
 }) {
+  const [imageFailed, setImageFailed] = useState(false);
+  const imageSrc = m.image && !imageFailed ? m.image : null;
+
   return (
     <li
-      data-magnetic
       data-anim="reveal-item"
-      className="group relative flex flex-col border border-[var(--color-hairline)] bg-[var(--color-bg)] transition-colors hover:border-[var(--color-accent-red)]"
+      className="group relative flex flex-col border border-[var(--color-hairline)] bg-[var(--color-bg)] transition-all duration-300 ease-out hover:scale-[1.03] hover:border-[var(--color-accent-red)] hover:shadow-xl"
       style={{ width: "280px", flexShrink: 0 }}
       onMouseEnter={() => { hovering.current = true; }}
       onMouseLeave={() => { hovering.current = false; }}
@@ -177,30 +231,40 @@ function MemberCard({
       </button>
 
       <div className="flex items-center justify-end border-b border-[var(--color-hairline)] px-3 py-2 font-[family-name:var(--font-mono-loaded)] text-xs uppercase tracking-[0.2em]">
-        <span
-          className={
-            isMock ? "text-[var(--color-fg-soft)]" : "text-[var(--color-accent-red)]"
-          }
-        >
-          {isMock 
-            ? "MOCK" 
-            : (m.role?.toLowerCase() === "chairman" 
-                ? "CAPTAIN" 
-                : m.role?.toLowerCase() === "vice-chairman" 
-                  ? "VICE" 
-                  : "MEMBER")}
+        <span className="text-[var(--color-accent-red)]">
+          {m.role?.toLowerCase() === "chairman"
+            ? "CAPTAIN"
+            : m.role?.toLowerCase() === "vice-chairman"
+              ? "VICE"
+              : "MEMBER"}
         </span>
       </div>
 
-      <div className="aspect-[4/5] bg-[var(--color-hairline)]/30" />
+      <div className="relative aspect-[4/5] overflow-hidden bg-[var(--color-hairline)]/30">
+        {imageSrc && (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={imageSrc}
+            alt={m.fullname}
+            loading={priority ? "eager" : "lazy"}
+            decoding="async"
+            onError={() => setImageFailed(true)}
+            style={{
+              position: "absolute",
+              inset: 0,
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+            }}
+          />
+        )}
+      </div>
 
       <div className="flex flex-1 flex-col gap-3 p-4">
-        <h3 className="font-[family-name:var(--font-display-loaded)] text-xl font-bold leading-tight">
-          {m.fullname}
-        </h3>
+        <AutoFitCardName name={m.fullname} />
 
         <p className="font-[family-name:var(--font-mono-loaded)] text-xs text-[var(--color-fg-soft)]">
-          &ldquo;{m.nickname}&rdquo;
+          {m.nickname}
         </p>
 
         <p className="text-sm italic leading-snug text-[var(--color-fg-soft)]">{m.slogan}</p>
@@ -251,14 +315,47 @@ function MemberCard({
   );
 }
 
+function AutoFitCardName({ name }: { name: string }) {
+  const ref = useRef<HTMLHeadingElement>(null);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
+    const fit = () => {
+      el.style.fontSize = `${CARD_NAME_MAX_PX}px`;
+      let size = CARD_NAME_MAX_PX;
+      while ((el.scrollWidth > el.clientWidth || el.scrollHeight > el.clientHeight) && size > CARD_NAME_MIN_PX) {
+        size -= 1;
+        el.style.fontSize = `${size}px`;
+      }
+    };
+
+    fit();
+    const observer = new ResizeObserver(fit);
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [name]);
+
+  return (
+    <h3
+      ref={ref}
+      className="font-[family-name:var(--font-display-loaded)] font-bold leading-tight text-[var(--color-fg)]"
+      style={{
+        fontSize: `${CARD_NAME_MAX_PX}px`,
+        minHeight: "3rem",
+        overflow: "hidden",
+        overflowWrap: "anywhere",
+      }}
+    >
+      {name}
+    </h3>
+  );
+}
+
 type IconName = "mail" | "phone" | "play" | "github" | "linkedin";
 
-function ContactIcon({
-  href,
-  label,
-  icon,
-  external,
-}: {
+function ContactIcon({ href, label, icon, external }: {
   href: string;
   label: string;
   icon: IconName;

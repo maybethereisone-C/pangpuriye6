@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import Image from "next/image";
 import { useMenu } from "./MenuProvider";
 
 export function TopBar() {
@@ -72,14 +71,11 @@ export function TopBar() {
         aria-label="Pangpuriye home"
         className="flex items-center gap-2"
       >
-        <Image
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
           src="/images/logo2_red.svg"
           alt=""
           aria-hidden
-          width={96}
-          height={96}
-          unoptimized
-          priority
           className="block h-10 w-10 md:h-20 md:w-20"
         />
       </a>
