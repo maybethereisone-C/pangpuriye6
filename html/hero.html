@@ -1,0 +1,63 @@
+<section class="hero" id="hero" data-section-index="1">
+
+  <!-- ambient scatter dots (decorative, position:absolute) -->
+  <svg class="hero__dots" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="8%"   cy="20%" r="1.2" fill="#6e6455" opacity="0.45"/>
+    <circle cx="35%"  cy="12%" r="1"   fill="#6e6455" opacity="0.35"/>
+    <circle cx="72%"  cy="78%" r="1.2" fill="#6e6455" opacity="0.3"/>
+    <circle cx="88%"  cy="30%" r="1"   fill="#6e6455" opacity="0.25"/>
+    <circle cx="18%"  cy="68%" r="1"   fill="#6e6455" opacity="0.28"/>
+    <circle cx="92%"  cy="55%" r="1.2" fill="#6e6455" opacity="0.25"/>
+    <circle cx="50%"  cy="88%" r="1"   fill="#6e6455" opacity="0.25"/>
+  </svg>
+
+  <!-- ── 12-col inner grid ─────────────────────────────────────────────── -->
+  <div class="hero__inner">
+
+    <!-- col 1–7: text content -->
+    <div class="hero__content">
+      <p class="hero__label">SS6 · Digital Yearbook · 2026</p>
+
+      <h1 class="hero__title">
+        <span class="hero__title-red">Pangpuriye</span>
+        <span class="hero__title-cream">Cohort.</span>
+      </h1>
+
+      <p class="hero__tagline">United by code, forged in fire.</p>
+
+      <div class="hero__actions">
+        <a class="btn-outline btn-outline--accent" href="#members">Enter Yearbook</a>
+        <a class="btn-outline" href="#about">About</a>
+      </div>
+    </div>
+
+    <!-- col 8–12: animated running panther -->
+    <div class="hero__visual-wrap">
+      <canvas id="panther-canvas" aria-hidden="true"></canvas>
+      <p class="hero__fig-label">FIG.01 · COHORT_PRIME · 2026.05</p>
+    </div>
+
+  </div><!-- /hero__inner -->
+
+  <!-- bottom-left constellation deco (desktop only via CSS) -->
+  <svg class="hero__deco-bl" viewBox="0 0 180 210" fill="none" aria-hidden="true">
+    <g stroke="#e8dcc8" stroke-width="0.8">
+      <line x1="62"  y1="210" x2="80"  y2="158"/>
+      <line x1="80"  y1="158" x2="45"  y2="130"/>
+      <line x1="45"  y1="130" x2="92"  y2="112"/>
+      <line x1="92"  y1="112" x2="68"  y2="75"/>
+      <line x1="68"  y1="75"  x2="112" y2="60"/>
+      <line x1="80"  y1="158" x2="122" y2="148"/>
+      <line x1="122" y1="148" x2="155" y2="162"/>
+    </g>
+    <g fill="#e8dcc8" opacity="0.55">
+      <circle cx="80"  cy="158" r="2"/>
+      <circle cx="45"  cy="130" r="2"/>
+      <circle cx="92"  cy="112" r="2"/>
+      <circle cx="68"  cy="75"  r="2"/>
+      <circle cx="112" cy="60"  r="2"/>
+      <circle cx="122" cy="148" r="1.5"/>
+    </g>
+  </svg>
+
+</section>

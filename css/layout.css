@@ -1,0 +1,39 @@
+/* ── generic section ────────────────────────────────────────────────────── */
+.section {
+  min-height: 100svh;
+  position: relative;
+  overflow: hidden;
+  padding: calc(var(--nav-h) + 3rem) var(--grid-margin) 4rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-width: 100%;
+}
+
+@media (min-width: 768px) {
+  .section {
+    padding: calc(var(--nav-h) + 4rem) var(--grid-margin) 5rem;
+  }
+}
+
+.section + .section {
+  border-top: 1px solid var(--border);
+}
+
+/* ── shared deco helpers ─────────────────────────────────────────────────── */
+.dot-scatter {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.dot-scatter circle {
+  fill: var(--text-dim);
+  opacity: 0.5;
+}
+
+.constellation {
+  position: absolute;
+  pointer-events: none;
+  opacity: 0.35;
+}

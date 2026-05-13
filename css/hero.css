@@ -1,0 +1,176 @@
+/* ── hero section ───────────────────────────────────────────────────────── */
+
+.hero {
+  min-height: 100svh;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-top: var(--nav-h);
+}
+
+/* ── 12-col inner grid ──────────────────────────────────────────────────── */
+.hero__inner {
+  width: 100%;
+  max-width: var(--grid-max-w);
+  margin: 0 auto;
+  padding: 2rem var(--grid-margin) 3rem;
+
+  /* mobile: single column, content then visual */
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--grid-gutter);
+  align-items: center;
+}
+
+/* desktop: 7 + 5 column split */
+@media (min-width: 768px) {
+  .hero__inner {
+    grid-template-columns: repeat(12, 1fr);
+    padding: 0 var(--grid-margin);
+    min-height: calc(100svh - var(--nav-h));
+  }
+
+  .hero__content    { grid-column: span 7; }
+  .hero__visual-wrap { grid-column: span 5; }
+}
+
+/* ── left: text content ─────────────────────────────────────────────────── */
+.hero__content {
+  position: relative;
+  z-index: 2;
+}
+
+.hero__label {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.22em;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  margin-bottom: clamp(1rem, 3vw, 1.6rem);
+}
+
+/* fluid title: 3rem (mobile) → 9rem (large desktop) */
+.hero__title {
+  font-size: clamp(3rem, 10vw, 9rem);
+  font-weight: 700;
+  line-height: 0.92;
+  letter-spacing: -0.03em;
+}
+
+.hero__title-red   { color: var(--accent);  display: block; }
+.hero__title-cream { color: var(--text);    display: block; }
+
+/* tagline: gold left border (matching pangpuriye.info pattern) */
+.hero__tagline {
+  margin-top: clamp(1rem, 3vw, 1.8rem);
+  padding-left: 1.25rem;
+  border-left: 2px solid var(--accent-gold);
+  font-style: italic;
+  font-size: clamp(0.9rem, 1.8vw, 1.1rem);
+  color: var(--text-dim);
+  letter-spacing: 0.01em;
+  max-width: 36ch;
+}
+
+/* buttons: column on mobile → row on desktop (≥480px) */
+.hero__actions {
+  margin-top: clamp(1.8rem, 4vw, 3rem);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  align-items: flex-start;
+}
+
+@media (min-width: 480px) {
+  .hero__actions {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+}
+
+/* outlined buttons */
+.btn-outline {
+  display: inline-block;
+  padding: 0.7rem 1.6rem;
+  border: 1px solid var(--text-dim);
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text);
+  transition: border-color 0.25s, color 0.25s, background 0.25s;
+  white-space: nowrap;
+}
+
+.btn-outline:hover {
+  border-color: var(--text);
+  background: var(--text);
+  color: var(--bg);
+}
+
+.btn-outline--accent {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.btn-outline--accent:hover {
+  background: var(--accent);
+  color: var(--text);
+  border-color: var(--accent);
+}
+
+/* ── right: animated panther canvas ────────────────────────────────────── */
+.hero__visual-wrap {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#panther-canvas {
+  display: block;
+  width: 100%;
+  /* height is set dynamically by panther.js to preserve 1200:630 ratio */
+}
+
+.hero__fig-label {
+  margin-top: 0.5rem;
+  align-self: flex-end;
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.22em;
+  color: var(--text-dim);
+  text-transform: uppercase;
+}
+
+/* ── ambient scatter dots ────────────────────────────────────────────────── */
+.hero__dots {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── bottom-left constellation deco (desktop only) ──────────────────────── */
+.hero__deco-bl {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .hero__deco-bl {
+    display: block;
+    position: absolute;
+    bottom: 0;
+    left: 4vw;
+    width: 140px;
+    opacity: 0.28;
+    pointer-events: none;
+  }
+}

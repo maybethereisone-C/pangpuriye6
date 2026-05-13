@@ -1,0 +1,37 @@
+<!-- mobile: flex-row (logo | counter | menu)
+     desktop: 3-col grid (logo | counter | menu) via CSS -->
+<nav class="navbar" role="navigation" aria-label="Main navigation">
+
+  <!-- left: logo -->
+  <a class="navbar__logo" href="#hero" aria-label="Pangpuriye home">
+    <div class="navbar__logo-mark">
+      Pangpuriye<span>SS6 · 2026</span>
+    </div>
+  </a>
+
+  <!-- center: section counter — updated by counter.js -->
+  <div class="navbar__counter" aria-live="polite">
+    <strong id="nav-current">01</strong> / 06
+  </div>
+
+  <!-- right: menu -->
+  <div class="navbar__right">
+    <button class="navbar__menu-btn" id="menu-open"
+            aria-expanded="false" aria-controls="nav-overlay">
+      MENU
+    </button>
+  </div>
+
+</nav>
+
+<!-- full-screen overlay menu -->
+<div class="nav-overlay" id="nav-overlay"
+     role="dialog" aria-modal="true" aria-label="Site navigation">
+  <button class="nav-overlay__close" id="menu-close" aria-label="Close menu">CLOSE</button>
+  <a class="nav-overlay__item" href="#hero"     data-section="01"><span>01</span>Home</a>
+  <a class="nav-overlay__item" href="#about"    data-section="02"><span>02</span>About</a>
+  <a class="nav-overlay__item" href="#members"  data-section="03"><span>03</span>Members</a>
+  <a class="nav-overlay__item" href="#projects" data-section="04"><span>04</span>Projects</a>
+  <a class="nav-overlay__item" href="#gallery"  data-section="05"><span>05</span>Gallery</a>
+  <a class="nav-overlay__item" href="#contact"  data-section="06"><span>06</span>Contact</a>
+</div>
