@@ -4,8 +4,7 @@
 
 const member = (() => {
 
-  const API_ORIGIN = 'https://pangpuriye.info/api/v1/pangpuriye/member';
-  const HEADERS    = { 'api-key': 'SuperAIss6P@ssw0rdn_eiei!' };
+  const API_ORIGIN = 'http://pangpuriye:1323/api/v1/pangpuriye/member';
   const ROWS = 2;
 
   // In local dev the browser blocks cross-origin fetch with a preflight redirect.

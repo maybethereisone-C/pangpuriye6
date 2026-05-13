@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pangpuriye6
+  namespace: develop
+  labels:
+    app: pangpuriye6
+    env: develop
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pangpuriye6
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0          # zero-downtime rollout
+  template:
+    metadata:
+      labels:
+        app: pangpuriye6
+        env: develop
+    spec:
+      imagePullSecrets:
+        - name: docker-registry-secret
+      containers:
+        - name: pangpuriye6
+          image: gridwhizth/pangpuriye6:latest
+          imagePullPolicy: Always
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          resources:
+            requests:
+              cpu:    10m
+              memory: 32Mi
+            limits:
+              cpu:    100m
+              memory: 64Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem:   false   # nginx needs /var/cache/nginx
+            runAsNonRoot:             false   # nginx:alpine-slim binds :80 as root then drops
+            capabilities:
+              drop: ["ALL"]
+              add:  ["NET_BIND_SERVICE"]
+
+      terminationGracePeriodSeconds: 30
