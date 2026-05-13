@@ -57,3 +57,4 @@ CLAUDE.local.md
 # Non-runtime planning docs
 .planning/
 docs/
+.vercel/
