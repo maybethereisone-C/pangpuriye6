@@ -27,7 +27,7 @@ const member = (() => {
   async function fetchAll() {
     const url = apiUrl();
     console.log('[member] fetchAll → GET', url);
-    const res = await fetch(url, { headers: HEADERS });
+    const res = await fetch(url, {});
     console.log('[member] fetchAll response status:', res.status);
     if (!res.ok) throw new Error(`fetchAll HTTP ${res.status}`);
     const json = await res.json();
