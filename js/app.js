@@ -30,6 +30,10 @@ async function main() {
 
 main().catch((error) => {
   console.error("[pangpuriye-static] failed to boot", error);
-  document.body.innerHTML =
-    '<div style="display:flex;align-items:center;justify-content:center;height:100vh;font-family:sans-serif;color:#C1121F">Failed to load. Please refresh.</div>';
+  const el = document.createElement("div");
+  el.style.cssText =
+    "display:flex;align-items:center;justify-content:center;height:100vh;font-family:sans-serif;color:#C1121F";
+  el.textContent = "Failed to load. Please refresh.";
+  document.body.innerHTML = "";
+  document.body.appendChild(el);
 });
