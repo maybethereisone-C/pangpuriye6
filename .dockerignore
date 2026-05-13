@@ -9,6 +9,8 @@ node_modules/
 .env
 .env.local
 .env.*.local
+runtime-env.js
+proxy.js
 
 # Private API contracts (gitignored too)
 api/
