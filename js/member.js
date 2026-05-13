@@ -4,13 +4,15 @@
 
 const member = (() => {
 
-  const API_ORIGIN = 'http://pangpuriye:1323/api/v1/pangpuriye/member';
   const ROWS = 2;
 
-  // In local dev the browser blocks cross-origin fetch with a preflight redirect.
-  // corsproxy.io forwards the request (including custom headers) transparently.
-  // On the real domain (pangpuriye.info) same-origin requests skip CORS entirely.
   const isLocal = ['localhost', '127.0.0.1', ''].includes(location.hostname);
+
+  // On k8s, nginx proxies /api/ → pangpuriye:1323 inside the cluster (same-origin, no CORS).
+  // In local dev, port-forward the service: kubectl port-forward svc/pangpuriye 1323:1323 -n develop
+  const API_ORIGIN = isLocal
+    ? 'http://localhost:1323/api/v1/pangpuriye/member'
+    : '/api/v1/pangpuriye/member';
 
   let allMembers = [];
   let pages      = [];
@@ -20,8 +22,7 @@ const member = (() => {
   // ── API ───────────────────────────────────────────────────────────────────
 
   function apiUrl(path = '') {
-    const full = path ? `${API_ORIGIN}/${path}` : `${API_ORIGIN}?limit=99`;
-    return isLocal ? `https://corsproxy.io/?${encodeURIComponent(full)}` : full;
+    return path ? `${API_ORIGIN}/${path}` : `${API_ORIGIN}?limit=99`;
   }
 
   async function fetchAll() {
