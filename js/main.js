@@ -9,5 +9,5 @@
   navbar.init();
   counter.init();
   member.init();
-  panther.init();
+  logoEffect.init();
 })();

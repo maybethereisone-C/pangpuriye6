@@ -4,7 +4,7 @@
   <svg class="hero__dots" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
     <circle cx="8%"   cy="20%" r="1.2" fill="#6e6455" opacity="0.45"/>
     <circle cx="35%"  cy="12%" r="1"   fill="#6e6455" opacity="0.35"/>
-    <circle cx="72%"  cy="78%" r="1.2" fill="#6e6455" opacity="0.3"/>
+    <circle cx="72%"  cy="78%" r="1.2" fill="#6e6455" opacity="0.30"/>
     <circle cx="88%"  cy="30%" r="1"   fill="#6e6455" opacity="0.25"/>
     <circle cx="18%"  cy="68%" r="1"   fill="#6e6455" opacity="0.28"/>
     <circle cx="92%"  cy="55%" r="1.2" fill="#6e6455" opacity="0.25"/>
@@ -31,9 +31,18 @@
       </div>
     </div>
 
-    <!-- col 8–12: animated running panther -->
+    <!-- col 8–12: logo + AI effect canvas -->
     <div class="hero__visual-wrap">
-      <canvas id="panther-canvas" aria-hidden="true"></canvas>
+
+      <!-- logo-frame: canvas behind, SVG logo on top -->
+      <div class="logo-frame">
+        <canvas id="logo-canvas" aria-hidden="true"></canvas>
+        <img class="logo-img"
+             src="logo/logo.svg"
+             alt="Pangpuriye"
+             draggable="false" />
+      </div>
+
       <p class="hero__fig-label">FIG.01 · COHORT_PRIME · 2026.05</p>
     </div>
 

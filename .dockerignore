@@ -1,0 +1,20 @@
+# git
+.git
+.gitignore
+
+# macOS
+.DS_Store
+**/.DS_Store
+
+# dev samples (not served)
+sample/
+
+# docker files themselves (no need to copy into image)
+Dockerfile
+.dockerignore
+
+# editor
+.vscode
+.idea
+*.code-workspace
+*sample*

@@ -1,3 +1,5 @@
+/* ── member section ──────────────────────────────────────────────────────── */
+
 .member-section {
   min-height: 100svh;
   padding: calc(var(--nav-h) + 3rem) var(--grid-margin) 4rem;
@@ -11,6 +13,17 @@
   }
 }
 
+/* top-right constellation deco */
+.member-section__deco-tr {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 280px;
+  opacity: 0.22;
+  pointer-events: none;
+}
+
+/* section header */
 .member-section__label {
   font-family: var(--font-mono);
   font-size: 0.65rem;
@@ -36,166 +49,529 @@
   letter-spacing: 0.04em;
 }
 
-/* grid */
-.member-grid {
-  display: grid;
-  grid-template-columns: 1fr;           /* 1 col on mobile */
-  gap: var(--grid-gutter);
+/* ── roster carousel ─────────────────────────────────────────────────────── */
+
+.roster-wrap {
+  position: relative;
   margin-top: 3rem;
 }
 
-@media (min-width: 640px) {
-  .member-grid { grid-template-columns: repeat(2, 1fr); }
-}
-
-@media (min-width: 1024px) {
-  .member-grid { grid-template-columns: repeat(4, 1fr); }
-}
-
-/* card */
-.member-card {
-  background: var(--bg-card);
+/* prev / next buttons */
+.roster-nav {
+  position: absolute;
+  top: 40%;
+  transform: translateY(-50%);
+  z-index: 10;
+  width: 36px;
+  height: 36px;
   border: 1px solid var(--border-card);
-  position: relative;
+  background: rgba(13, 13, 13, 0.75);
+  color: var(--text-dim);
   display: flex;
-  flex-direction: column;
-}
-
-.member-card__header {
-  display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 0.5rem 0.75rem;
-  border-bottom: 1px solid var(--border-card);
+  justify-content: center;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s, opacity 0.2s;
 }
 
-.member-card__id {
-  font-family: var(--font-mono);
-  font-size: 0.62rem;
-  letter-spacing: 0.15em;
-  color: var(--text-dim);
+.roster-nav:hover {
+  color: var(--text);
+  border-color: var(--text-dim);
 }
 
-.member-card__status {
-  font-family: var(--font-mono);
-  font-size: 0.55rem;
-  letter-spacing: 0.2em;
-  color: var(--text-dim);
-  text-transform: uppercase;
+.roster-nav--prev { left: -1px; }
+.roster-nav--next { right: -1px; }
+
+@media (min-width: 768px) {
+  .roster-nav--prev { left: -2.5rem; }
+  .roster-nav--next { right: -2.5rem; }
 }
 
-.member-card__photo {
-  width: 100%;
-  aspect-ratio: 3 / 4;
-  background: var(--bg-card-img);
+/* clipping container with gradient-fade edges */
+.roster-outer {
   overflow: hidden;
-  position: relative;
+  mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    black 7%,
+    black 93%,
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    black 7%,
+    black 93%,
+    transparent 100%
+  );
 }
 
-.member-card__photo img {
+/* sliding track */
+.roster-track {
+  display: flex;
+  will-change: transform;
+}
+
+/* one "page" = 2 rows × N cols
+   Flexbox + justify-content:center ensures a partial last page
+   (fewer than cols×ROWS cards) is centred instead of left-aligned. */
+.roster-page {
+  flex: 0 0 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: flex-start;
+  gap: 0.75rem;
+  padding: 1.5rem 3%;
+  box-sizing: border-box;
+}
+
+@media (min-width: 768px) {
+  .roster-page { gap: 1rem; padding: 1.5rem 2%; }
+}
+
+/* ── card entrance animation — columns fire left → right ─────────────────── */
+
+@keyframes card-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* All cards on the active page play the animation.
+   --card-delay is set per-card in JS based on its column index. */
+.roster-page--active .roster-card {
+  animation: card-in 0.42s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: var(--card-delay, 0ms);
+}
+
+/* ── roster card ─────────────────────────────────────────────────────────── */
+
+.roster-card {
+  position: relative;
+  /* width driven by --card-w set in JS (= 100%/cols minus gap share) */
+  flex: 0 0 var(--card-w, 23%);
+  aspect-ratio: 3 / 4;      /* portrait — gives room to show the full photo   */
+  overflow: hidden;
+  border: 1px solid var(--border-card);
+  background: #0e0c0a;
+  cursor: pointer;
+  outline: none;
+  transition: border-color 0.28s, box-shadow 0.28s;
+  /* cards start invisible; .roster-page--active triggers card-in above       */
+  opacity: 0;
+}
+
+/* reset opacity once animation has played (avoids flash on resize) */
+.roster-page--active .roster-card {
+  opacity: 1;   /* animation fill-mode: both handles the transition            */
+}
+
+.roster-card:hover,
+.roster-card:focus-visible {
+  border-color: rgba(193, 18, 31, 0.6);
+  box-shadow: 0 0 0 1px rgba(193, 18, 31, 0.18);
+}
+
+/* ── photo: contain so the whole picture is always visible ────────────────── */
+
+.roster-card__photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;       /* show full photo, no cropping                   */
+  object-position: center top; /* align head/face to top of frame              */
+  display: block;
+  transition: transform 0.45s ease;
+}
+
+.roster-card:hover .roster-card__photo {
+  transform: scale(1.04);
+}
+
+/* initials fallback */
+.roster-card__initials {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: clamp(2.5rem, 7vw, 5rem);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--accent);
+  opacity: 0.14;
+  user-select: none;
+}
+
+/* gradient scrim — heavier at bottom for readability */
+.roster-card__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(10, 8, 6, 0.97) 0%,
+    rgba(10, 8, 6, 0.78) 30%,
+    rgba(10, 8, 6, 0.30) 56%,
+    transparent 75%
+  );
+  pointer-events: none;
+}
+
+/* info block pinned to bottom */
+.roster-card__body {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 0.65rem 0.7rem 0.7rem;
+}
+
+.roster-card__id {
+  font-family: var(--font-mono);
+  font-size: 0.48rem;
+  letter-spacing: 0.2em;
+  color: var(--accent);
+  text-transform: uppercase;
+  margin-bottom: 0.16rem;
+  opacity: 0.8;
+}
+
+.roster-card__name {
+  font-size: clamp(0.7rem, 1.2vw, 0.88rem);
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.roster-card__nick {
+  font-size: 0.6rem;
+  color: var(--text-dim);
+  font-style: italic;
+  margin-top: 0.1rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.roster-card__role {
+  font-family: var(--font-mono);
+  font-size: 0.52rem;
+  letter-spacing: 0.14em;
+  color: var(--accent-gold);
+  text-transform: uppercase;
+  margin-top: 0.22rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  opacity: 0.85;
+}
+
+/* ── page-indicator dots ─────────────────────────────────────────────────── */
+
+.roster-dots {
+  display: flex;
+  justify-content: center;
+  gap: 0.55rem;
+  margin-top: 2rem;
+}
+
+.roster-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: transparent;
+  border: 1px solid var(--text-dim);
+  opacity: 0.45;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s, opacity 0.2s;
+  padding: 0;
+}
+
+.roster-dot.is-active {
+  background: var(--accent);
+  border-color: var(--accent);
+  opacity: 1;
+}
+
+/* ── member detail modal ─────────────────────────────────────────────────── */
+
+.member-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.member-modal.is-open {
+  display: flex;
+}
+
+.member-modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(13, 13, 13, 0.72);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+.member-modal__panel {
+  position: relative;
+  z-index: 1;
+  background: #111009;
+  border: 1px solid var(--border-card);
+  width: 100%;
+  max-width: 820px;
+  max-height: 92vh;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 2fr 3fr;
+  opacity: 0;
+  transform: translateY(22px) scale(0.97);
+  transition: opacity 0.32s ease, transform 0.32s ease;
+}
+
+.member-modal.is-open .member-modal__panel {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* single column below 640px */
+@media (max-width: 639px) {
+  .member-modal__panel {
+    grid-template-columns: 1fr;
+    max-height: 88vh;
+    overflow-y: auto;
+  }
+}
+
+/* ── photo side ──────────────────────────────────────────────────────────── */
+
+.modal-photo-side {
+  position: relative;
+  overflow: hidden;
+  min-height: 300px;
+}
+
+.modal-photo {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
-  filter: grayscale(30%) contrast(1.05);
+  min-height: 300px;
 }
 
-.member-card__photo-placeholder {
+.modal-photo-placeholder {
   width: 100%;
   height: 100%;
+  min-height: 300px;
   display: flex;
   align-items: center;
   justify-content: center;
+  background: rgba(193, 18, 31, 0.04);
 }
 
-.member-card__photo-placeholder svg {
-  opacity: 0.08;
-  width: 40%;
+.modal-photo-initials {
+  font-size: 5rem;
+  font-weight: 700;
+  color: var(--accent);
+  opacity: 0.15;
+  letter-spacing: 0.05em;
 }
 
-.member-card__body {
-  padding: 1rem 0.85rem 1.2rem;
+.modal-mem-id {
+  position: absolute;
+  bottom: 0.85rem;
+  left: 0.85rem;
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.15em;
+  color: var(--text-dim);
+  background: rgba(13, 13, 13, 0.65);
+  padding: 0.2rem 0.5rem;
+}
+
+/* ── info side ───────────────────────────────────────────────────────────── */
+
+.modal-info {
+  padding: 1.4rem 1.6rem 1.6rem;
   display: flex;
   flex-direction: column;
   gap: 0.55rem;
-  flex: 1;
+  overflow-y: auto;
+  max-height: 92vh;
 }
 
-.member-card__name {
-  font-size: 1.05rem;
+.modal-close-row {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 0.3rem;
+}
+
+.modal-close {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.18em;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  background: none;
+  border: 1px solid var(--border-card);
+  padding: 0.32rem 0.75rem;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.modal-close:hover {
+  color: var(--text);
+  border-color: var(--text-dim);
+}
+
+.modal-id-label {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.22em;
+  color: var(--accent);
+}
+
+.modal-name {
+  font-size: clamp(1.3rem, 3.5vw, 1.9rem);
   font-weight: 700;
   color: var(--text);
-  letter-spacing: -0.01em;
+  letter-spacing: -0.025em;
+  line-height: 1.1;
 }
 
-.member-card__nick {
+.modal-nick {
+  font-size: 0.9rem;
+  color: var(--text-dim);
+  font-style: italic;
+}
+
+.modal-slogan {
   font-size: 0.82rem;
   color: var(--text-dim);
   font-style: italic;
+  line-height: 1.65;
+  max-width: 34ch;
 }
 
-.member-card__motto {
-  font-size: 0.8rem;
-  color: var(--text-dim);
-  font-style: italic;
-  line-height: 1.5;
+.modal-divider {
+  border: none;
+  border-top: 1px solid var(--border-card);
+  margin: 0.3rem 0;
 }
 
-.member-card__field-label {
+.modal-field-label {
   font-family: var(--font-mono);
-  font-size: 0.58rem;
-  letter-spacing: 0.2em;
+  font-size: 0.56rem;
+  letter-spacing: 0.24em;
   color: var(--text-dim);
   text-transform: uppercase;
-  margin-top: 0.3rem;
+  margin-bottom: 0.1rem;
 }
 
-.member-card__skill {
+.modal-skill {
   font-family: var(--font-mono);
-  font-size: 0.72rem;
+  font-size: 0.8rem;
   color: var(--accent);
   letter-spacing: 0.04em;
 }
 
-.member-card__tags {
+.modal-tags {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.4rem;
-  margin-top: 0.1rem;
+  gap: 0.35rem;
 }
 
-.member-card__tag {
+.modal-tag {
   font-family: var(--font-mono);
-  font-size: 0.58rem;
+  font-size: 0.56rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  padding: 0.25rem 0.55rem;
+  padding: 0.22rem 0.5rem;
   border: 1px solid var(--border-card);
   color: var(--text-dim);
 }
 
-.member-card__other {
+.modal-other {
   font-family: var(--font-mono);
-  font-size: 0.68rem;
+  font-size: 0.7rem;
   color: var(--text-dim);
-  letter-spacing: 0.04em;
+  letter-spacing: 0.03em;
 }
 
-.member-card__other strong {
-  font-weight: 400;
+.modal-actions {
+  display: flex;
+  gap: 0.6rem;
+  margin-top: auto;
+  padding-top: 1rem;
+  flex-wrap: wrap;
+  border-top: 1px solid var(--border-card);
+}
+
+.modal-btn {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 0.48rem 1rem;
+  border: 1px solid var(--border-card);
+  color: var(--text-dim);
+  text-decoration: none;
+  cursor: pointer;
+  background: none;
+  transition: color 0.2s, border-color 0.2s, background 0.2s;
+}
+
+.modal-btn:hover {
+  color: var(--text);
+  border-color: var(--text-dim);
+  background: rgba(232, 220, 200, 0.05);
+}
+
+/* ── loading spinner ─────────────────────────────────────────────────────── */
+
+.modal-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 280px;
+  gap: 1rem;
+  grid-column: 1 / -1;
+  width: 100%;
+}
+
+.modal-loading__spinner {
+  width: 30px;
+  height: 30px;
+  border: 2px solid var(--border-card);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: modal-spin 0.75s linear infinite;
+}
+
+@keyframes modal-spin {
+  to { transform: rotate(360deg); }
+}
+
+.modal-loading__text {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.18em;
   color: var(--text-dim);
   text-transform: uppercase;
-  font-size: 0.58em;
-  letter-spacing: 0.2em;
-  margin-right: 0.4rem;
-}
-
-/* top-right deco */
-.member-section__deco-tr {
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 280px;
-  opacity: 0.25;
-  pointer-events: none;
 }

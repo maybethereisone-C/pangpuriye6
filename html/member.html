@@ -22,12 +22,45 @@
     </g>
   </svg>
 
-  <!-- header -->
+  <!-- section header -->
   <p class="member-section__label">SEC.03 · Members // Pangpuriye_Roster_V1</p>
   <h2 class="member-section__title">Cohort Roster</h2>
-  <p class="member-section__sub">// members loaded from roster data</p>
+  <p class="member-section__sub" id="member-count">// loading roster…</p>
 
-  <!-- cards rendered by member.js -->
-  <div class="member-grid" id="member-grid"></div>
+  <!-- ── carousel ──────────────────────────────────────────────────────── -->
+  <div class="roster-wrap">
+
+    <button class="roster-nav roster-nav--prev" id="roster-prev" aria-label="Previous page">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+        <path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+
+    <button class="roster-nav roster-nav--next" id="roster-next" aria-label="Next page">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+        <path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+
+    <!-- clipping outer — gradient-mask creates the blurred-edge effect -->
+    <div class="roster-outer">
+      <div class="roster-track" id="roster-track">
+        <!-- pages injected by member.js -->
+      </div>
+    </div>
+
+    <!-- page indicator dots -->
+    <div class="roster-dots" id="roster-dots" role="tablist" aria-label="Carousel pages"></div>
+
+  </div>
+
+  <!-- ── member detail modal ───────────────────────────────────────────── -->
+  <div class="member-modal" id="member-modal"
+       role="dialog" aria-modal="true" aria-label="Member detail">
+    <div class="member-modal__backdrop" id="modal-backdrop"></div>
+    <div class="member-modal__panel"    id="modal-panel">
+      <!-- injected by member.js on card click -->
+    </div>
+  </div>
 
 </section>
