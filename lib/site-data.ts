@@ -51,12 +51,19 @@ export interface Member {
   linkedin_url?: string;
 }
 
+export interface GalleryCategory {
+  id: string;
+  name: string;
+  description: string;
+}
+
 export interface GalleryItem {
   id: string;
+  category: GalleryCategory[];
   title: string;
   description: string;
   images: string[];
-  date: string;
+  date?: string;
 }
 
 export interface Award {

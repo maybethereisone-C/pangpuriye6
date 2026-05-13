@@ -47,6 +47,11 @@ type RawMember = Partial<Omit<Member, "interesting" | "gmail" | "video_links">> 
   video_links?: unknown;
 };
 
+type RawGalleryItem = Partial<Omit<GalleryItem, "category" | "images">> & {
+  category?: unknown;
+  images?: unknown;
+};
+
 async function readPublicJson<T>(filename: string): Promise<T | null> {
   try {
     const filePath = path.join(process.cwd(), "public", filename);
@@ -157,6 +162,45 @@ function normalizeMembers(rawMembers: RawMember[]): Member[] {
     .filter((member): member is Member => member !== null);
 }
 
+function normalizeGalleryCategory(value: unknown): GalleryItem["category"][number] | null {
+  if (typeof value !== "object" || value === null) return null;
+
+  const record = value as Record<string, unknown>;
+  const id = asOptionalString(record.id);
+  const name = asOptionalString(record.name);
+  if (!id || !name) return null;
+
+  return {
+    id,
+    name,
+    description: asOptionalString(record.description) ?? "",
+  };
+}
+
+function normalizeGalleryItem(raw: RawGalleryItem, index: number): GalleryItem | null {
+  const id = asOptionalString(raw.id);
+  if (!id) return null;
+
+  return {
+    id,
+    category: Array.isArray(raw.category)
+      ? raw.category
+          .map((item) => normalizeGalleryCategory(item))
+          .filter((item): item is GalleryItem["category"][number] => item !== null)
+      : [],
+    title: asOptionalString(raw.title) ?? `Gallery ${index + 1}`,
+    description: asOptionalString(raw.description) ?? "",
+    images: asStringArray(raw.images),
+    date: asOptionalString(raw.date),
+  };
+}
+
+function normalizeGalleryItems(rawItems: RawGalleryItem[]): GalleryItem[] {
+  return rawItems
+    .map((item, index) => normalizeGalleryItem(item, index))
+    .filter((item): item is GalleryItem => item !== null);
+}
+
 export async function getMembers(): Promise<Member[]> {
   const cfg = await loadConfig();
   const baseUrl = getBaseUrl();
@@ -180,13 +224,15 @@ export async function getGallery(): Promise<GalleryItem[]> {
   const baseUrl = getBaseUrl();
 
   if (cfg.mode === "live" && baseUrl) {
-    const live = await liveFetch<GalleryItem[]>(joinUrl(baseUrl, cfg.endpoints.gallery), getAuthHeaders());
-    if (live && live.length > 0) return live;
+    const live = await liveFetch<RawGalleryItem[]>(joinUrl(baseUrl, cfg.endpoints.gallery), getAuthHeaders());
+    const normalized = live ? normalizeGalleryItems(live) : [];
+    if (normalized.length > 0) return normalized;
     console.warn("[api] gallery live fetch empty/failed — falling back to placeholder");
   }
 
-  const fromJson = await readPublicJson<GalleryItem[]>("data/gallery.json");
-  if (fromJson) return fromJson;
+  const fromJson = await readPublicJson<RawGalleryItem[]>("data/gallery.json");
+  const normalized = fromJson ? normalizeGalleryItems(fromJson) : [];
+  if (normalized.length > 0) return normalized;
 
   return placeholderSiteData.gallery;
 }
