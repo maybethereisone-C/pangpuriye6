@@ -68,13 +68,14 @@ build/
 .cache/
 
 # Env — only .env.example may be committed
-.env
-.env.local
-.env.development
-.env.test
-.env.production
-.env.*.local
-!.env.example
+# .env
+# .env.local
+# .env.development
+# .env.test
+# .env.production
+# .env.*.local
+# !.env.example
 
 # Vercel
 .vercel
+configmap.yaml

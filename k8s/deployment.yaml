@@ -21,6 +21,9 @@ spec:
         - name: pangpuriye6
           image: gridwhizth/pangpuriye6:latest
           imagePullPolicy: Always
+          envFrom:
+          - configMapRef:
+              name: pangpuriye6-cofigmap
           ports:
             - containerPort: 3000
           readinessProbe:
