@@ -8,12 +8,18 @@ const files = {
 };
 
 async function readJson(path) {
-  const response = await fetch(path, { cache: "no-store" });
-  if (!response.ok) {
-    throw new Error(`Missing data file: ${path}`);
+  try {
+    const response = await fetch(path, { cache: "no-store" });
+    if (!response.ok) {
+      console.warn(`[data] Missing file: ${path} (HTTP ${response.status})`);
+      return {};
+    }
+    const json = await response.json();
+    return json.data ?? json;
+  } catch (error) {
+    console.warn(`[data] Failed to load: ${path}`, error);
+    return {};
   }
-  const json = await response.json();
-  return json.data ?? json;
 }
 
 function runtimeEnv() {
