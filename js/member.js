@@ -43,7 +43,7 @@ const member = (() => {
   async function fetchOne(id) {
     const url = apiUrl(id);
     console.log('[member] fetchOne → GET', url);
-    const res = await fetch(url, { headers: HEADERS });
+    const res = await fetch(url, {});
     console.log('[member] fetchOne response status:', res.status);
     if (!res.ok) throw new Error(`fetchOne HTTP ${res.status}`);
     const json = await res.json();
