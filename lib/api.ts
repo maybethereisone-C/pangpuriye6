@@ -41,6 +41,12 @@ interface RespWrapper<T> {
   data: T;
 }
 
+type RawMember = Partial<Omit<Member, "interesting" | "gmail" | "video_links">> & {
+  interesting?: unknown;
+  gmail?: unknown;
+  video_links?: unknown;
+};
+
 async function readPublicJson<T>(filename: string): Promise<T | null> {
   try {
     const filePath = path.join(process.cwd(), "public", filename);
@@ -66,6 +72,10 @@ async function loadConfig(): Promise<ApiConfig> {
 
 function getBaseUrl(): string | null {
   return process.env.NEXT_PUBLIC_API_BASE_URL ?? null;
+}
+
+function joinUrl(baseUrl: string, endpoint: string): string {
+  return `${baseUrl.replace(/\/+$/, "")}/${endpoint.replace(/^\/+/, "")}`;
 }
 
 function getAuthHeaders(): Record<string, string> {
@@ -97,18 +107,70 @@ async function liveFetch<T>(url: string, headers: Record<string, string>): Promi
   }
 }
 
+function asStringArray(value: unknown): string[] {
+  if (Array.isArray(value)) {
+    return value.flatMap((item) => asStringArray(item));
+  }
+
+  if (typeof value !== "string") return [];
+
+  return value
+    .split(/\r?\n|\\n|-n/g)
+    .map((item) => item.trim())
+    .filter(Boolean);
+}
+
+function asOptionalString(value: unknown): string | undefined {
+  if (typeof value !== "string") return undefined;
+  const trimmed = value.trim();
+  return trimmed || undefined;
+}
+
+function normalizeMember(raw: RawMember, index: number): Member | null {
+  const aiatId = asOptionalString(raw.aiat_id) ?? asOptionalString(raw.id);
+  if (!aiatId) return null;
+
+  return {
+    id: asOptionalString(raw.id),
+    aiat_id: aiatId,
+    role: asOptionalString(raw.role),
+    fullname: asOptionalString(raw.fullname) ?? `Member ${index + 1}`,
+    fullname_en: asOptionalString(raw.fullname_en),
+    nickname: asOptionalString(raw.nickname) ?? "-",
+    nickname_en: asOptionalString(raw.nickname_en),
+    slogan: asOptionalString(raw.slogan) ?? "",
+    ai_skill: asOptionalString(raw.ai_skill),
+    interesting: asStringArray(raw.interesting),
+    other_skills: asOptionalString(raw.other_skills),
+    image: asOptionalString(raw.image) ?? null,
+    gmail: asStringArray(raw.gmail),
+    call: asOptionalString(raw.call) ?? null,
+    video_links: asStringArray(raw.video_links),
+    github_url: asOptionalString(raw.github_url),
+    linkedin_url: asOptionalString(raw.linkedin_url),
+  };
+}
+
+function normalizeMembers(rawMembers: RawMember[]): Member[] {
+  return rawMembers
+    .map((member, index) => normalizeMember(member, index))
+    .filter((member): member is Member => member !== null);
+}
+
 export async function getMembers(): Promise<Member[]> {
   const cfg = await loadConfig();
   const baseUrl = getBaseUrl();
 
   if (cfg.mode === "live" && baseUrl) {
-    const live = await liveFetch<Member[]>(`${baseUrl}${cfg.endpoints.members}`, getAuthHeaders());
-    if (live && live.length > 0) return live;
+    const live = await liveFetch<RawMember[]>(joinUrl(baseUrl, cfg.endpoints.members), getAuthHeaders());
+    const normalized = live ? normalizeMembers(live) : [];
+    if (normalized.length > 0) return normalized;
     console.warn("[api] members live fetch empty/failed — falling back to placeholder");
   }
 
-  const fromJson = await readPublicJson<Member[]>("data/members.json");
-  if (fromJson && fromJson.length > 0) return fromJson;
+  const fromJson = await readPublicJson<RawMember[]>("data/members.json");
+  const normalized = fromJson ? normalizeMembers(fromJson) : [];
+  if (normalized.length > 0) return normalized;
 
   return placeholderSiteData.members;
 }
@@ -118,7 +180,7 @@ export async function getGallery(): Promise<GalleryItem[]> {
   const baseUrl = getBaseUrl();
 
   if (cfg.mode === "live" && baseUrl) {
-    const live = await liveFetch<GalleryItem[]>(`${baseUrl}${cfg.endpoints.gallery}`, getAuthHeaders());
+    const live = await liveFetch<GalleryItem[]>(joinUrl(baseUrl, cfg.endpoints.gallery), getAuthHeaders());
     if (live && live.length > 0) return live;
     console.warn("[api] gallery live fetch empty/failed — falling back to placeholder");
   }

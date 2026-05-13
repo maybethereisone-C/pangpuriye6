@@ -15,8 +15,12 @@
 export type AIInterest = "ml" | "nlp" | "cv" | "ethics" | "genai";
 
 export interface Member {
+  /** API row ID */
+  id?: string;
   /** รหัสโครงการ — AIAT project ID, e.g. "600965" */
   aiat_id: string;
+  /** House / cohort role from API */
+  role?: string;
   /** ชื่อจริง + นามสกุล (TH) — Thai full name */
   fullname: string;
   /** ชื่อจริง + นามสกุล (EN) — English full name (form-only, optional in API) */
@@ -29,8 +33,8 @@ export interface Member {
   slogan: string;
   /** ความถนัดด้าน AI — single primary AI strength (form-only, e.g. "Agentic AI") */
   ai_skill?: string;
-  /** ความสนใจด้าน AI — up to 5 broad interest tags */
-  interesting: AIInterest[];
+  /** ความสนใจด้าน AI — broad tags or free-text API values */
+  interesting: string[];
   /** สกิลด้านอื่น — non-AI skills, free text (form-only) */
   other_skills?: string;
   /** Profile photo URL — null when unset */

@@ -6,13 +6,17 @@ import { PLACEHOLDER_MEMBER_ID } from "@/lib/site-data";
 import { MemberDialog } from "@/components/blocks/MemberDialog";
 import { RevealOnView } from "@/components/motion/RevealOnView";
 
-const INTEREST_LABEL: Record<Member["interesting"][number], string> = {
+const INTEREST_LABEL: Record<string, string> = {
   ml: "Machine Learning",
   nlp: "NLP",
   cv: "Computer Vision",
   ethics: "AI Ethics",
   genai: "Generative AI",
 };
+
+function getInterestLabel(tag: string): string {
+  return INTEREST_LABEL[tag] ?? tag;
+}
 
 /** Members — Section 03. */
 export function Members({ members }: { members: Member[] }) {
@@ -96,7 +100,16 @@ function MemberCard({
         </span>
       </div>
 
-      <div className="aspect-[4/5] bg-[var(--color-hairline)]/30" />
+      <div className="aspect-[4/5] overflow-hidden bg-[var(--color-hairline)]/30">
+        {m.image && (
+          <img
+            src={m.image}
+            alt={m.fullname}
+            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+            loading="lazy"
+          />
+        )}
+      </div>
 
       <div className="flex flex-1 flex-col gap-3 p-4">
         <h3 className="font-[family-name:var(--font-display-loaded)] text-xl font-bold leading-tight">
@@ -130,7 +143,7 @@ function MemberCard({
                 key={tag}
                 className="border border-[var(--color-hairline)] px-2 py-0.5 font-[family-name:var(--font-mono-loaded)] text-[10px] uppercase tracking-[0.1em]"
               >
-                {INTEREST_LABEL[tag]}
+                {getInterestLabel(tag)}
               </li>
             ))}
           </ul>

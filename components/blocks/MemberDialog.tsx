@@ -4,13 +4,17 @@ import { Dialog, DialogPanel, DialogTitle, Transition, TransitionChild } from "@
 import { Fragment } from "react";
 import type { Member } from "@/lib/site-data";
 
-const INTEREST_LABEL: Record<Member["interesting"][number], string> = {
+const INTEREST_LABEL: Record<string, string> = {
   ml: "Machine Learning",
   nlp: "NLP",
   cv: "Computer Vision",
   ethics: "AI Ethics",
   genai: "Generative AI",
 };
+
+function getInterestLabel(tag: string): string {
+  return INTEREST_LABEL[tag] ?? tag;
+}
 
 export function MemberDialog({
   member,
@@ -59,7 +63,14 @@ export function MemberDialog({
               {member && (
                 <>
                   <div className="md:col-span-5">
-                    <div className="relative aspect-[4/5] bg-[var(--color-hairline)]/30">
+                    <div className="relative aspect-[4/5] overflow-hidden bg-[var(--color-hairline)]/30">
+                      {member.image && (
+                        <img
+                          src={member.image}
+                          alt={member.fullname}
+                          className="h-full w-full object-cover"
+                        />
+                      )}
                       <span className="absolute -top-1 -left-1 h-3 w-3 border-t border-l border-[var(--color-accent-gold)]" />
                       <span className="absolute -top-1 -right-1 h-3 w-3 border-t border-r border-[var(--color-accent-gold)]" />
                       <span className="absolute -bottom-1 -left-1 h-3 w-3 border-b border-l border-[var(--color-accent-gold)]" />
@@ -108,7 +119,7 @@ export function MemberDialog({
                             key={tag}
                             className="border border-[var(--color-hairline)] px-2 py-0.5 font-[family-name:var(--font-mono-loaded)] text-[10px] uppercase tracking-[0.1em] text-[var(--color-fg)]"
                           >
-                            {INTEREST_LABEL[tag]}
+                            {getInterestLabel(tag)}
                           </li>
                         ))}
                       </ul>
