@@ -51,7 +51,9 @@ npm-debug.log*
 .codex/
 .gemini/
 .playwright-mcp/
+AGENTS.md
 AGENTS.local.md
+CLAUDE.md
 CLAUDE.local.md
 
 # Non-runtime planning docs

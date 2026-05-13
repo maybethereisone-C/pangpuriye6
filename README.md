@@ -1,23 +1,48 @@
-# Pangpuriye Static Frontend
+# Pangpuriye — Super AI Engineer S6 L2
 
-Vanilla HTML/CSS/JS refactor lives here until Tew says `Go`.
+Digital yearbook for **Pangpuriye**, cohort of Super AI Engineer Season 6, Level 2 (AIAT).
 
-## Runtime API
+Built with vanilla HTML, CSS, and JavaScript. Served via nginx in Docker.
 
-Do not hardcode API keys, member data, gallery data, or category data in runtime JS. The browser fetches live API data at page load:
+## Stack
 
-- `GET /member?limit=30`
-- `GET /media/category`
-- `GET /media/gallery?limit=100`
+- HTML / CSS / Vanilla JS (ES modules)
+- nginx 1.27 (static server + API proxy)
+- Docker
 
-Supported env:
+## Development
 
 ```sh
-NEXT_PUBLIC_API_BASE_URL=https://your-host/api/v1/pangpuriye
-API_AUTH_HEADER=api-key
-API_AUTH_VALUE=
+# Python static server (no-cache, port 4174)
+python3 server.py
+
+# CORS proxy to live API (port 4175)
+node proxy.js
 ```
 
-Docker generates `runtime-env.js` from those env vars at container start. Static content JSON remains only for non-member/non-gallery copy that the API does not expose.
+## Docker
 
-The API key stays server-side. In Docker, nginx proxies same-origin `/api/v1/pangpuriye/*` to `API_UPSTREAM_URL` and injects `API_AUTH_HEADER/API_AUTH_VALUE` from env.
+```sh
+docker build -t pangpuriye6 .
+
+docker run -p 3000:3000 \
+  -e API_UPSTREAM_URL=https://www.pangpuriye.info/api/v1/pangpuriye \
+  -e API_AUTH_HEADER=api-key \
+  -e API_AUTH_VALUE=<secret> \
+  pangpuriye6
+```
+
+The container generates `runtime-env.js` at startup from env vars. nginx proxies `/api/v1/pangpuriye/*` to the upstream API with auth headers injected server-side.
+
+## Environment variables
+
+| Variable | Default | Description |
+|---|---|---|
+| `API_BASE_URL` | `/api/v1/pangpuriye` | Browser-facing API base (proxied by nginx) |
+| `API_UPSTREAM_URL` | `https://www.pangpuriye.info/api/v1/pangpuriye` | Real upstream API |
+| `API_AUTH_HEADER` | `api-key` | Auth header name |
+| `API_AUTH_VALUE` | _(empty)_ | Auth header value — keep secret, never commit |
+
+## License
+
+MIT — see `LICENSE`. Font licenses in `LICENSE.fonts.md`.
