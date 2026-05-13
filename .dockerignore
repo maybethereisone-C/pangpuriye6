@@ -11,7 +11,7 @@ node_modules/
 .env.*.local
 
 # Private API contracts (gitignored too)
-/api/
+api/
 
 # Local-only scratch assets
 assets/

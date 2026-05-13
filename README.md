@@ -1,39 +1,23 @@
-# Pangpuriye House Website
+# Pangpuriye Static Frontend
 
-Official website of **Pangpuriye** — Super AI Engineer Season 6 · Level 2 · AIAT.
+Vanilla HTML/CSS/JS refactor lives here until Tew says `Go`.
 
-🌐 **Live:** https://pangpuriye6.vercel.app
+## Runtime API
 
----
+Do not hardcode API keys, member data, gallery data, or category data in runtime JS. The browser fetches live API data at page load:
 
-## Stack
+- `GET /member?limit=30`
+- `GET /media/category`
+- `GET /media/gallery?limit=100`
 
-| Layer | Choice |
-|---|---|
-| Framework | Next.js 16 · React 19 |
-| Styling | Tailwind v4 |
-| Smooth scroll | Lenis |
-| Motion | GSAP + ScrollTrigger |
-| Deploy | Vercel |
+Supported env:
 
----
-
-## Quick start
-
-```bash
-nvm use
-npm install
-npm run dev        # http://localhost:3000
+```sh
+NEXT_PUBLIC_API_BASE_URL=https://your-host/api/v1/pangpuriye
+API_AUTH_HEADER=api-key
+API_AUTH_VALUE=
 ```
 
-```bash
-npm run build
-npm run typecheck
-npm run lint
-```
+Docker generates `runtime-env.js` from those env vars at container start. Static content JSON remains only for non-member/non-gallery copy that the API does not expose.
 
----
-
-## License
-
-[MIT](LICENSE)
+The API key stays server-side. In Docker, nginx proxies same-origin `/api/v1/pangpuriye/*` to `API_UPSTREAM_URL` and injects `API_AUTH_HEADER/API_AUTH_VALUE` from env.

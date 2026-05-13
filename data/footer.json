@@ -1,0 +1,10 @@
+{
+  "_schema": "SiteData.footer",
+  "_source": "Static public contact data. Not exposed by Pangpuriye API Swagger.",
+  "data": {
+    "email": "hello@pangpuriye.example",
+    "github": "https://github.com/maybethereisone-C/pangpuriye6",
+    "instagram": "https://www.instagram.com/pangpuriye.venator/",
+    "youtube": "#"
+  }
+}

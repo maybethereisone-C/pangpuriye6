@@ -4,6 +4,18 @@ This file is the project-level AI charter for Codex. Read it at every session st
 
 ---
 
+## Codex operating guardrails
+
+- This repo's Codex instruction file is `AGENTS.md`. Keep Codex-facing project rules here.
+- We own frontend work only. Do not edit backend, deployment, CI/CD, Kubernetes, Docker, or private API contract files unless Tew explicitly asks for that exact file.
+- Backend/deploy-owned files from backend-team commits `79c4c512deea8a0101fbbe7cf95d0b17eac00278` and `41eae86b3b95eddf38ed9a8b3273c6a04be8bd73` are protected. Treat these paths as backend-owned unless told otherwise: `.dockerignore`, `Dockerfile`, `k8s/`, `pipeline/`, and deploy/runtime config in `next.config.ts`.
+- If any protected backend/deploy-owned file has drifted from those backend-team commits, stop and confirm before changing it unless Tew has explicitly asked to restore it. When restoration is requested, restore only the protected files and leave frontend work untouched.
+- Do not guess requirements, copy, colors, behavior, implementation scope, or "best practice" choices. If intent is below 95% confidence, ask Tew before acting.
+- When a technical choice requires best-practice research, use authoritative/current sources first: official framework docs, package docs, standards, and primary references. Prefer project-local docs and existing code patterns when they answer the question.
+- Do not silently add features. Build only what was asked or what is required to make the requested frontend change work correctly.
+
+---
+
 ## What we're building
 
 A single-page **JS-paginated full-viewport** digital yearbook for **Pangpuriye** (Super AI Engineer Season 6, Level 2, AIAT). Awwwards-tier editorial web design — **Studio Namma / Obys.agency** school: handcrafted motion, restraint-first red palette ("Red Sniper" — 92% cream/black, red surgical), grotesk + dual-mono typography. **English-only copy.** Built on **Next.js 16 App Router · React 19 · Tailwind v4 · GSAP · Lenis · OGL**. Tier B ambition: **Awwwards Honorable** (Tier A ships week 2, WebGL layered weeks 3–4). Required sections per AIAT brief: **Home · About · Members · Gallery · Recognition · Clips · Others (optional)**. Public GitHub + public Vercel.

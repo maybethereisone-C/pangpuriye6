@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="The digital yearbook of Pangpuriye — Super AI Engineer Season 6 with AIAT."
+    />
+    <title>Pangpuriye — Super AI Engineer S6 L2</title>
+    <link rel="icon" href="data:," />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital@0;1&family=Space+Grotesk:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+    <script src="./runtime-env.js"></script>
+    <script>
+      (function () {
+        try {
+          var stored = localStorage.getItem("pangpuriye6-theme");
+          var system = window.matchMedia("(prefers-color-scheme: dark)").matches;
+          var dark =
+            stored === "dark" ||
+            (stored !== "light" && (stored === "system" || stored === null) && system);
+          if (dark) {
+            document.documentElement.classList.add("dark");
+          }
+        } catch (_) {}
+      })();
+    </script>
+  </head>
+  <body>
+    <canvas id="particles" class="particles" aria-hidden="true"></canvas>
+    <div class="cursor-dot" data-cursor-dot aria-hidden="true"></div>
+    <div class="cursor-ring" data-cursor-ring aria-hidden="true"></div>
+    <div class="progress" aria-hidden="true"><span></span></div>
+
+    <header class="topbar" data-topbar>
+      <a class="brand" href="#home" aria-label="Pangpuriye home">
+        <img src="./images/logo2_red.svg" alt="" aria-hidden="true" />
+      </a>
+      <button class="menu-button" type="button" data-open-menu>Menu</button>
+    </header>
+
+    <div class="menu-panel" data-menu hidden>
+      <div class="menu-curtain" data-close-menu></div>
+      <div class="menu-surface" role="dialog" aria-modal="true" aria-label="Site menu">
+        <header class="menu-head">
+          <button class="close-button" type="button" data-close-menu>
+            <span aria-hidden="true">x</span> Close
+          </button>
+          <div class="theme-toggle" role="group" aria-label="Theme">
+            <button type="button" role="radio" data-theme="light" aria-label="Light theme" title="Light theme">
+              <svg aria-hidden width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4 12H2M22 12h-2M5.6 5.6 4.2 4.2M19.8 19.8l-1.4-1.4M5.6 18.4l-1.4 1.4M19.8 4.2l-1.4 1.4"></path></svg>
+            </button>
+            <button type="button" role="radio" data-theme="dark" aria-label="Dark theme" title="Dark theme">
+              <svg aria-hidden width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"></path></svg>
+            </button>
+            <button type="button" role="radio" data-theme="system" aria-label="System theme" title="System theme">
+              <svg aria-hidden width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="13" rx="1.5"></rect><path d="M8 21h8M12 17v4"></path></svg>
+            </button>
+          </div>
+        </header>
+        <nav class="menu-nav" aria-label="Sections">
+          <button type="button" data-menu-link="home"><span>01</span>Home</button>
+          <button type="button" data-menu-link="about"><span>02</span>About</button>
+          <button type="button" data-menu-link="members"><span>03</span>Members</button>
+          <button type="button" data-menu-link="gallery"><span>04</span>Gallery</button>
+          <button type="button" data-menu-link="recognition"><span>05</span>Recognition</button>
+          <button type="button" data-menu-link="clips"><span>06</span>Clips</button>
+        </nav>
+        <footer class="menu-foot" data-menu-footer></footer>
+      </div>
+    </div>
+
+    <main>
+      <section id="home" class="section hero" data-section data-section-index="1"></section>
+      <section id="about" class="section about" data-section data-section-index="2"></section>
+      <section id="members" class="section members" data-section data-section-index="3"></section>
+      <section class="section red-wall" data-section data-section-index="4"></section>
+      <section id="gallery" class="section gallery" data-section data-section-index="5"></section>
+      <section id="recognition" class="section recognition" data-section data-section-index="6"></section>
+      <section id="clips" class="section clips" data-section data-section-index="7"></section>
+      <section id="others" class="section others" data-section data-section-index="8" hidden></section>
+    </main>
+
+    <footer class="site-footer" data-footer></footer>
+
+    <div class="modal" data-member-modal hidden></div>
+    <div class="modal" data-gallery-modal hidden></div>
+
+    <script src="./vendor/lenis.min.js"></script>
+    <script src="./vendor/gsap.min.js"></script>
+    <script src="./vendor/ScrollTrigger.min.js"></script>
+    <script type="module" src="./js/app.js"></script>
+  </body>
+</html>

@@ -1,37 +1,9 @@
 {
-  "name": "pangpuriye6",
-  "version": "0.1.0",
+  "name": "pangpuriye6-static",
   "private": true,
-  "description": "Awwwards-tier scroll-snap digital yearbook for Pangpuriye — Super AI Engineer S6 L2.",
+  "type": "module",
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint",
-    "typecheck": "tsc --noEmit"
-  },
-  "dependencies": {
-    "@gsap/react": "^2.1.2",
-    "@headlessui/react": "^2.2.10",
-    "gsap": "^3.13.0",
-    "lenis": "^1.1.20",
-    "next": "^16.0.0",
-    "ogl": "^1.0.11",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0"
-  },
-  "devDependencies": {
-    "@tailwindcss/postcss": "^4.0.0",
-    "@types/node": "^22.0.0",
-    "@types/react": "^19.0.0",
-    "@types/react-dom": "^19.0.0",
-    "eslint": "^9.0.0",
-    "eslint-config-next": "^16.0.0",
-    "postcss": "^8.4.49",
-    "tailwindcss": "^4.0.0",
-    "typescript": "^5.6.0"
-  },
-  "engines": {
-    "node": ">=20.18.0"
+    "check": "node --check js/app.js && node --check js/data.js && node --check js/render.js && node --check js/motion.js && node --check js/utils.js",
+    "serve": "python3 -m http.server 4173"
   }
 }

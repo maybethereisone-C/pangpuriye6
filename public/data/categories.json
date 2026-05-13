@@ -1,8 +1,0 @@
-{
-  "_schema": "lib/site-data.ts → Category[]",
-  "data": [
-    { "id": "cat-1", "name": "Hackathons", "description": "Intense coding sessions" },
-    { "id": "cat-2", "name": "Workshops", "description": "Learning and sharing" },
-    { "id": "cat-3", "name": "Leisure", "description": "Fun and bonding" }
-  ]
-}
