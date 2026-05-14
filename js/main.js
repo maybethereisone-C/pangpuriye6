@@ -10,4 +10,5 @@
   counter.init();
   member.init();
   logoEffect.init();
+  gallery.init();
 })();

@@ -1,0 +1,422 @@
+/* ── gallery section ─────────────────────────────────────────────────────── */
+
+.gallery-section {
+  min-height: 100svh;
+  padding: calc(var(--nav-h) + 3rem) var(--grid-margin) 4rem;
+  position: relative;
+  overflow: hidden;
+  border-top: 1px solid var(--border);
+}
+
+@media (min-width: 768px) {
+  .gallery-section {
+    padding: calc(var(--nav-h) + 4rem) var(--grid-margin) 5rem;
+  }
+}
+
+/* header */
+.gallery-section__label {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.22em;
+  color: var(--accent);
+  text-transform: uppercase;
+  margin-bottom: 1.2rem;
+}
+
+.gallery-section__title {
+  font-size: clamp(2.8rem, 7vw, 6.5rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 0.95;
+  color: var(--text);
+}
+
+.gallery-section__sub {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--text-dim);
+  margin-top: 0.8rem;
+  letter-spacing: 0.04em;
+}
+
+/* ── category filter tabs ────────────────────────────────────────────────── */
+
+.gallery-cats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 2rem;
+  margin-bottom: 0;
+}
+
+.gallery-cat {
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 0.36rem 0.85rem;
+  border: 1px solid var(--border-card);
+  color: var(--text-dim);
+  background: none;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s, background 0.2s;
+}
+
+.gallery-cat:hover {
+  color: var(--text);
+  border-color: var(--text-dim);
+}
+
+.gallery-cat.is-active {
+  color: var(--accent);
+  border-color: var(--accent);
+  background: rgba(200, 41, 30, 0.07);
+}
+
+/* ── focus carousel stage ────────────────────────────────────────────────── */
+
+.gallery-stage {
+  position: relative;
+  margin-top: 2.5rem;
+  display: flex;
+  align-items: center;
+}
+
+/* ── viewport — clips circles from edges ─────────────────────────────────── */
+
+.gallery-viewport {
+  position: relative;
+  flex: 1;
+  height: 490px;
+  overflow: hidden;
+}
+
+@media (min-width: 768px) {
+  .gallery-viewport {
+    height: 540px;
+  }
+}
+
+/* ── track: holds absolute-positioned cards ──────────────────────────────── */
+
+.gallery-track {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+/* ── empty / loading state ───────────────────────────────────────────────── */
+
+.gallery-empty {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  color: var(--text-dim);
+}
+
+/* ── shared card base ────────────────────────────────────────────────────── */
+
+.gallery-card {
+  position: absolute;
+  top: 50%;
+  overflow: hidden;
+  background: linear-gradient(160deg, var(--card-from, #1a0a0a) 0%, #0d0d0d 70%);
+  border: 1px solid color-mix(in srgb, var(--card-accent, #c8291e) 35%, transparent);
+  transition: opacity 0.3s ease, filter 0.3s ease;
+}
+
+/* ── active card — portrait rectangle, centre stage ─────────────────────── */
+
+.gallery-card--active {
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 62%;
+  height: 92%;
+  border-radius: 1.75rem;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--card-accent, #c8291e) 20%, transparent),
+    0 32px 80px rgba(0, 0, 0, 0.7),
+    0 0 60px color-mix(in srgb, var(--card-accent, #c8291e) 12%, transparent);
+  animation: gal-active-in 0.48s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@media (min-width: 768px) {
+  .gallery-card--active {
+    width: 38%;
+  }
+}
+
+/* ── side cards — circles, sliced from viewport edges ───────────────────── */
+
+.gallery-card--prev,
+.gallery-card--next {
+  width: 46%;
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  z-index: 1;
+  opacity: 0.62;
+  cursor: pointer;
+  filter: brightness(0.72) saturate(0.8);
+  animation: gal-side-in 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@media (min-width: 768px) {
+  .gallery-card--prev,
+  .gallery-card--next {
+    width: 36%;
+  }
+}
+
+.gallery-card--prev {
+  /* Centre the circle at ~5% from left so it peeks in from the left edge */
+  left: 5%;
+  transform: translate(-50%, -50%);
+}
+
+.gallery-card--next {
+  /* Centre the circle at ~95% so it peeks in from the right edge */
+  left: 95%;
+  transform: translate(-50%, -50%);
+}
+
+.gallery-card--prev:hover,
+.gallery-card--next:hover {
+  opacity: 0.85;
+  filter: brightness(0.88) saturate(0.95);
+}
+
+/* ── card entrance animations ────────────────────────────────────────────── */
+
+@keyframes gal-active-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -46%) scale(0.93);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+@keyframes gal-side-in {
+  from { opacity: 0; }
+  to   { opacity: 0.62; }
+}
+
+/* ── active card: image area (top ~58%) ──────────────────────────────────── */
+
+.gallery-card__img-wrap {
+  position: relative;
+  flex: 0 0 75%;
+  overflow: hidden;
+  border-radius: 1.75rem 1.75rem 0 0;
+}
+
+.gallery-card__img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  transition: transform 0.55s ease;
+}
+
+.gallery-card--active:hover .gallery-card__img-wrap img {
+  transform: scale(1.04);
+}
+
+/* scrim: image fades into the card body below */
+.gallery-card__img-wrap::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 55%;
+  background: linear-gradient(to bottom, transparent, var(--card-from, #1a0a0a));
+  pointer-events: none;
+}
+
+/* image placeholder (no photo) */
+.gallery-card__img-placeholder {
+  width: 100%;
+  height: 100%;
+  min-height: 180px;
+  background: color-mix(in srgb, var(--card-accent, #c8291e) 6%, #111);
+}
+
+/* image count badge */
+.gallery-card__count {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.85rem;
+  font-family: var(--font-mono);
+  font-size: 0.52rem;
+  letter-spacing: 0.15em;
+  color: var(--text);
+  background: rgba(13, 13, 13, 0.72);
+  border: 1px solid var(--border-card);
+  padding: 0.18rem 0.45rem;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+/* ── active card: text body (bottom ~42%) ────────────────────────────────── */
+
+.gallery-card__body {
+  flex: 1;
+  padding: 1rem 1.3rem 1.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  overflow: hidden;
+}
+
+.gallery-card__cats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.gallery-card__cat {
+  font-family: var(--font-mono);
+  font-size: 0.5rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  padding: 0.18rem 0.48rem;
+  border: 1px solid color-mix(in srgb, var(--card-accent, #c8291e) 45%, transparent);
+  color: var(--card-accent, #c8291e);
+}
+
+.gallery-card__title {
+  font-size: clamp(0.92rem, 1.8vw, 1.15rem);
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.015em;
+  line-height: 1.2;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.gallery-card__desc {
+  font-size: 0.72rem;
+  color: var(--text-dim);
+  line-height: 1.6;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  margin-top: auto;
+}
+
+/* ── side card (circle) image fill ───────────────────────────────────────── */
+
+.gallery-card--prev img,
+.gallery-card--next img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+/* radial vignette inside circles */
+.gallery-card--prev::after,
+.gallery-card--next::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at center,
+    transparent 30%,
+    rgba(13, 13, 13, 0.55) 70%,
+    rgba(13, 13, 13, 0.85) 100%
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* side card image placeholder */
+.gallery-card--prev .gallery-card__img-placeholder,
+.gallery-card--next .gallery-card__img-placeholder {
+  width: 100%;
+  height: 100%;
+  min-height: unset;
+}
+
+/* ── arrow navigation ─────────────────────────────────────────────────────── */
+
+.gallery-arrow {
+  flex: 0 0 auto;
+  width: 34px;
+  height: 34px;
+  border: 1px solid var(--border-card);
+  background: rgba(13, 13, 13, 0.8);
+  color: var(--text-dim);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  transition: color 0.2s, border-color 0.2s, opacity 0.2s;
+}
+
+.gallery-arrow:hover {
+  color: var(--text);
+  border-color: var(--text-dim);
+}
+
+.gallery-arrow--prev { margin-right: 0.5rem; }
+.gallery-arrow--next { margin-left: 0.5rem; }
+
+@media (min-width: 768px) {
+  .gallery-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 20;
+  }
+
+  .gallery-arrow--prev { left: -2.8rem; }
+  .gallery-arrow--next { right: -2.8rem; }
+
+  .gallery-stage {
+    position: relative;
+  }
+}
+
+/* ── page-indicator dots ─────────────────────────────────────────────────── */
+
+.gallery-dots {
+  display: flex;
+  justify-content: center;
+  gap: 0.55rem;
+  margin-top: 2rem;
+}
+
+.gallery-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: transparent;
+  border: 1px solid var(--text-dim);
+  opacity: 0.45;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s, opacity 0.2s;
+  padding: 0;
+}
+
+.gallery-dot.is-active {
+  background: var(--accent);
+  border-color: var(--accent);
+  opacity: 1;
+}
